@@ -1,0 +1,237 @@
+/* headerProfileDropDown */
+.profile {
+  position: relative;
+  margin-left: 15px;
+}
+
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  cursor: pointer;
+}
+
+.profile .profile-link {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  /* background    : var(--light); */
+  border-radius: 23px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.profile .profile-link.show {
+  opacity: 1;
+  pointer-events: visible;
+  top: 100%;
+  margin-top: 10px;
+}
+
+.profile .profile-link a {
+  padding: 10px 16px;
+  display: flex;
+  grid-gap: 10px;
+  font-size: 14px;
+  color: var(--dark);
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.profile-card {
+    background-color: #fff;
+    min-width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.user-info .avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.user-details h2,
+.user-details p {
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  word-break: break-word;
+  text-align: left;
+}
+
+.profile-menu {
+  padding: 0;
+}
+.profile-menu li {
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 0;
+  color: #333;
+  grid-gap: 10px;
+  cursor: pointer;
+}
+.profile-menu li i {
+  font-size: 24px;
+  background: white;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(152, 152, 152, 0.2);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+.profile-menu li div > p {
+  margin: 0;
+}
+.profile-menu li:hover {
+  color: #3C91E6;
+}
+
+.profile-card > .logout-btn {
+  background-color: #4A90E2;
+  color: #fff !important;
+  padding: 6px 20px !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  margin-top: 17px !important;
+  width: 100%;
+  font-size: 15px;
+  margin-left: 0 !important;
+  grid-gap: 10px;
+  justify-content: center;
+}
+.profile-card > .logout-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.profile-card > .logout-btn i {
+  font-size: 24px;
+}
+.profile-card > .logout-btn:hover {
+  background-color: rgba(238, 97, 87, 0.7490196078);
+  color: #fff;
+}
+
+.profile .profile-link a:hover {
+  background: var(--grey);
+}
+
+.profileImageTextLayout {
+  background: var(--light);
+  border-radius: 20px 20px 0px 0px;
+  padding: 13px;
+}
+
+.profileAddAccount {
+  height: 40px;
+  background: var(--light);
+  color: var(--dark);
+  display: flex;
+  border-radius: 0 0 20px 20px;
+  margin-top: 3px;
+  align-items: center;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: var(--fontSize15);
+}
+
+.profileAddAccount:hover {
+  background: rgba(136, 136, 136, 0.36);
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.profileAddAccount i {
+  margin-right: 15px;
+  font-size: 25px;
+}
+
+.profileActionLayout {
+  height: 40px;
+  color: var(--dark);
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: var(--fontSize15);
+}
+
+.profileActionLayout i {
+  margin-right: 15px;
+  font-size: 25px;
+  transform: rotateZ(180deg);
+}
+
+.profileImageTextLayout .imgProfile {
+  display: flex;
+  align-items: flex-end;
+  line-height: 20px;
+}
+
+.profileImageTextLayout .imgProfile .img {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+.profileImageTextLayout .imgProfile .profileText {
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+
+.profileImageTextLayout .imgProfile .profileText .profileName {
+  font-weight: unset;
+  -webkit-text-stroke: 0.3px;
+  font-size: var(--fontSize15);
+  color: var(--dark);
+}
+
+.profileImageTextLayout .imgProfile .profileText .profileEmail {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.1px;
+  color: var(--dark);
+  max-width: 250px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.profileImageTextLayout .btnProfile {
+  margin-left: 80px;
+  width: 180px;
+  display: flex;
+  justify-content: center;
+  padding: 5px 0;
+  border-radius: 7px;
+  background: rgba(136, 136, 136, 0.36);
+  font-size: var(--fontSize15);
+  color: var(--dark);
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* endHeaderProfile */

@@ -268,3 +268,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 })();
+
+
+// Profile
+var profile = document.querySelector(".profile");
+var imgProfile = profile.querySelector("img");
+var dropdownProfile = profile.querySelector(".profile-link");
+imgProfile.addEventListener("click", function (e) {
+  e.preventDefault();
+  dropdownProfile.classList.toggle("show");
+});
+window.addEventListener("click", function (e) {
+  if (e.target !== imgProfile) {
+    if (e.target !== dropdownProfile) {
+      if (dropdownProfile.classList.contains("show")) {
+        dropdownProfile.classList.remove("show");
+      }
+    }
+  }
+}); 
