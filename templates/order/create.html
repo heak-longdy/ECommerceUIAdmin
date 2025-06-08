@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Purchase Order - Ecommerce Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+{% endblock %}
+{% block content %}
+<div class="form-admin">
+    <div class="form-bg"></div>
+    <form id="form" class="form-wrapper" action="#" method="POST" enctype="multipart/form-data">
+        <div class="form-header">
+            <h3>
+                <i data-feather="arrow-left"></i>
+                {{ 'Create Customer' }}
+            </h3>
+        </div>
+        <div class="form-body">
+            <div class="row-2">
+                <div class="form-row iconInput">
+                    <label>Name <span>*</span> </label>
+                    <input type="text" name="name" value="1" placeholder="Enter name ...">
+                    <i class='bx bx-font-family'></i>
+                    <label class="error">Error</label>
+                </div>
+            </div>
+            <div class="form-button">
+                <button type="submit" color="primary">
+                    <i data-feather="save"></i>
+                    <span>Submit</span>
+                </button>
+                <button color="danger" type="button" s-click-link="#">
+                    <i data-feather="x"></i>
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-footer"></div>
+    </form>
+</div>
+{% endblock %}
+

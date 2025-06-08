@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Purchase Order - Ecommerce Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <span class="header-title">Purchase Order</span>
+        <a href="/orders/Create">
+            <button class="add-app-btn">+ Create New Order</button>
+        </a>
+    </div>
+    
+    <div class="purchase-order-form">
+        <h2>Create Purchase Order</h2>
+        <form id="purchaseOrderForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="vendor">Vendor:</label>
+                    <input type="text" id="vendor" name="vendor" required>
+                </div>
+                <div class="form-group">
+                    <label for="orderDate">Order Date:</label>
+                    <input type="date" id="orderDate" name="orderDate" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="deliveryDate">Expected Delivery:</label>
+                    <input type="date" id="deliveryDate" name="deliveryDate">
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority:</label>
+                    <select id="priority" name="priority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="items-section">
+                <h3>Order Items</h3>
+                <div id="orderItems">
+                    <div class="item-row">
+                        <input type="text" placeholder="Product Name" class="product-name" required>
+                        <input type="number" placeholder="Quantity" class="quantity" min="1" required>
+                        <input type="number" placeholder="Unit Price" class="unit-price" step="0.01" required>
+                        <span class="total-price">$0.00</span>
+                        <button type="button" class="remove-item">Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="addItem">+ Add Item</button>
+            </div>
+            
+            <div class="form-total">
+                <h3>Total: $<span id="orderTotal">0.00</span></h3>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Create Purchase Order</button>
+                <button type="button" class="btn-secondary">Save as Draft</button>
+                <button type="button" class="btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    {% if recent_orders %}
+    <div class="recent-orders">
+        <h2>Recent Purchase Orders</h2>
+        <div class="orders-grid">
+            {% for order in recent_orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <h4>{{ order.id }}</h4>
+                    <span class="status {{ order.status.lower() }}">{{ order.status }}</span>
+                </div>
+                <div class="order-details">
+                    <p><strong>Vendor:</strong> {{ order.vendor }}</p>
+                    <p><strong>Total:</strong> ${{ order.total }}</p>
+                    <p><strong>Date:</strong> {{ order.date }}</p>
+                </div>
+                <div class="order-actions">
+                    <button class="btn-view">View</button>
+                    <button class="btn-edit">Edit</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/purchase-order.js') }}"></script>
+{% endblock %}

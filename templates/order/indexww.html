@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Purchase Order - Ecommerce Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="table">
+            <div class="table-wrapper">
+                <div class="paginationLayout2">
+                    pg
+                </div>
+                <div class="table-header">
+                    <div class="row table-row-10">
+                        <span>Title</span>
+                    </div>
+                </div>
+                <div class="table-body">
+                    <div class="column">
+                        <div class="row table-row-10">
+                            <span>sjsjfsf</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paginationLayout">
+                   pg
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/purchase-order.js') }}"></script>
+{% endblock %}

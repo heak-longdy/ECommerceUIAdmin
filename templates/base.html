@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ecommerce{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    
+    <!-- Top navigation bar -->
+    <div class="topbar">
+        <span class="project-name header-title">{{ project_name or 'Ecommerce' }}</span>
+        <span class="plan-label spark-plan">{{ plan_type or 'Pro plan' }}</span>
+        <button class="gemini-info-btn">Getting started? Tell AI about your project</button>
+        <button class="add-app-btn">+ Add app</button>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzHMDlwRCHOHZP_tX7jRYNxV8W8MpNEog45w&s" alt="User Avatar" class="user-avatar">
+    </div>
+    
+    <!-- Main content area -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

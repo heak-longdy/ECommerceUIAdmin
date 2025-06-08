@@ -1,0 +1,16 @@
+# Ecommerce Project Requirements
+# Flask web framework and dependencies
+
+Flask>=2.3.0
+Werkzeug>=2.3.0
+Jinja2>=3.1.0
+click>=8.0.0
+itsdangerous>=2.1.0
+MarkupSafe>=2.1.0
+
+# Optional: For advanced features
+Pillow>=10.0.0
+requests>=2.31.0
+
+# Development dependencies
+python-dotenv>=1.0.0

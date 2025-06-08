@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Logo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .logo-container {
+            text-align: center;
+        }
+        .instructions {
+            margin-top: 20px;
+            color: #666;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <svg id="ecommerce-logo" width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background circle -->
+            <circle cx="25" cy="25" r="24" fill="#1a73e8" stroke="#fff" stroke-width="1"/>
+            
+            <!-- Shopping cart icon -->
+            <g transform="translate(12, 12)">
+                <!-- Cart body -->
+                <path d="M7 4V2a2 2 0 0 0-2-2H3v2h2v2H3l1.68 7.39A2 2 0 0 0 6.62 15h8.76A2 2 0 0 0 17.32 13.39L19 6H7z" 
+                      fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                
+                <!-- Cart wheels -->
+                <circle cx="9" cy="20" r="1" fill="#fff"/>
+                <circle cx="15" cy="20" r="1" fill="#fff"/>
+                
+                <!-- Handle -->
+                <path d="M19 6h3l-1 4" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                
+                <!-- Items in cart -->
+                <rect x="8" y="8" width="2" height="1.5" fill="#fff" rx="0.3"/>
+                <rect x="11" y="8" width="2" height="1.5" fill="#fff" rx="0.3"/>
+                <rect x="14" y="8" width="2" height="1.5" fill="#fff" rx="0.3"/>
+            </g>
+        </svg>
+        
+        <div class="instructions">
+            <p><strong>To convert to PNG:</strong></p>
+            <p>1. Right-click on the logo above</p>
+            <p>2. Select "Save image as..." or use browser dev tools</p>
+            <p>3. Or use online SVG to PNG converters</p>
+            <p>4. Set size to 50x50 pixels</p>
+        </div>
+    </div>
+</body>
+</html>

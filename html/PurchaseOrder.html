@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order - #A701W</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .order-id {
+            font-size: 18px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .order-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #28a745;
+        }
+
+        .shop-badge {
+            background: #ffc107;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tracking-badge {
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #495057;
+        }
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .product-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .product-row {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .product-row td {
+            padding: 16px 12px;
+            vertical-align: middle;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-details h4 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .product-meta {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .color-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .add-product {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .package-info {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            color: #6c757d;
+            margin-top: 20px;
+        }
+
+        .progress-tracker {
+            margin-bottom: 24px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .step-icon.completed {
+            background: #28a745;
+            color: white;
+        }
+
+        .step-icon.current {
+            background: #28a745;
+            color: white;
+        }
+
+        .step-icon.pending {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .step-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .step-date {
+            font-size: 10px;
+            color: #6c757d;
+        }
+
+        .order-summary {
+            margin-top: 24px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .summary-row.total {
+            font-weight: 600;
+            border-top: 1px solid #dee2e6;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
+        .promo-code {
+            color: #28a745;
+        }
+
+        .negative {
+            color: #dc3545;
+        }
+
+        .receive-btn {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin: 16px 0;
+            cursor: pointer;
+        }
+
+        .delivery-options {
+            margin-top: 24px;
+        }
+
+        .delivery-companies {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .delivery-company {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 12px;
+            background: white;
+        }
+
+        .delivery-company.selected {
+            background: #e8f5e8;
+            border-color: #28a745;
+        }
+
+        .send-btn {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .reject-btn, .ship-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 0 4px;
+        }
+
+        .reject-btn {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .ship-btn {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="order-header">
+                <div>
+                    <span class="order-id">ID: # A701W</span>
+                    <span style="color: #6c757d; margin-left: 16px;">Date: 10/05/24 03:20 AM</span>
+                </div>
+                <div class="order-meta">
+                    <div class="order-type">
+                        <span class="status-dot"></span>
+                        <span>Online</span>
+                    </div>
+                    <span class="shop-badge">In Shop</span>
+                    <span class="tracking-badge">Order Tracking</span>
+                </div>
+            </div>
+
+            <div class="section-title">Order Item</div>
+            
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="product-row">
+                        <td>
+                            <div class="product-info">
+                                <div class="product-image">📱</div>
+                                <div class="product-details">
+                                    <h4>Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport ...</h4>
+                                    <div class="product-meta">
+                                        SKU: #141 &nbsp; Brand: URL &nbsp; Color: <span class="color-indicator" style="background: #ffc107;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$550</td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="qty-btn">-</button>
+                                <span>3</span>
+                                <button class="qty-btn">+</button>
+                            </div>
+                        </td>
+                        <td>$1,500</td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>
+                            <div class="product-info">
+                                <div class="product-image">📱</div>
+                                <div class="product-details">
+                                    <h4>Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport ...</h4>
+                                    <div class="product-meta">
+                                        SKU: #141 &nbsp; Brand: SONY &nbsp; Color: <span class="color-indicator" style="background: #dc3545;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$550</td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="qty-btn">-</button>
+                                <span>3</span>
+                                <button class="qty-btn">+</button>
+                            </div>
+                        </td>
+                        <td>$1,500</td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>
+                            <div class="product-info">
+                                <div class="product-image">📱</div>
+                                <div class="product-details">
+                                    <h4>Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport ...</h4>
+                                    <div class="product-meta">
+                                        SKU: #141 &nbsp; Brand: SONY &nbsp; Color: <span class="color-indicator" style="background: #ffc107;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$550</td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="qty-btn">-</button>
+                                <span>3</span>
+                                <button class="qty-btn">+</button>
+                            </div>
+                        </td>
+                        <td>$1,500</td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>
+                            <div class="product-info">
+                                <div class="product-image">📱</div>
+                                <div class="product-details">
+                                    <h4>Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport ...</h4>
+                                    <div class="product-meta">
+                                        SKU: #141 &nbsp; Brand: SONY &nbsp; Color: <span class="color-indicator" style="background: #28a745;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$550</td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="qty-btn">-</button>
+                                <span>3</span>
+                                <button class="qty-btn">+</button>
+                            </div>
+                        </td>
+                        <td>$1,500</td>
+                    </tr>
+                    <tr class="product-row">
+                        <td>
+                            <div class="product-info">
+                                <div class="product-image">📱</div>
+                                <div class="product-details">
+                                    <h4>Apple Watch Series 8 GPS 45mm Silver Aluminum Case Sport ...</h4>
+                                    <div class="product-meta">
+                                        SKU: #141 &nbsp; Brand: Apple &nbsp; Color: <span class="color-indicator" style="background: #ffc107;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$550</td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="qty-btn">-</button>
+                                <span>3</span>
+                                <button class="qty-btn">+</button>
+                            </div>
+                        </td>
+                        <td>$1,500</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a href="#" class="add-product">+ Add More Product</a>
+
+            <div class="package-info">
+                03 Package , 15 Item
+            </div>
+
+            <div style="margin-top: 32px;">
+                <div class="section-title">Customer Information</div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div style="background: #e8f5e8; padding: 12px; border-radius: 8px; margin-bottom: 24px; text-align: center; color: #155724; font-size: 14px;">
+                ℹ️ This Order is Ready to shipping Please click the to ship button
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+                <button class="reject-btn">Reject</button>
+                <button class="ship-btn">To Ship ></button>
+            </div>
+
+            <div class="progress-tracker">
+                <div class="progress-steps">
+                    <div class="progress-step">
+                        <div class="step-icon completed">📦</div>
+                        <div class="step-label">Placed</div>
+                        <div class="step-date">14 Dec 2024<br>12:30 PM</div>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-icon current">📦</div>
+                        <div class="step-label">Packaging</div>
+                        <div class="step-date">14 Dec 2024<br>12:30 PM</div>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-icon pending">🚚</div>
+                        <div class="step-label">To Ship</div>
+                        <div class="step-date">Processing in<br>Progress</div>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-icon pending">✅</div>
+                        <div class="step-label">Received</div>
+                        <div class="step-date">Processing in<br>Progress</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <div class="section-title">Order Summary</div>
+                
+                <div class="summary-row">
+                    <span>Discount (%)</span>
+                    <span>Amount</span>
+                </div>
+                <div class="summary-row">
+                    <span>% 10</span>
+                    <span>$ 130</span>
+                </div>
+                
+                <div class="summary-row" style="margin-top: 12px;">
+                    <span>Vat/Tax (%)</span>
+                    <span>Amount</span>
+                </div>
+                <div class="summary-row">
+                    <span>% 08</span>
+                    <span>$ 90</span>
+                </div>
+
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>$1300</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="promo-code">Promo Code (0000)</span>
+                    <span class="negative">-$100</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Due</span>
+                    <span class="negative">$1200</span>
+                </div>
+                
+                <div class="summary-row total">
+                    <span>Subtotal</span>
+                    <span>$1200</span>
+                </div>
+
+                <button class="receive-btn">Receive Amount</button>
+            </div>
+
+            <div class="delivery-options">
+                <div class="section-title">🚚 Send to Delivery Company</div>
+                
+                <div class="delivery-companies">
+                    <div class="delivery-company selected">REDX</div>
+                    <div class="delivery-company">📧</div>
+                    <div class="delivery-company">🚚</div>
+                    <div class="delivery-company">pathao</div>
+                </div>
+
+                <button class="send-btn">Send to Delivery</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/purchase-order.js"></script>
+</body>
+</html>
