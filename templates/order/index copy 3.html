@@ -1,0 +1,653 @@
+{% extends "base.html" %}
+
+{% block title %}MyProfile - Ecommerce Dashboard@@@{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+<style>
+    /* Table */
+        .account-grid {
+            display: grid;
+            border: 1px solid #000;
+            border-right: 0;
+            margin: 10px 0;
+            font-size: 13px;
+            width: 100%;
+        }
+        
+        /* 6 columns layout */
+        .account-grid.cols-6 {
+            grid-template-columns: 80px 80px 1fr 2fr 100px 100px;
+        }
+        
+        /* 8 columns layout */
+        .account-grid.cols-8 {
+            grid-template-columns: 80px 80px 1fr 1fr 2fr 100px 100px 100px;
+        }
+        
+        /* Dynamic column layout - can be set via CSS custom properties */
+        .account-grid.cols-dynamic {
+            grid-template-columns: var(--grid-columns);
+        }
+        
+        /* Auto layout - will be set by JavaScript */
+        .account-grid.auto-cols {
+            /* Default fallback */
+            grid-template-columns: repeat(6, minmax(80px, 1fr));
+        }
+
+        .grid-header {
+            background: #f8f8f8;
+            font-weight: bold;
+            font-size: 13px;
+            text-align: center;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            padding: 5px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .grid-header:last-child {
+            border-right: 0;
+        }
+
+        .grid-cell {
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            border-bottom: 0;
+            padding: 5px 5px 0 5px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            background: transparent;
+        }
+        .grid-header.text-left,
+        .grid-cell.text-left {
+            justify-content: flex-start;
+        }
+
+        .grid-cell.text-right {
+            justify-content: flex-end;
+            padding-right: 8px;
+        }
+
+        .grid-cell.text-center {
+            justify-content: center;
+        }
+
+        .grid-cell.empty-row {
+            height: 35px;
+        }
+
+        .grid-cell.total-row {
+            font-weight: bold;
+            height: 30px;
+            border-top: 1px solid #000;
+            border-bottom: 0;
+        }
+
+        .grid-cell.total-label {
+            justify-content: flex-end;
+            padding-right: 8px;
+        }
+        
+        /* Dynamic total label spans based on grid columns */
+        .account-grid.cols-6 .grid-cell.total-label {
+            grid-column: span 4;
+        }
+        
+        .account-grid.cols-8 .grid-cell.total-label {
+            grid-column: span 6;
+        }
+        
+        .account-grid.auto-cols .grid-cell.total-label {
+            grid-column: 1 / -3; /* Span all but last 2 columns */
+        }
+
+        .account-grid.nodeBorder {
+            border: none
+        }
+        .account-grid.nodeBorder .grid-header {
+            border-bottom: 0;
+            border-right: 0;
+        }
+        .account-grid.nodeBorder .grid-cell {
+            border-right: 0;
+        }
+
+
+        .container{
+            padding: 0 !important;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            margin-top: 64px;
+            padding: 24px;
+            width: 100%;
+            height: calc(100vh - 64px);
+            /* height: fit-content; */
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Topbar scroll effect styles */
+        .topbar {
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #ffffff;
+        }
+
+        .topbar.scrolled-down {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+            background: none !important;
+            box-shadow: none !important;
+            background-color: none !important;
+        }
+
+        /* Debug - temporary visible indicator 
+        .topbar.scrolled-down::before {
+            content: "BLUE";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: white;
+            padding: 2px 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+
+        .topbar.scrolled-medium::before {
+            content: "YELLOW";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: white;
+            padding: 2px 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+
+        .topbar.scrolled-heavy::before {
+            content: "RED";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: white;
+            padding: 2px 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+
+        .topbar.scrolled-bottom::before {
+            content: "PURPLE";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: white;
+            padding: 2px 5px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+        */
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .action-btn {
+            border:none;
+            background: none;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .action-btn:hover {
+            background-color: #e9ecef;
+            border-color: #bbb;
+                border-radius: 50%;
+        }
+
+        .action-btn:active {
+            background-color: #dee2e6;
+        }
+
+        .action-btn .material-symbols-outlined {
+            font-size: 25px;
+            color: #333;
+        }
+
+        .tb-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            min-width: 140px;
+            padding: 4px 0;
+            margin: 0;
+            font-size: 14px;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: #ffffff;
+            background-clip: padding-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .tb-dropdown-menu.show {
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .tb-dropdown-menu li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 8px 12px;
+            clear: both;
+            font-weight: 400;
+            color: #333;
+            text-decoration: none;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f1f3f4;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .dropdown-item:active {
+            background-color: #e8f0fe;
+        }
+
+        .dropdown-item i {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .dropdown-item span {
+            font-size: 13px;
+        }
+
+        /* Debug styles - remove after testing */
+        .tb-dropdown-menu.show {
+               border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: none;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="index-container">
+    <div class="header">
+        <span class="header-title">MyProfileff</span>
+        <span class="spark-plan">{{ plan_type or 'Spark plan' }}</span>
+        <button class="add-app-btn">+ Add app</button>
+    </div>
+    <div class="table">
+        <div class="table-wrapper">
+            <div class="table-header">
+                <div class="row text left table-row-10">
+                    <span>Account</span>
+                </div>
+                <div class="row text left table-row-20">
+                    <span>Account Name</span>
+                </div>
+                <div class="row text left table-row-40">
+                    <span>Description</span>
+                </div>
+            </div>
+            <div class="table-body">
+                {% if recent_orders %}
+                {% for order in recent_orders %}
+                <div class="column">
+                    <div class="row text left table-row-10">
+                        <span>309015</span>
+                    </div>
+                    <div class="row text left table-row-20">
+                        <span>Approved Claims Payable</span>
+                    </div>
+                    <div class="row text left table-row-40">
+                        <span>Pay for : Unnamed 193ToCHAO
+                            VANNYI#A01PA002504753</span>
+                    </div>
+                    <div class="row text left table-row-5">
+                        <div class="dropdown">
+                            <button class="action-btn" type="button"
+                                data-dropdown="menu1">
+                                <i
+                                    class="material-symbols-outlined">more_vert</i>
+                            </button>
+                            <ul class="tb-dropdown-menu" id="menu1">
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-action="delete">
+                                        <i
+                                            class="material-symbols-outlined">delete</i>
+                                        <span>DELETE</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-action="edit">
+                                        <i
+                                            class="material-symbols-outlined">edit</i>
+                                        <span>EDIT</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="column">
+                    <div class="row text left table-row-10 empty-row">
+                        <span>No recent orders found.</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% if recent_orders %}
+                {% for order in recent_orders %}
+                <div class="column">
+                    <div class="row text left table-row-10">
+                        <span>309015</span>
+                    </div>
+                    <div class="row text left table-row-20">
+                        <span>Approved Claims Payable</span>
+                    </div>
+                    <div class="row text left table-row-40">
+                        <span>Pay for : Unnamed 193ToCHAO
+                            VANNYI#A01PA002504753</span>
+                    </div>
+                    <div class="row text left table-row-5">
+                        <div class="dropdown">
+                            <button class="action-btn" type="button"
+                                data-dropdown="menu1">
+                                <i
+                                    class="material-symbols-outlined">more_vert</i>
+                            </button>
+                            <ul class="tb-dropdown-menu" id="menu1">
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-action="delete">
+                                        <i
+                                            class="material-symbols-outlined">delete</i>
+                                        <span>DELETE</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-action="edit">
+                                        <i
+                                            class="material-symbols-outlined">edit</i>
+                                        <span>EDIT</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="column">
+                    <div class="row text left table-row-10 empty-row">
+                        <span>No recent orders found.</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% if recent_orders %}
+                {% for order in recent_orders %}
+                <div class="column">
+                    <div class="row text left table-row-10">
+                        <span>309015</span>
+                    </div>
+                    <div class="row text left table-row-20">
+                        <span>Approved Claims Payable</span>
+                    </div>
+                    <div class="row text left table-row-40">
+                        <span>Pay for : Unnamed 193ToCHAO
+                            VANNYI#A01PA002504753</span>
+                    </div>
+                    <div class="row text left table-row-5">
+                        <div class="dropdown">
+                            <button class="action-btn" type="button"
+                                data-dropdown="menu1">
+                                <i
+                                    class="material-symbols-outlined">more_vert</i>
+                            </button>
+                            <ul class="tb-dropdown-menu" id="menu1">
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-action="delete">
+                                        <i
+                                            class="material-symbols-outlined">delete</i>
+                                        <span>DELETE</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-action="edit">
+                                        <i
+                                            class="material-symbols-outlined">edit</i>
+                                        <span>EDIT</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="column">
+                    <div class="row text left table-row-10 empty-row">
+                        <span>No recent orders found.</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add test content to make page scrollable for testing -->
+    <div style="margin-top: 50px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+        <h3>Test Scroll Content</h3>
+        <p>This is test content to make the page scrollable. Scroll down to see the topbar color changes.</p>
+        
+        <!-- Repeat content to create scroll -->
+        {% for i in range(20) %}
+        <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h4>Test Section {{ i + 1 }}</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/purchase-order.js') }}"></script>
+<script>
+// Topbar scroll effect
+(function () {
+  console.log('Scroll effect initializing...');
+  
+  let lastScrollTop = 0;
+  const mainContent = document.querySelector(".main-content");
+  const topbar = document.querySelector(".topbar");
+  
+  console.log('Main content found:', !!mainContent);
+  console.log('Topbar found:', !!topbar);
+  
+  if (mainContent && topbar) {
+    console.log('Adding scroll listener to main-content');
+    
+    mainContent.addEventListener("scroll", function () {
+      const st = mainContent.scrollTop;
+      const scrollHeight = mainContent.scrollHeight;
+      const clientHeight = mainContent.clientHeight;
+      const scrollPercentage = (st / (scrollHeight - clientHeight)) * 100;
+      
+      console.log(`Scroll Top: ${st}, Scroll Height: ${scrollHeight}, Client Height: ${clientHeight}, Percentage: ${scrollPercentage.toFixed(2)}%`);
+      
+      // Remove all classes first
+      topbar.classList.remove("scrolled-down", "scrolled-medium", "scrolled-heavy", "scrolled-bottom");
+      
+      // Different scroll thresholds for different effects
+      if (st > 300) {
+        // Heavy scroll - change to red
+        topbar.classList.add("scrolled-heavy");
+        console.log('Applied scrolled-heavy class');
+      } else if (st > 150) {
+        // Medium scroll - change to yellow
+        topbar.classList.add("scrolled-medium");
+        console.log('Applied scrolled-medium class');
+      } else if (st > 30) {
+        // Light scroll - change to blue
+        topbar.classList.add("scrolled-down");
+        console.log('Applied scrolled-down class');
+      }
+      
+      // Based on percentage for dynamic effect
+      if (scrollPercentage > 75) {
+        topbar.classList.add("scrolled-bottom");
+        console.log('Applied scrolled-bottom class');
+      }
+
+      if (st > 30) {
+        // Light scroll - change to blue
+        topbar.classList.add("scrolled-down");
+        console.log('Applied scrolled-down class');
+      }
+      
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+    
+    // Test function to manually add classes
+    window.testScroll = function() {
+      console.log('Testing scroll classes...');
+      topbar.classList.add("scrolled-heavy");
+      console.log('Added scrolled-heavy class manually');
+    };
+    
+  } else {
+    console.error('Could not find main-content or topbar elements');
+    
+    // Alternative approach - try to find elements after DOM loads
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Retrying element selection after DOM load...');
+      const retryMainContent = document.querySelector(".main-content");
+      const retryTopbar = document.querySelector(".topbar");
+      console.log('Retry - Main content found:', !!retryMainContent);
+      console.log('Retry - Topbar found:', !!retryTopbar);
+    });
+  }
+})();
+
+// Dropdown functionality - completely custom, no bootstrap
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Custom dropdown initialized');
+    
+    // Handle dropdown button clicks
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('.action-btn');
+        
+        if (button) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Dropdown button clicked');
+            
+            const dropdown = button.closest('.dropdown');
+            const menu = dropdown.querySelector('.tb-dropdown-menu');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.tb-dropdown-menu').forEach(otherMenu => {
+                if (otherMenu !== menu) {
+                    otherMenu.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            menu.classList.toggle('show');
+            console.log('Menu toggled, has show class:', menu.classList.contains('show'));
+        }
+        
+        // Handle dropdown item clicks
+        const dropdownItem = e.target.closest('.dropdown-item');
+        if (dropdownItem) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const action = dropdownItem.getAttribute('data-action');
+            console.log('Dropdown item clicked:', action);
+            
+            if (action === 'delete') {
+                if (confirm('Are you sure you want to delete this row?')) {
+                    const row = dropdownItem.closest('.column');
+                    if (row) {
+                        row.remove();
+                        console.log('Row deleted');
+                    }
+                }
+            } else if (action === 'edit') {
+                alert('Edit functionality - implement as needed');
+                console.log('Edit clicked');
+            }
+            
+            // Close dropdown after action
+            const menu = dropdownItem.closest('.tb-dropdown-menu');
+            menu.classList.remove('show');
+        }
+        
+        // Close dropdowns when clicking outside
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.tb-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+    
+    // Test function to manually trigger dropdown
+    window.testDropdown = function() {
+        console.log('Testing dropdown...');
+        const menu = document.querySelector('.tb-dropdown-menu');
+        menu.classList.add('show');
+        console.log('Menu should be visible now');
+    };
+});
+</script>
+{% endblock %}

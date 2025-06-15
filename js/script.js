@@ -1,3 +1,4 @@
+
 function toggleDropdown(section) {
   const sidebar = document.getElementById("sidebar");
   if (sidebar.classList.contains("collapsed")) return; // Prevent toggle when collapsed
@@ -248,26 +249,51 @@ document.addEventListener("DOMContentLoaded", function () {
   updateTooltips();
 });
 // Add scroll event to change topbar background on scroll down in main-content
-(function () {
-  let lastScrollTop = 0;
-  const mainContent = document.querySelector(".main-content");
-  const topbar = document.querySelector(".topbar");
+// (function () {
+//   let lastScrollTop = 0;
+//   const mainContent = document.querySelector(".main-content");
+//   const topbar = document.querySelector(".topbar");
   
-  if (mainContent && topbar) {
-    mainContent.addEventListener("scroll", function () {
-      const st = mainContent.scrollTop;
+//   if (mainContent && topbar) {
+//     mainContent.addEventListener("scroll", function () {
+//       const st = mainContent.scrollTop;
       
-      if (st > 0 && !topbar.classList.contains("scrolled-down")) {
-        // Any scroll down from the top - change to red
-        topbar.classList.add("scrolled-down");
-      } else if (st === 0 && topbar.classList.contains("scrolled-down")) {
-        // At the very top - change back to original
-        topbar.classList.remove("scrolled-down");
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
+//       if (st > 0 && !topbar.classList.contains("scrolled-down")) {
+//         // Any scroll down from the top - change to red
+//         topbar.classList.add("scrolled-down");
+//       } else if (st === 0 && topbar.classList.contains("scrolled-down")) {
+//         // At the very top - change back to original
+//         topbar.classList.remove("scrolled-down");
+//       }
+//       lastScrollTop = st <= 0 ? 0 : st;
+//     });
+//   }
+// })();
+
+// Topbar scroll effect
+// Listen for scroll events on the main-content div (correct approach for your layout)
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.querySelector('.main-content');
+    const topbar = document.querySelector('.topbar');
+    const scrollThreshold = 50; // Adjust this value as needed
+    let isScrolledDown = false;
+    
+    mainContent.addEventListener('scroll', function() {
+        const currentScrollTop = this.scrollTop;
+        console.log('Scroll position:', currentScrollTop); // Debug line - you can remove this
+        
+        if (currentScrollTop > scrollThreshold && !isScrolledDown) {
+            topbar.classList.add('scrolled-down');
+            isScrolledDown = true;
+            console.log('Added scrolled-down class'); // Debug line - you can remove this
+            
+        } else if (currentScrollTop <= scrollThreshold && isScrolledDown) {
+            topbar.classList.remove('scrolled-down');
+            isScrolledDown = false;
+            console.log('Removed scrolled-down class'); // Debug line - you can remove this
+        }
     });
-  }
-})();
+});
 
 
 // Profile
@@ -287,3 +313,74 @@ window.addEventListener("click", function (e) {
     }
   }
 }); 
+
+
+// Dropdown functionality - completely
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Custom dropdown initialized');
+    
+    // Handle dropdown button clicks
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('.action-btn');
+        
+        if (button) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Dropdown button clicked');
+            
+            const dropdown = button.closest('.dropdown');
+            const menu = dropdown.querySelector('.tb-dropdown-menu');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.tb-dropdown-menu').forEach(otherMenu => {
+                if (otherMenu !== menu) {
+                    otherMenu.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            menu.classList.toggle('show');
+            console.log('Menu toggled, has show class:', menu.classList.contains('show'));
+        }
+        
+        // Handle dropdown item clicks
+        const dropdownItem = e.target.closest('.dropdown-item');
+        if (dropdownItem) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const action = dropdownItem.getAttribute('data-action');
+            console.log('Dropdown item clicked:', action);
+            
+            if (action === 'delete') {
+                if (confirm('Are you sure you want to delete this row?')) {
+                    const row = dropdownItem.closest('.column');
+                    if (row) {
+                        row.remove();
+                        console.log('Row deleted');
+                    }
+                }
+            } else if (action === 'edit') {
+                alert('Edit functionality - implement as needed');
+                console.log('Edit clicked');
+            }
+            
+            // Close dropdown after action
+            const menu = dropdownItem.closest('.tb-dropdown-menu');
+            menu.classList.remove('show');
+        }
+        
+        // Close dropdowns when clicking outside
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.tb-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+  
+});
+
+
+// window.Alpine = Alpine
+// Alpine.start()

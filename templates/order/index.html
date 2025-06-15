@@ -1,103 +1,177 @@
 {% extends "base.html" %}
 
-{% block title %}Purchase Order - Ecommerce Dashboard{% endblock %}
+{% block title %}Order Management{% endblock %}
+
+{% block headerTitle %}Order Management{% endblock %}
+
+{% block addUrl %}/orders/Create{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/order.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="index-container" x-data="dropdown">
     <div class="header">
-        <span class="header-title">Purchase Order</span>
-        <a href="/orders/Create">
-            <button class="add-app-btn">+ Create New Order</button>
+        <div class="header-right">
+            <a href="/orders/Create" class="header-title">
+                <button class="add-app-btn">
+                    <span class="material-symbols-outlined">add</span>
+                    <span>Add New</span>
+                </button>
+            </a>
         </a>
-    </div>
-    
-    <div class="purchase-order-form">
-        <h2>Create Purchase Order</h2>
-        <form id="purchaseOrderForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="vendor">Vendor:</label>
-                    <input type="text" id="vendor" name="vendor" required>
-                </div>
-                <div class="form-group">
-                    <label for="orderDate">Order Date:</label>
-                    <input type="date" id="orderDate" name="orderDate" required>
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="deliveryDate">Expected Delivery:</label>
-                    <input type="date" id="deliveryDate" name="deliveryDate">
-                </div>
-                <div class="form-group">
-                    <label for="priority">Priority:</label>
-                    <select id="priority" name="priority">
-                        <option value="low">Low</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="high">High</option>
-                        <option value="urgent">Urgent</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="items-section">
-                <h3>Order Items</h3>
-                <div id="orderItems">
-                    <div class="item-row">
-                        <input type="text" placeholder="Product Name" class="product-name" required>
-                        <input type="number" placeholder="Quantity" class="quantity" min="1" required>
-                        <input type="number" placeholder="Unit Price" class="unit-price" step="0.01" required>
-                        <span class="total-price">$0.00</span>
-                        <button type="button" class="remove-item">Remove</button>
-                    </div>
-                </div>
-                <button type="button" id="addItem">+ Add Item</button>
-            </div>
-            
-            <div class="form-total">
-                <h3>Total: $<span id="orderTotal">0.00</span></h3>
-            </div>
-            
-            <div class="form-actions">
-                <button type="submit" class="btn-primary">Create Purchase Order</button>
-                <button type="button" class="btn-secondary">Save as Draft</button>
-                <button type="button" class="btn-cancel">Cancel</button>
-            </div>
-        </form>
-    </div>
-    
-    {% if recent_orders %}
-    <div class="recent-orders">
-        <h2>Recent Purchase Orders</h2>
-        <div class="orders-grid">
-            {% for order in recent_orders %}
-            <div class="order-card">
-                <div class="order-header">
-                    <h4>{{ order.id }}</h4>
-                    <span class="status {{ order.status.lower() }}">{{ order.status }}</span>
-                </div>
-                <div class="order-details">
-                    <p><strong>Vendor:</strong> {{ order.vendor }}</p>
-                    <p><strong>Total:</strong> ${{ order.total }}</p>
-                    <p><strong>Date:</strong> {{ order.date }}</p>
-                </div>
-                <div class="order-actions">
-                    <button class="btn-view">View</button>
-                    <button class="btn-edit">Edit</button>
-                </div>
-            </div>
-            {% endfor %}
         </div>
     </div>
-    {% endif %}
+    <div class="table">
+        <div class="table-wrapper">
+            <div class="table-header">
+                <div class="row text left table-row-10">
+                    <span>Account</span>
+                </div>
+                <div class="row text left table-row-20">
+                    <span>Account Name</span>
+                </div>
+                <div class="row text left table-row-40">
+                    <span>Description</span>
+                </div>
+            </div>
+            <div class="table-body">
+                {% if recent_orders %}
+                {% for order in recent_orders %}
+                <div class="column">
+                    <div class="row text left table-row-10">
+                        <span>{{ order.id or '309015' }}</span>
+                    </div>
+                    <div class="row text left table-row-20">
+                        <span>{{ order.name or 'Approved Claims Payable' }}</span>
+                    </div>
+                    <div class="row text left table-row-40">
+                        <span>{{ order.description or 'Pay for : Unnamed 193ToCHAO VANNYI#A01PA002504753' }}</span>
+                    </div>
+                    <div class="row text left table-row-5">
+                        <div class="dropdown" style="position: relative;">
+                            <button class="action-btn" 
+                                    type="button"
+                                    @click="toggleDropdown('menu-{{ loop.index }}')"
+                                    :class="{ 'active': isOpen('menu-{{ loop.index }}') }">
+                                <i class="material-symbols-outlined">more_vert</i>
+                            </button>
+                            <ul class="tb-dropdown-menu" 
+                                x-show="isOpen('menu-{{ loop.index }}')"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                style="display: none;">
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        @click="showDeleteConfirmation('{{ order.name or ('Order #' ~ loop.index) }}')">
+                                        <i class="material-symbols-outlined">delete</i>
+                                        <span>Delete</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        @click="handleEdit('{{ order.id or loop.index }}')">
+                                        <i class="material-symbols-outlined">edit</i>
+                                        <span>Edit</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="column">
+                    <div class="row text left table-row-10 empty-row">
+                        <span>No recent orders found.</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>    </div>
+    
+   
+    
+    <!-- Add test content to make page scrollable for testing -->
+    <div style="margin-top: 50px; background: #f9f9f9; border-radius: 8px;">
+        <h3>Test Scroll Content</h3>
+        <p>This is test content to make the page scrollable. Scroll down to see the topbar color changes.</p>
+        
+        <!-- Repeat content to create scroll -->
+        {% for i in range(20) %}
+        <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h4>Test Section {{ i + 1 }}</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-{% endblock %}
 
+<!-- Include Delete Dialog Component -->
+{% include 'components/DialogDelete.html' %}
+
+
+{% endblock %}
 {% block extra_js %}
-<script src="{{ url_for('static', filename='js/purchase-order.js') }}"></script>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('dropdown', () => ({
+            openDropdown: null,
+            showDeleteDialog: false,
+            itemToDelete: null,
+            dialogConfig: {},
+            
+            init() {
+                console.log('Alpine dropdown component initialized!');
+
+                console.log(this.$store.DialogDelete.showDeleteDialog,"$store.DialogDelete.showDeleteDialog");
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.dropdown')) {
+                        this.openDropdown = null;
+                    }
+                });
+            },
+            
+            toggleDropdown(menuId) {
+                this.openDropdown = this.openDropdown === menuId ? null : menuId;
+            },
+            
+            isOpen(menuId) {
+                return this.openDropdown === menuId;
+            },
+            
+            // Generic dialog method that accepts configuration
+            showDialog(config) {
+                this.dialogConfig = config;
+                this.itemToDelete = { id: config.itemId, name: config.itemName };
+                this.showDeleteDialog = true;
+                this.openDropdown = null;
+            },
+            
+            // Specific delete confirmation method
+            showDeleteConfirmation(orderId, orderName) {
+                SelectOption({
+                    title: 'Confirm Deletion',
+                    description: `Are you sure you want to delete ${orderName}?`,
+                    icon: 'delete',
+                    itemId: orderId,
+                    itemName: orderName,
+                    afterClose: (res) => {
+                        console.log("52525252@@@!11");
+                        if (res) {
+                            this.$dispatch('order-deleted', { id: orderId });
+                        }
+                    }
+                });
+            },
+        }))
+    })
+</script>
 {% endblock %}

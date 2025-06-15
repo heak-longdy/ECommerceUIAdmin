@@ -9,7 +9,7 @@
   height: 40px;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   cursor: pointer;
 }
 
@@ -42,12 +42,12 @@
 }
 
 .profile-card {
-    background-color: #fff;
-    min-width: 300px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
+  background-color: #fff;
+  min-width: 230px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
 }
 
 .user-info {
@@ -56,9 +56,10 @@
   justify-content: flex-start;
   gap: 10px;
 }
+
 .user-info .avatar {
-  width: 80px !important;
-  height: 80px !important;
+  width: 57px !important;
+  height: 57px !important;
   border-radius: 50%;
   -o-object-fit: cover;
   object-fit: cover;
@@ -70,6 +71,14 @@
   flex-direction: column;
   justify-content: flex-start;
 }
+
+.user-details h2{
+  font-size: 15px;
+}
+.user-details p{
+  font-size: 13px;
+}
+
 .user-details h2,
 .user-details p {
   margin: 0;
@@ -82,8 +91,9 @@
 .profile-menu {
   padding: 0;
 }
+
 .profile-menu li {
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -92,6 +102,14 @@
   grid-gap: 10px;
   cursor: pointer;
 }
+
+.profile-menu div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .profile-menu li i {
   font-size: 24px;
   background: white;
@@ -104,14 +122,16 @@
   border: 1px solid rgba(152, 152, 152, 0.2);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
-.profile-menu li div > p {
+
+.profile-menu li div>p {
   margin: 0;
 }
+
 .profile-menu li:hover {
   color: #3C91E6;
 }
 
-.profile-card > .logout-btn {
+.profile-card>.logout-btn {
   background-color: #4A90E2;
   color: #fff !important;
   padding: 6px 20px !important;
@@ -123,15 +143,22 @@
   margin-left: 0 !important;
   grid-gap: 10px;
   justify-content: center;
+  align-items: center;
+  display: flex;
+  border: none;
+  height: 40px;
 }
-.profile-card > .logout-btn svg {
+
+.profile-card>.logout-btn svg {
   width: 20px;
   height: 20px;
 }
-.profile-card > .logout-btn i {
+
+.profile-card>.logout-btn i {
   font-size: 24px;
 }
-.profile-card > .logout-btn:hover {
+
+.profile-card>.logout-btn:hover {
   background-color: rgba(238, 97, 87, 0.7490196078);
   color: #fff;
 }

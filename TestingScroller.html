@@ -1,0 +1,223 @@
+<style>
+.main-content { 
+    margin-left: 260px; 
+    margin-top: 64px; 
+    padding: 24px;
+    width: 100%; 
+    height: calc(100vh - 64px);
+    /* height: 100%; */
+    /* height: fit-content; */
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    transition: margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.topbar.scrolled-down{
+     background: none !important;
+    box-shadow: none !important;
+} 
+.topbar.scrolled-down ~ .main-content {
+    margin-top: 0;
+    padding-top: 64px; /* Only the topbar height, no extra padding */
+}
+
+/* Topbar styling */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 260px;
+    right: 0;
+    height: 64px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.topbar.scrolled-down {
+    background: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.topbar .user-info {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar .status {
+    padding: 4px 12px;
+    background: #e3f2fd;
+    border-radius: 16px;
+    font-size: 12px;
+    color: #1976d2;
+}
+
+/* Content styling */
+.content-section {
+    margin-bottom: 32px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.content-section h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1976d2;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+}
+</style>
+
+<div class="topbar">
+    <h1>E-commerce Dashboard</h1>
+    <div class="user-info">
+        <span class="status">Online</span>
+        <span>Welcome, Admin</span>
+    </div>
+</div>
+<div class="main-content">
+    <div class="content-section">
+        <h2>Dashboard Overview</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1,234</div>
+                <div class="stat-label">Total Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$45,678</div>
+                <div class="stat-label">Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89</div>
+                <div class="stat-label">Products</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">567</div>
+                <div class="stat-label">Customers</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Recent Orders</h2>
+        <p>Order #12345 - John Doe - $125.99 - Shipped</p>
+        <p>Order #12346 - Jane Smith - $87.50 - Processing</p>
+        <p>Order #12347 - Bob Johnson - $234.75 - Delivered</p>
+        <p>Order #12348 - Alice Brown - $156.25 - Pending</p>
+        <p>Order #12349 - Charlie Wilson - $98.00 - Shipped</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Product Categories</h2>
+        <p>📱 Electronics - 25 products</p>
+        <p>👕 Clothing - 34 products</p>
+        <p>📚 Books - 15 products</p>
+        <p>🏠 Home & Garden - 8 products</p>
+        <p>🎮 Gaming - 7 products</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Customer Analytics</h2>
+        <p>New customers this month: 45</p>
+        <p>Returning customers: 522</p>
+        <p>Average order value: $87.32</p>
+        <p>Customer satisfaction: 4.7/5</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Inventory Status</h2>
+        <p>🟢 In Stock: 67 products</p>
+        <p>🟡 Low Stock: 12 products</p>
+        <p>🔴 Out of Stock: 3 products</p>
+        <p>📦 Pending Restock: 7 products</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Sales Performance</h2>
+        <p>Today's sales: $1,245.67</p>
+        <p>This week: $8,932.11</p>
+        <p>This month: $34,567.89</p>
+        <p>Growth rate: +12.5%</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Marketing Campaigns</h2>
+        <p>🎯 Summer Sale - Active - 25% off</p>
+        <p>📧 Email Newsletter - Scheduled</p>
+        <p>📱 Social Media - Running</p>
+        <p>🎁 Loyalty Program - 156 members</p>
+    </div>
+
+    <div class="content-section">
+        <h2>System Status</h2>
+        <p>✅ Website: Online</p>
+        <p>✅ Payment Gateway: Active</p>
+        <p>✅ Shipping API: Connected</p>
+        <p>⚠️ Email Service: Minor issues</p>
+    </div>
+</div>
+
+<script>
+// Listen for scroll events on the main-content div (correct approach for your layout)
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.querySelector('.main-content');
+    const topbar = document.querySelector('.topbar');
+    const scrollThreshold = 50; // Adjust this value as needed
+    let isScrolledDown = false;
+    
+    mainContent.addEventListener('scroll', function() {
+        const currentScrollTop = this.scrollTop;
+        console.log('Scroll position:', currentScrollTop); // Debug line - you can remove this
+        
+        if (currentScrollTop > scrollThreshold && !isScrolledDown) {
+            topbar.classList.add('scrolled-down');
+            isScrolledDown = true;
+            console.log('Added scrolled-down class'); // Debug line - you can remove this
+            
+        } else if (currentScrollTop <= scrollThreshold && isScrolledDown) {
+            topbar.classList.remove('scrolled-down');
+            isScrolledDown = false;
+            console.log('Removed scrolled-down class'); // Debug line - you can remove this
+        }
+    });
+});
+</script>
+

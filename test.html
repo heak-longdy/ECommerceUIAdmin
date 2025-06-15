@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications - macOS Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e7f1 100%);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            padding: 0 20px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 20px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-item.active {
+            background: #007AFF;
+            color: white;
+        }
+
+        .sidebar-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 38px;
+            background: rgba(242, 242, 247, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar.scrolled {
+            background: rgba(242, 242, 247, 0.3);
+            backdrop-filter: blur(40px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .top-bar.scrolled .view-btn,
+        .top-bar.scrolled .dropdown-btn,
+        .top-bar.scrolled .action-btn,
+        .top-bar.scrolled .search-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+
+        .top-bar.scrolled .view-btn:hover,
+        .top-bar.scrolled .dropdown-btn:hover,
+        .top-bar.scrolled .action-btn:hover,
+        .top-bar.scrolled .search-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .top-bar.scrolled .view-btn.active {
+            background: rgba(0, 122, 255, 0.8);
+            border: 1px solid rgba(0, 122, 255, 0.6);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            width: 22px;
+            height: 22px;
+            border: none;
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #666;
+            transition: background-color 0.15s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-left: 10px;
+        }
+
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn {
+            width: 28px;
+            height: 24px;
+            border: none;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #666;
+            transition: all 0.15s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .view-btn.active {
+            background: #007AFF;
+            color: white;
+            border: 1px solid #007AFF;
+            box-shadow: 0 1px 4px rgba(0, 122, 255, 0.3);
+        }
+
+        .dropdown-btn {
+            width: 32px;
+            height: 24px;
+            border: none;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+            transition: all 0.15s;
+            margin-left: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 12px;
+        }
+
+        .action-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.15s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .search-btn {
+            width: 28px;
+            height: 24px;
+            border: none;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.15s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .app-item:hover {
+            transform: scale(1.05);
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .app-name {
+            font-size: 12px;
+            color: #333;
+            text-align: center;
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* App Icon Colors */
+        .app-icon.red { background: linear-gradient(135deg, #FF6B6B, #FF5252); }
+        .app-icon.green { background: linear-gradient(135deg, #4CAF50, #45A049); }
+        .app-icon.blue { background: linear-gradient(135deg, #2196F3, #1976D2); }
+        .app-icon.purple { background: linear-gradient(135deg, #9C27B0, #7B1FA2); }
+        .app-icon.orange { background: linear-gradient(135deg, #FF9800, #F57C00); }
+        .app-icon.teal { background: linear-gradient(135deg, #009688, #00796B); }
+        .app-icon.pink { background: linear-gradient(135deg, #E91E63, #C2185B); }
+        .app-icon.yellow { background: linear-gradient(135deg, #FFEB3B, #FBC02D); }
+        .app-icon.gray { background: linear-gradient(135deg, #9E9E9E, #757575); }
+        .app-icon.indigo { background: linear-gradient(135deg, #3F51B5, #303F9F); }
+        .app-icon.cyan { background: linear-gradient(135deg, #00BCD4, #0097A7); }
+        .app-icon.lime { background: linear-gradient(135deg, #8BC34A, #689F38); }
+
+        /* Traffic Lights */
+        .traffic-lights {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .traffic-light.red { background: #FF5F57; }
+        .traffic-light.yellow { background: #FFBD2E; }
+        .traffic-light.green { background: #28CA42; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="traffic-lights">
+            <div class="traffic-light red"></div>
+            <div class="traffic-light yellow"></div>
+            <div class="traffic-light green"></div>
+        </div>
+        
+        <div class="sidebar-section" style="margin-top: 20px;">
+            <div class="sidebar-item">
+                <span class="sidebar-icon">📁</span>
+                Shared
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">🕒</span>
+                Recents
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Favorites</div>
+            <div class="sidebar-item active">
+                <span class="sidebar-icon">📱</span>
+                Applications
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">🖥️</span>
+                Desktop
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">📄</span>
+                Documents
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">⬇️</span>
+                Downloads
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Locations</div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">☁️</span>
+                iCloud Drive
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">🏠</span>
+                lukemiani
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">💻</span>
+                On My Mac
+            </div>
+            <div class="sidebar-item">
+                <span class="sidebar-icon">📡</span>
+                AirDrop
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="nav-controls">
+                <button class="nav-btn" disabled>‹</button>
+                <button class="nav-btn" disabled>›</button>
+                <span class="title">Applications</span>
+            </div>
+            
+            <div class="view-controls">
+                <button class="view-btn" title="Icon View">⊞</button>
+                <button class="view-btn" title="List View">≡</button>
+                <button class="view-btn active" title="Column View">⫴</button>
+                <button class="view-btn" title="Gallery View">◐</button>
+                <button class="dropdown-btn" title="View Options">⋮⋮⋮ ▼</button>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" title="Share">↗</button>
+                    <button class="action-btn" title="Edit Tags">⟲</button>
+                    <button class="action-btn" title="More">⋯</button>
+                </div>
+                
+                <button class="search-btn" title="Search">🔍</button>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="apps-grid">
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-icon red">Aa</div>
+                    <div class="app-name">Dictionary</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">📹</div>
+                    <div class="app-name">FaceTime</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🔍</div>
+                    <div class="app-name">Find My</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">a</div>
+                    <div class="app-name">Font Book</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon cyan">M</div>
+                    <div class="app-name">Freeform</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🚀</div>
+                    <div class="app-name">GameX</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon orange">🏠</div>
+                    <div class="app-name">Home</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">📷</div>
+                    <div class="app-name">Image Capture</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon red">🎨</div>
+                    <div class="app-name">Image Playground</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon purple">⭐</div>
+                    <div class="app-name">iMovie</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📱</div>
+                    <div class="app-name">iPhone Mirroring</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon indigo">📓</div>
+                    <div class="app-name">Journal</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">📊</div>
+                    <div class="app-name">Keynote</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon blue">✉️</div>
+                    <div class="app-name">Mail</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon teal">🗺️</div>
+                    <div class="app-name">Maps</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon green">💬</div>
+                    <div class="app-name">Messages</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon gray">◼️</div>
+                    <div class="app-name">Mission Control</div>
+                </div>
+                
+                <div class="app-item">
+                    <div class="app-icon pink">🎵</div>
+                    <div class="app-name">Music</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // Add click interactions for view buttons
+    const viewButtons = document.querySelectorAll('.view-btn');
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            viewButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    
+    // Add hover effect for app items
+    const appItems = document.querySelectorAll('.app-item');
+    appItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Add scroll effect to top bar
+    const contentArea = document.querySelector('.content-area');
+    const topBar = document.querySelector('.top-bar');
+    let isScrolled = false;
+    
+    contentArea.addEventListener('scroll', function() {
+        const scrollTop = this.scrollTop;
+        
+        if (scrollTop > 20 && !isScrolled) {
+            topBar.classList.add('scrolled');
+            isScrolled = true;
+        } else if (scrollTop <= 20 && isScrolled) {
+            topBar.classList.remove('scrolled');
+            isScrolled = false;
+        }
+    });
+</script>
+</html>
