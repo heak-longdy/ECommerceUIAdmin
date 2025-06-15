@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}MyProfile - Ecommerce Dashboard@@@{% endblock %}
+
+{% block content %}
+<div class="index-container">
+    <div class="header">
+        <span class="header-title">MyProfileff</span>
+        <span class="spark-plan">{{ plan_type or 'Spark plan' }}</span>
+        <button class="add-app-btn">+ Add app</button>
+    </div>
+    
+    <div class="gemini-banner">
+        <div class="info">
+            <h2>Experiment with a Gemini 2.0 sample app!</h2>
+            <p>Learn about the Gemini API and how it works by experimenting with an AI-powered sample app.</p>
+            <button class="try-btn">Try it now</button>
+        </div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzHMDlwRCHOHZP_tX7jRYNxV8W8MpNEog45w&s" 
+             alt="Gemini" width="90" height="90" style="border-radius:50%;background:#fff;">
+    </div>
+    
+    <h2 style="margin-top: 32px;">Build</h2>
+    <div class="build-section">
+        {% for card in build_cards %}
+        <div class="build-card">
+            <h3>{{ card.title }}</h3>
+            <div class="stat">{{ card.stat }}</div>
+            {% for desc in card.descriptions %}
+            <div class="desc">{{ desc|safe }}</div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Default cards if no data provided -->
+        <div class="build-card">
+            <h3>Hosting</h3>
+            <div class="stat">0B</div>
+            <div class="desc">Downloads (7d total)</div>
+            <div class="desc">Deployment history: <b>Deployed</b></div>
+            <div class="desc">Deployed by: {{ user_email or 'user@example.com' }}</div>
+        </div>
+        <div class="build-card">
+            <h3>Firestore</h3>
+            <div class="stat">0</div>
+            <div class="desc">Reads (current)</div>
+            <div class="desc">Writes (current)</div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Add more content to make the page scrollable -->
+    <div style="margin-top: 40px;">
+        <h2>Additional Content</h2>
+        <div style="background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h3>Section 1</h3>
+            <p>This is some additional content to make the page scrollable. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <div style="background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h3>Section 2</h3>
+            <p>More content here. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        <div style="background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h3>Section 3</h3>
+            <p>Even more content to ensure scrolling. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+        <div style="background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h3>Section 4</h3>
+            <p>Final section. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div style="background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h3>Section 5</h3>
+            <p>This should be enough content to scroll through and test the topbar color change functionality.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,7 +4,18 @@
 
 {% block headerTitle %}Order Management{% endblock %}
 
-{% block addUrl %}/orders/Create{% endblock %}
+{% set createURl = '/orders/Create' %}
+
+{% block addUrl %}
+<div class="topbarActions">
+    <a href="{{ createURl }}">
+        <button class="search-btn">
+            <span class="material-symbols-outlined">add</span>
+            <span>Add New</span>
+        </button>
+    </a>
+</div>
+{% endblock %}
 
 {% block extra_css %}
 {% endblock %}
@@ -13,7 +24,7 @@
 <div class="index-container" x-data="dropdown">
     <div class="header">
         <div class="header-right">
-            <a href="/orders/Create" class="header-title">
+            <a href="{{createURl}}" class="header-title">
                 <button class="add-app-btn">
                     <span class="material-symbols-outlined">add</span>
                     <span>Add New</span>

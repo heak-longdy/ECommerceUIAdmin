@@ -1,10 +1,24 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-{% block title %}MyProfile - Ecommerce Dashboard{% endblock %}
-{% block headerTitle %}Dashboard{% endblock %}
-
-{% block extra_css %}
-<style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+            color: #1a202c;
+            line-height: 1.6;
+        }
 
         .dashboard {
             padding: 1.5rem;
@@ -21,6 +35,7 @@
         }
 
         .stat-card {
+            background: white;
             padding: 1.25rem;
             border-radius: 12px;
             text-align: center;
@@ -67,16 +82,29 @@
             color: #1a202c;
         }
 
-        /* Main Content Grid */
-        .content-grid {
+        /* Main Content Layout */
+        .main-content {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
         /* Chart Cards */
         .chart-card {
+            background: white;
             padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -112,9 +140,9 @@
             cursor: pointer;
         }
 
-        /* Revenue Updates - Left Column */
-        .revenue-section {
-            grid-column: span 1;
+        /* Revenue Updates Chart */
+        .revenue-chart {
+            flex: 1;
         }
 
         .total-earnings {
@@ -135,9 +163,8 @@
             color: #64748b;
         }
 
-        /* Chart Container */
         .chart-container {
-            height: 160px;
+            height: 200px;
             position: relative;
             margin-bottom: 1rem;
             background: #f8fafc;
@@ -339,6 +366,7 @@
 
         /* Best Selling Products */
         .products-section {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             position: relative;
             overflow: hidden;
@@ -369,6 +397,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255, 255, 255, 0.1);
             padding: 0.75rem;
             border-radius: 8px;
             backdrop-filter: blur(10px);
@@ -421,6 +450,7 @@
         }
 
         .bottom-card {
+            background: white;
             padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -612,12 +642,8 @@
                 grid-template-columns: repeat(3, 1fr);
             }
             
-            .content-grid {
+            .main-content {
                 grid-template-columns: 1fr 1fr;
-            }
-            
-            .revenue-section {
-                grid-column: span 1;
             }
         }
 
@@ -631,7 +657,7 @@
                 gap: 0.75rem;
             }
             
-            .content-grid {
+            .main-content {
                 grid-template-columns: 1fr;
             }
             
@@ -642,10 +668,6 @@
             .stat-card {
                 padding: 1rem;
             }
-            
-            .revenue-section {
-                grid-column: span 1;
-            }
         }
 
         @media (max-width: 480px) {
@@ -654,280 +676,265 @@
             }
         }
     </style>
-{% endblock %}
-
-{% block content %}
-<div class="index-container">
+</head>
+<body>
     <div class="dashboard">
-        <!-- Stats Cards -->
+        <!-- Top Stats Cards -->
         <div class="stats-grid">
-            <div class="stat-card employees" style="background:linear-gradient(135deg,#eef2ff 0%,#f8fafc 100%);">
+            <div class="stat-card employees">
                 <div class="stat-icon">
-                    <span class="material-symbols-outlined">group</span>
+                    <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-label">Employees</div>
                 <div class="stat-value">96</div>
             </div>
-            <div class="stat-card clients" style="background:linear-gradient(135deg,#fff7ed 0%,#f8fafc 100%);">
+            <div class="stat-card clients">
                 <div class="stat-icon">
-                    <span class="material-symbols-outlined">business_center</span>
+                    <i class="fas fa-briefcase"></i>
                 </div>
                 <div class="stat-label">Clients</div>
                 <div class="stat-value">3,650</div>
             </div>
-            <div class="stat-card projects" style="background:linear-gradient(135deg,#ecfeff 0%,#f8fafc 100%);">
+            <div class="stat-card projects">
                 <div class="stat-icon">
-                    <span class="material-symbols-outlined">folder</span>
+                    <i class="fas fa-project-diagram"></i>
                 </div>
                 <div class="stat-label">Projects</div>
                 <div class="stat-value">356</div>
             </div>
-            <div class="stat-card events" style="background:linear-gradient(135deg,#fef2f2 0%,#f8fafc 100%);">
+            <div class="stat-card events">
                 <div class="stat-icon">
-                    <span class="material-symbols-outlined">event</span>
+                    <i class="fas fa-calendar"></i>
                 </div>
                 <div class="stat-label">Events</div>
                 <div class="stat-value">696</div>
             </div>
-            <div class="stat-card payroll" style="background:linear-gradient(135deg,#ecfdf5 0%,#f8fafc 100%);">
+            <div class="stat-card payroll">
                 <div class="stat-icon">
-                    <span class="material-symbols-outlined">attach_money</span>
+                    <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="stat-label">Payroll</div>
                 <div class="stat-value">$96k</div>
             </div>
-            <div class="stat-card reports" style="background:linear-gradient(135deg,#f3e8ff 0%,#f8fafc 100%);">
+            <div class="stat-card reports">
                 <div class="stat-icon">
-                    <span class="material-symbols-outlined">bar_chart</span>
+                    <i class="fas fa-chart-bar"></i>
                 </div>
                 <div class="stat-label">Reports</div>
                 <div class="stat-value">59</div>
             </div>
         </div>
 
-        <!-- Main Content Grid -->
-        <div class="content-grid">
-            <!-- Revenue Updates Chart -->
-            <div class="chart-card revenue-section">
-                <div class="chart-header">
-                    <div>
-                        <div class="chart-title">Revenue Updates</div>
-                        <div class="chart-subtitle">Overview of Profit</div>
-                    </div>
-                    <select class="date-selector">
-                        <option>March 2025</option>
-                        <option>April 2025</option>
-                        <option>May 2025</option>
-                    </select>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:2rem;">
-                    <div style="flex:2;">
-                        <div class="chart-container" style="background:white;border:1px solid #e2e8f0;">
-                            <svg width="100%" height="160" viewBox="0 0 320 160">
-                                <g stroke="#e5e7eb" stroke-width="1">
-                                    <line x1="40" y1="20" x2="40" y2="140" />
-                                    <line x1="40" y1="140" x2="300" y2="140" />
-                                    <line x1="40" y1="60" x2="300" y2="60" />
-                                    <line x1="40" y1="100" x2="300" y2="100" />
-                                </g>
-                                <g>
-                                    <rect x="55" y="80" width="20" height="60" rx="4" fill="#60a5fa"/>
-                                    <rect x="85" y="40" width="20" height="100" rx="4" fill="#60a5fa"/>
-                                    <rect x="115" y="60" width="20" height="80" rx="4" fill="#60a5fa"/>
-                                    <rect x="145" y="20" width="20" height="120" rx="4" fill="#60a5fa"/>
-                                    <rect x="175" y="50" width="20" height="90" rx="4" fill="#60a5fa"/>
-                                    <rect x="205" y="90" width="20" height="50" rx="4" fill="#60a5fa"/>
-                                    <rect x="235" y="100" width="20" height="40" rx="4" fill="#60a5fa"/>
-                                </g>
-                                <g font-size="10" fill="#a0aec0">
-                                    <text x="55" y="155">16/08</text>
-                                    <text x="85" y="155">17/08</text>
-                                    <text x="115" y="155">18/08</text>
-                                    <text x="145" y="155">19/08</text>
-                                    <text x="175" y="155">20/08</text>
-                                    <text x="205" y="155">21/08</text>
-                                    <text x="235" y="155">22/08</text>
-                                </g>
-                                <g font-size="10" fill="#a0aec0">
-                                    <text x="10" y="25">5.0</text>
-                                    <text x="10" y="65">2.5</text>
-                                    <text x="10" y="105">0.0</text>
-                                    <text x="10" y="145">-2.5</text>
-                                </g>
-                            </svg>
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Left Column - Revenue Chart -->
+            <div class="left-column">
+                <div class="chart-card revenue-chart">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Revenue Updates</div>
+                            <div class="chart-subtitle">Overview of Profit</div>
                         </div>
+                        <select class="date-selector">
+                            <option>March 2025</option>
+                            <option>April 2025</option>
+                            <option>May 2025</option>
+                        </select>
                     </div>
-                    <div style="flex:1;">
+                    
+                    <div class="total-earnings">
                         <div class="earnings-value">$63,489.50</div>
                         <div class="earnings-label">Total Earnings</div>
-                        <div class="chart-legend" style="margin-top:1.5rem;flex-direction:column;align-items:flex-start;gap:1rem;">
-                            <div class="legend-item">
-                                <div class="legend-dot earnings"></div>
-                                <div>
-                                    <div class="legend-text">Earnings this month</div>
-                                    <div class="legend-value">$48,820</div>
-                                </div>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot expense"></div>
-                                <div>
-                                    <div class="legend-text">Expense this month</div>
-                                    <div class="legend-value">$26,498</div>
-                                </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-bars">
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-dot earnings"></div>
+                            <div>
+                                <div class="legend-text">Earnings this month</div>
+                                <div class="legend-value">$48,820</div>
                             </div>
                         </div>
-                        <button class="view-report-btn" style="margin-top:1.5rem;">View Full Report</button>
+                        <div class="legend-item">
+                            <div class="legend-dot expense"></div>
+                            <div>
+                                <div class="legend-text">Expense this month</div>
+                                <div class="legend-value">$26,498</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="view-report-btn">View Full Report</button>
+                </div>
+            </div>
+
+            <!-- Right Column - Sidebar Cards -->
+            <div class="right-column">
+                <!-- Yearly Breakup -->
+                <div class="chart-card yearly-section">
+                    <div class="chart-title">Yearly Breakup</div>
+                    <div class="yearly-value">$36,358</div>
+                    <div class="yearly-change">
+                        <i class="fas fa-arrow-up"></i>
+                        +9% last year
+                    </div>
+                    <div class="progress-circle">
+                        <svg>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#667eea"/>
+                                    <stop offset="100%" style="stop-color:#764ba2"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="bg" cx="40" cy="40" r="32"></circle>
+                            <circle class="progress" cx="40" cy="40" r="32"></circle>
+                        </svg>
+                    </div>
+                    <div class="year-labels">
+                        <span class="year-current">● 2025</span>
+                        <span class="year-previous">2024</span>
                     </div>
                 </div>
-            </div>
-            <!-- Yearly Breakup -->
-            <div class="chart-card yearly-section">
-                <div class="chart-title">Yearly Breakup</div>
-                <div class="yearly-value">$36,358</div>
-                <div class="yearly-change">
-                    <span class="material-symbols-outlined" style="font-size:0.75rem;">trending_up</span>
-                    +9% last year
+
+                <!-- Monthly Earnings -->
+                <div class="chart-card">
+                    <div class="chart-title">Monthly Earnings</div>
+                    <div class="monthly-value">$6,820</div>
+                    <div class="monthly-change">
+                        <i class="fas fa-arrow-up"></i>
+                        +9% last month
+                    </div>
+                    <div class="wave-chart">
+                        <div class="wave-line"></div>
+                    </div>
                 </div>
-                <div class="progress-circle">
-                    <svg>
-                        <circle class="bg" cx="40" cy="40" r="32"></circle>
-                        <circle class="progress" cx="40" cy="40" r="32"></circle>
-                    </svg>
-                </div>
-                <div class="year-labels">
-                    <span class="year-current">● 2025</span>
-                    <span class="year-previous">2025</span>
-                </div>
-            </div>
-            <!-- Monthly Earnings -->
-            <div class="chart-card" style="background:linear-gradient(135deg,#e0f2fe 0%,#f8fafc 100%);color:#1a202c;">
-                <div class="chart-title">Monthly Earnings <span style="float:right;background:#3b82f6;color:white;border-radius:50%;padding:0.2em 0.5em;font-size:0.9em;"><span class="material-symbols-outlined" style="font-size:1em;">attach_money</span></span></div>
-                <div class="monthly-value">$6,820</div>
-                <div class="monthly-change">
-                    <span class="material-symbols-outlined" style="font-size:0.75rem;">trending_up</span>
-                    +9% last year
-                </div>
-                <div class="wave-chart" style="background:transparent;">
-                    <svg width="100%" height="60" viewBox="0 0 200 60">
-                        <polyline fill="none" stroke="#3b82f6" stroke-width="3" points="0,40 20,30 40,35 60,20 80,25 100,10 120,20 140,15 160,30 180,25 200,40" />
-                    </svg>
+
+                <!-- Best Selling Products -->
+                <div class="chart-card products-section">
+                    <div class="products-header">
+                        <div class="products-title">Best selling products</div>
+                        <div class="products-subtitle">Overview 2025</div>
+                    </div>
+                    
+                    <div class="product-list">
+                        <div class="product-item">
+                            <div class="product-info">
+                                <div class="product-preview">
+                                    <i class="fas fa-play play-icon"></i>
+                                </div>
+                                <div class="product-details">
+                                    <h4>MaterialPro</h4>
+                                    <div class="product-price">$23,568</div>
+                                </div>
+                            </div>
+                            <div class="product-percentage">55%</div>
+                        </div>
+                        
+                        <div class="product-item">
+                            <div class="product-info">
+                                <div class="product-preview">
+                                    <i class="fas fa-cog play-icon"></i>
+                                </div>
+                                <div class="product-details">
+                                    <h4>Flexy Admin</h4>
+                                    <div class="product-price">$23,568</div>
+                                </div>
+                            </div>
+                            <div class="product-percentage">20%</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bottom Section: 3 columns -->
+        <!-- Bottom Cards Row -->
         <div class="bottom-grid">
             <!-- Employee Salary -->
             <div class="bottom-card">
                 <div class="card-title">Employee Salary</div>
                 <div class="card-subtitle">Every month</div>
-                <div class="mini-chart" style="background:white;">
-                    <svg width="100%" height="80" viewBox="0 0 180 80">
-                        <rect x="10" y="40" width="20" height="30" rx="3" fill="#c7d2fe"/>
-                        <rect x="40" y="30" width="20" height="40" rx="3" fill="#c7d2fe"/>
-                        <rect x="70" y="10" width="20" height="60" rx="3" fill="#6366f1"/>
-                        <rect x="100" y="35" width="20" height="35" rx="3" fill="#c7d2fe"/>
-                        <rect x="130" y="45" width="20" height="25" rx="3" fill="#c7d2fe"/>
-                        <rect x="160" y="50" width="20" height="20" rx="3" fill="#c7d2fe"/>
-                        <g font-size="10" fill="#a0aec0">
-                            <text x="15" y="78">Apr</text>
-                            <text x="45" y="78">May</text>
-                            <text x="75" y="78">June</text>
-                            <text x="105" y="78">July</text>
-                            <text x="135" y="78">Aug</text>
-                            <text x="165" y="78">Sept</text>
-                        </g>
-                    </svg>
+                <div class="large-value">$36,358</div>
+                <div class="mini-chart">
+                    <div class="salary-visualization">
+                        <div class="salary-bar"></div>
+                    </div>
                 </div>
                 <div class="mini-stats">
                     <div class="mini-stat">
+                        <div class="mini-stat-icon"><i class="fas fa-th"></i></div>
                         <div class="mini-stat-label">Salary</div>
                         <div class="mini-stat-value">$36,358</div>
                     </div>
                     <div class="mini-stat">
+                        <div class="mini-stat-icon"><i class="fas fa-chart-line"></i></div>
                         <div class="mini-stat-label">Profit</div>
                         <div class="mini-stat-value">$5,296</div>
                     </div>
                 </div>
             </div>
-            <!-- Customers & Projects Mini Cards -->
-            <div style="display:flex;flex-direction:column;gap:1rem;">
-                <div class="bottom-card" style="padding:1rem 1.5rem;">
-                    <div class="card-title" style="margin-bottom:0.5rem;">Customers</div>
-                    <div class="large-value" style="font-size:1.2rem;">36,358 <span style="color:#ef4444;font-size:0.9em;vertical-align:middle;"><span class="material-symbols-outlined" style="font-size:0.9em;">trending_up</span> +9%</span></div>
-                    <svg width="100%" height="40" viewBox="0 0 100 40">
-                        <polyline fill="none" stroke="#06b6d4" stroke-width="3" points="0,30 20,20 40,25 60,10 80,15 100,5" />
-                    </svg>
-                </div>
-                <div class="bottom-card" style="padding:1rem 1.5rem;">
-                    <div class="card-title" style="margin-bottom:0.5rem;">Projects</div>
-                    <div class="large-value" style="font-size:1.2rem;">78,298 <span style="color:#10b981;font-size:0.9em;vertical-align:middle;"><span class="material-symbols-outlined" style="font-size:0.9em;">trending_up</span> +9%</span></div>
-                    <svg width="100%" height="40" viewBox="0 0 100 40">
-                        <rect x="10" y="20" width="6" height="20" rx="2" fill="#6366f1"/>
-                        <rect x="22" y="10" width="6" height="30" rx="2" fill="#6366f1"/>
-                        <rect x="34" y="25" width="6" height="15" rx="2" fill="#6366f1"/>
-                        <rect x="46" y="5" width="6" height="35" rx="2" fill="#6366f1"/>
-                        <rect x="58" y="15" width="6" height="25" rx="2" fill="#6366f1"/>
-                        <rect x="70" y="20" width="6" height="20" rx="2" fill="#6366f1"/>
-                        <rect x="82" y="10" width="6" height="30" rx="2" fill="#6366f1"/>
-                    </svg>
-                </div>
-            </div>
-            <!-- Team Notification -->
-            <div style="display:flex;flex-direction:column;gap:1rem;">
-                <div class="bottom-card" style="padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="avatar" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
-                    <div style="flex:1;">
-                        <div style="font-weight:600;font-size:1rem;">Super awesome, Vue coming soon!</div>
-                        <div style="font-size:0.8rem;color:#64748b;">22 March, 2025</div>
-                    </div>
-                </div>
-                <div style="display:flex;gap:0.5rem;align-items:center;justify-content:flex-start;">
-                    <img src="https://randomuser.me/api/portraits/men/33.jpg" class="team-avatar avatar-1" style="width:32px;height:32px;"/>
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="team-avatar avatar-2" style="width:32px;height:32px;"/>
-                    <img src="https://randomuser.me/api/portraits/men/45.jpg" class="team-avatar avatar-3" style="width:32px;height:32px;"/>
-                    <img src="https://randomuser.me/api/portraits/women/46.jpg" class="team-avatar avatar-4" style="width:32px;height:32px;"/>
-                </div>
-            </div>
-        </div>
 
-        <!-- Best Selling Products -->
-        <div class="chart-card products-section" style="margin-bottom: 1.5rem;background:linear-gradient(135deg,#6366f1 0%,#7c3aed 100%);color:white;    width: 350px;
-    margin-top: 25px;">
-            <div class="products-header">
-                <div class="products-title">Best selling products</div>
-                <div class="products-subtitle">Overview 2025</div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
-                <img src="https://modernize-nextjs.adminmart.com/images/backgrounds/piggy.png" style="width:150px;object-fit:contain;"/>
-            </div>
-            <div class="product-list">
-                <div class="product-item" style="background:rgba(255,255,255,0.15);">
-                    <div class="product-details" style="color:white;">
-                        <div style="font-weight:600;">MaterialPro</div>
-                        <div style="font-size:0.9em;opacity:0.8;">$23,568</div>
-                    </div>
-                    <div style="flex:1;margin:0 1rem;">
-                        <div style="background:white;height:8px;border-radius:4px;width:100%;position:relative;">
-                            <div style="background:#3b82f6;height:8px;border-radius:4px;width:55%;position:absolute;top:0;left:0;"></div>
-                        </div>
-                    </div>
-                    <div class="product-percentage">55%</div>
+            <!-- Customers -->
+            <div class="bottom-card">
+                <div class="card-title">Customers</div>
+                <div class="large-value">36,358</div>
+                <div class="growth-indicator">
+                    <i class="fas fa-arrow-up"></i>
+                    +9%
                 </div>
-                <div class="product-item" style="background:rgba(255,255,255,0.10);">
-                    <div class="product-details" style="color:white;">
-                        <div style="font-weight:600;">Flexy Admin</div>
-                        <div style="font-size:0.9em;opacity:0.8;">$23,568</div>
+                <div class="mini-chart">
+                    <div class="chart-line"></div>
+                </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="bottom-card">
+                <div class="card-title">Projects</div>
+                <div class="large-value">78,298</div>
+                <div class="growth-indicator">
+                    <i class="fas fa-arrow-up"></i>
+                    +9%
+                </div>
+                <div class="mini-chart">
+                    <div class="chart-bars-mini">
+                        <div class="mini-bar"></div>
+                        <div class="mini-bar"></div>
+                        <div class="mini-bar"></div>
+                        <div class="mini-bar"></div>
+                        <div class="mini-bar"></div>
+                        <div class="mini-bar"></div>
+                        <div class="mini-bar"></div>
                     </div>
-                    <div style="flex:1;margin:0 1rem;">
-                        <div style="background:white;height:8px;border-radius:4px;width:100%;position:relative;">
-                            <div style="background:#06b6d4;height:8px;border-radius:4px;width:20%;position:absolute;top:0;left:0;"></div>
-                        </div>
+                </div>
+                
+                <!-- Team Notification -->
+                <div class="team-notification">
+                    <div class="team-avatar">V</div>
+                    <div class="team-message">
+                        <h4>Super awesome. Vue coming soon!</h4>
+                        <p>22 March 2025</p>
                     </div>
-                    <div class="product-percentage">20%</div>
+                </div>
+                
+                <div class="team-avatars">
+                    <div class="team-avatar avatar-1">J</div>
+                    <div class="team-avatar avatar-2">S</div>
+                    <div class="team-avatar avatar-3">M</div>
+                    <div class="team-avatar avatar-4">A</div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>

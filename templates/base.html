@@ -19,14 +19,18 @@
             <div class="topbarScrollOnTop">
                 <span class="material-symbols-outlined">arrow_circle_up</span>
             </div>
+            {% block addUrl %}
+            {% if add_url %}
             <div class="topbarActions">
-                <a href="{% block addUrl %}#{% endblock %}">
+                <a href="{{ add_url }}">
                     <button class="search-btn">
                         <span class="material-symbols-outlined">add</span>
                         <span>Add New</span>
                     </button>
                 </a>
             </div>
+            {% endif %}
+            {% endblock %}
         </div>
         <!-- <span class="plan-label spark-plan">{{ plan_type or 'Pro plan' }}</span> -->
         <!-- <button class="gemini-info-btn">Getting started? Tell AI about your project</button> -->

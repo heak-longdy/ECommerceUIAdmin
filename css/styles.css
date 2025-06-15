@@ -732,7 +732,7 @@ a{
 }
 .topbar {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
 }
 
 .topbar.scrolled-down {
@@ -767,7 +767,8 @@ a{
     margin-top: 64px; 
     padding: 24px;
     width: 100%; 
-    height: calc(100vh - 64px);
+    flex: 1;
+    /* height: calc(100vh - 64px); */
     /* height: 100%; */
     /* height: fit-content; */
     overflow-y: auto;
