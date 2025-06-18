@@ -1,0 +1,146 @@
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Ecommerce Logo" class="firebase-logo">
+        <span class="sidebar-title">{{ 'Ecommerce' }}</span>
+        <span class="sidebar-gear">
+            <i class="bx bx-cog"></i>
+        </span>
+    </div>
+    <div class="sidebar-scroll">
+        <!-- Project Overview (highlighted) -->
+        <ul class="sidebar-menu">
+            <li class="{% if active_page == 'overview' %}active{% endif %} overview">
+                <i class="bx bx-home"></i>
+                <span class="menu-label">Project Overview</span>
+                <i class="bx bx-cog menu-gear"></i>
+            </li>
+        </ul>
+        <!-- Project shortcuts section -->
+        <div class="sidebar-heading">Project shortcuts</div>
+        <ul class="sidebar-menu">
+            <li class="{% if active_page == 'hosting' %}active{% endif %}">
+                <i class="bx bx-cloud"></i>
+                <span class="menu-label">Hosting</span>
+            </li>
+            <li class="{% if active_page == 'firestore' %}active{% endif %}">
+                <i class="bx bx-data"></i>
+                <span class="menu-label">Firestore Database</span>
+            </li>
+            <li class="{% if active_page == 'realtime' %}active{% endif %}">
+                <i class="bx bx-refresh"></i>
+                <span class="menu-label">Realtime Database</span>
+            </li>
+            <li class="{% if active_page == 'auth' %}active{% endif %}">
+                <i class="bx bx-group"></i>
+                <span class="menu-label">Authentication</span>
+            </li>
+            <a href="/orders">
+                <li class="{% if active_page == 'auth' %}active{% endif %}">
+                    <i class="bx bx-shopping-bag"></i>
+                    <span class="menu-label">Order</span>
+                </li>
+            </a>
+        </ul>
+        <!-- What's new section -->
+        <div class="sidebar-heading">What's new</div>
+        <ul class="sidebar-menu">
+            <li class="{% if active_page == 'ai-logic' %}active{% endif %}">
+                <i class="bx bx-bot"></i>
+                <span class="menu-label">AI Logic</span>
+                <span class="new-tag">NEW</span>
+            </li>
+        </ul>
+        <!-- Product categories section -->
+        <div class="sidebar-heading">Product categories</div>
+        <!-- Build dropdown -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title dropdown-toggle {% if 'build' in expanded_sections %}open{% endif %}" 
+                 id="title-build" onclick="toggleDropdown('build')" data-title="Build">
+                <div class="section-title-content">
+                    <i class="bx bx-wrench"></i>
+                    <span class="section-text">Build</span>
+                </div>
+                <i class="bx bx-chevron-down arrow" id="arrow-build"
+                      {% if 'build' in expanded_sections %}style="transform: rotate(180deg);"{% endif %}></i>
+            </div>
+            <ul class="sidebar-section-menu dropdown-menu {% if 'build' in expanded_sections %}open{% endif %}" id="dropdown-build">
+                <li><i class="bx bx-cloud"></i><span>Hosting</span></li>
+                <li><i class="bx bx-data"></i><span>Firestore Database</span></li>
+                <li><i class="bx bx-sync"></i><span>Realtime Database</span></li>
+                <li><i class="bx bx-group"></i><span>Authentication</span></li>
+            </ul>
+            <span class="menu-label">Build</span>
+        </div>
+        <!-- Run dropdown -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title dropdown-toggle {% if 'run' in expanded_sections %}open{% endif %}" 
+                 id="title-run" onclick="toggleDropdown('run')" data-title="Run">
+                <div class="section-title-content">
+                    <i class="bx bx-play"></i>
+                    <span class="section-text">Run</span>
+                </div>
+                <i class="bx bx-chevron-down arrow" id="arrow-run"
+                      {% if 'run' in expanded_sections %}style="transform: rotate(180deg);"{% endif %}></i>
+            </div>
+            <ul class="sidebar-section-menu dropdown-menu {% if 'run' in expanded_sections %}open{% endif %}" id="dropdown-run">
+                <li><i class="bx bx-cog"></i><span>Emulator Suite</span></li>
+                <li><i class="bx bx-extension"></i><span>Extensions</span></li>
+            </ul>
+            <span class="menu-label">Run</span>
+        </div>
+        <!-- Analytics dropdown -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title dropdown-toggle {% if 'analytics' in expanded_sections %}open{% endif %}" 
+                 id="title-analytics" onclick="toggleDropdown('analytics')" data-title="Analytics">
+                <div class="section-title-content">
+                    <i class="bx bx-bar-chart-alt-2"></i>
+                    <span class="section-text">Analytics</span>
+                </div>
+                <i class="bx bx-chevron-down arrow" id="arrow-analytics"
+                      {% if 'analytics' in expanded_sections %}style="transform: rotate(180deg);"{% endif %}></i>
+            </div>
+            <ul class="sidebar-section-menu dropdown-menu {% if 'analytics' in expanded_sections %}open{% endif %}" id="dropdown-analytics">
+                <li><i class="bx bx-grid-alt"></i><span>Dashboard</span></li>
+                <li><i class="bx bx-calendar-event"></i><span>Events</span></li>
+                <li><i class="bx bx-trending-up"></i><span>Conversions</span></li>
+            </ul>
+            <span class="menu-label">Analytics</span>
+        </div>
+        <!-- AI dropdown (expanded by default) -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title dropdown-toggle {% if 'ai' in expanded_sections or expanded_sections is not defined %}open{% endif %}" 
+                 id="title-ai" onclick="toggleDropdown('ai')" data-title="AI">
+                <div class="section-title-content">
+                    <i class="bx bx-bot"></i>
+                    <span class="section-text">AI</span>
+                </div>
+                <i class="bx bx-chevron-down arrow" id="arrow-ai" 
+                      {% if 'ai' in expanded_sections or expanded_sections is not defined %}style="transform: rotate(180deg);"{% endif %}></i>
+            </div>
+            <ul class="sidebar-section-menu dropdown-menu {% if 'ai' in expanded_sections or expanded_sections is not defined %}open{% endif %}" id="dropdown-ai">
+                <li>
+                    <i class="bx bx-bot"></i>
+                    <span>AI Logic</span>
+                    <span class="new-tag">NEW</span>
+                </li>
+                <li>
+                    <i class="bx bx-extension"></i>
+                    <span>Genkit</span>
+                </li>
+            </ul>
+            <span class="menu-label">AI</span>
+        </div>
+        <!-- All products link -->
+        <ul class="sidebar-menu">
+            <li class="{% if active_page == 'all-products' %}active{% endif %}">
+                <i class="bx bx-grid-alt"></i>
+                <span class="menu-label">All products</span>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-bottom">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Expand/Collapse Sidebar">
+            <i class="bx bx-chevron-right"></i>
+        </button>
+    </div>
+</div>

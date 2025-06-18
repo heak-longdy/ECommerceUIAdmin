@@ -3,13 +3,12 @@ Customer Routes
 Defines Flask routes for customer management using Flask-SQLAlchemy
 """
 
-from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, session
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 import json
 from datetime import datetime
-
 
 from src.db import db, DatabaseConfig
 
@@ -31,6 +30,12 @@ from .form import CustomerForm, CustomerSearchForm, CustomerQuickForm, CustomerD
 
 # Create blueprint for customer routes
 customer_bp = Blueprint('customer_bp', __name__, url_prefix='/customers')
+
+@customer_bp.before_request
+def require_admin_login():
+    if 'admin_id' not in session:
+        flash('You must be logged in as admin to access this page.', 'danger')
+        return redirect(url_for('auth.login'))
 
 @customer_bp.route('/')
 @customer_bp.route('/list')
@@ -61,7 +66,7 @@ def customer_list():
         
         # print(f"Customers foun @@@@@@: {len(result['customers'])}")
         
-        return render_template('customers/index.html', 
+        return render_template('admin/customers/index.html', 
                              customers=result, 
                              search_form=search_form,
                              search_query=search_query,
@@ -135,7 +140,7 @@ def create():
             _flash_form_errors(form)
     
     # Render the form (GET request or failed POST)
-    return render_template('customers/create.html', form=form, title='Create New Customer')
+    return render_template('admin/customers/create.html', form=form, title='Create New Customer')
 
 @customer_bp.route('/<int:customer_id>')
 def view(customer_id):
@@ -196,7 +201,7 @@ def edit(customer_id):
             # Display form validation errors
             _flash_form_errors(form)
         
-        return render_template('customers/edit.html', form=form, customer=customer, title=f'Edit Customer: {customer.full_name}')
+        return render_template('admin/customers/edit.html', form=form, customer=customer, title=f'Edit Customer: {customer.full_name}')
         
     except Exception as e:
         flash(f'Error loading customer: {str(e)}', 'error')

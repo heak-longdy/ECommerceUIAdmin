@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ecommerce{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/styles.css') }}">
+    <script defer src="{{ url_for('static', filename='js/admin/alpine.js') }}"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'admin/sidebar.html' %}
+    
+    <!-- Top navigation bar -->
+    <div class="topbar">
+        <div class="topbarLeft">
+            <span class="project-name header-title">{% block headerTitle %}Ecommerce{% endblock %}</span>
+            <div class="topbarScrollOnTop">
+                <i class="bx bx-arrow-to-top"></i>
+            </div>
+            {% block addUrl %}
+            {% if add_url %}
+            <div class="topbarActions">
+                <a href="{{ add_url }}">
+                    <button class="search-btn">
+                        <i class="bx bx-plus"></i>
+                        <span>Add New</span>
+                    </button>
+                </a>
+            </div>
+            {% endif %}
+            {% endblock %}
+        </div>
+        {% include 'admin/contentHeader.html' %}
+    </div>
+    
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        {% if category == 'success' %}
+                            <i class="bx bx-check-circle alert-icon"></i>
+                        {% elif category == 'error' %}
+                            <i class="bx bx-error alert-icon"></i>
+                        {% elif category == 'warning' %}
+                            <i class="bx bx-error-circle alert-icon"></i>
+                        {% else %}
+                            <i class="bx bx-info-circle alert-icon"></i>
+                        {% endif %}
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bx bx-x"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+    <!-- Main content area -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin/script.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

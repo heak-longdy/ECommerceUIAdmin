@@ -1,0 +1,32 @@
+{% extends 'Admin/base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Admin List</h1>
+    <a href="{{ url_for('admin.create') }}" class="btn btn-primary">Create New Admin</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in admins %}
+            <tr>
+                <td>{{ admin.id }}</td>
+                <td>{{ admin.username }}</td>
+                <td>{{ admin.email }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit', id=admin.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ url_for('admin.delete', id=admin.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
