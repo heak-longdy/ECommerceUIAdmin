@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classroom List - Educational Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        .classroom-card { 
+            transition: transform 0.2s; 
+            border-left: 4px solid;
+        }
+        .classroom-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        .classroom-card.available { border-left-color: #28a745; }
+        .classroom-card.occupied { border-left-color: #ffc107; }
+        .classroom-card.maintenance { border-left-color: #dc3545; }
+        .classroom-card.inactive { border-left-color: #6c757d; }
+        .status-badge { font-size: 0.75rem; }
+        .search-box { border-radius: 25px; }
+        .equipment-icons { font-size: 1.2rem; }
+        .capacity-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .capacity-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <span class="material-symbols-outlined me-2">school</span>
+                Educational Management
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('classroom_bp.create') }}">
+                    <span class="material-symbols-outlined me-1">add_box</span>
+                    Add Classroom
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>
+                        <span class="material-symbols-outlined me-2">meeting_room</span>
+                        Classrooms
+                    </h2>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#searchModal">
+                            <span class="material-symbols-outlined me-1">search</span>
+                            Advanced Search
+                        </button>
+                        <a href="{{ url_for('classroom_bp.create') }}" class="btn btn-primary">
+                            <span class="material-symbols-outlined me-1">add_box</span>
+                            Add Classroom
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Quick Search -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method="GET" class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" name="search" class="form-control search-box" 
+                                       placeholder="Search classrooms..." 
+                                       value="{{ filters.search_query if filters else '' }}">
+                            </div>
+                            <div class="col-md-2">
+                                <select name="room_type" class="form-select">
+                                    <option value="all">All Types</option>
+                                    <option value="lecture" {{ 'selected' if filters and filters.room_type == 'lecture' }}>Lecture</option>
+                                    <option value="lab" {{ 'selected' if filters and filters.room_type == 'lab' }}>Lab</option>
+                                    <option value="seminar" {{ 'selected' if filters and filters.room_type == 'seminar' }}>Seminar</option>
+                                    <option value="conference" {{ 'selected' if filters and filters.room_type == 'conference' }}>Conference</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="availability_filter" class="form-select">
+                                    <option value="all">All Status</option>
+                                    <option value="available" {{ 'selected' if filters and filters.availability_filter == 'available' }}>Available</option>
+                                    <option value="occupied" {{ 'selected' if filters and filters.availability_filter == 'occupied' }}>Occupied</option>
+                                    <option value="maintenance" {{ 'selected' if filters and filters.availability_filter == 'maintenance' }}>Maintenance</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" name="min_capacity" class="form-control" 
+                                       placeholder="Min capacity" 
+                                       value="{{ filters.min_capacity if filters and filters.min_capacity }}">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-outline-primary w-100">
+                                    <span class="material-symbols-outlined me-1">search</span>
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{ classrooms.total if classrooms else 0 }}</h5>
+                                <p class="card-text">Total Classrooms</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title text-success">
+                                    {{ classrooms.classrooms | selectattr('is_available') | selectattr('is_active') | list | length if classrooms else 0 }}
+                                </h5>
+                                <p class="card-text">Available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title text-warning">
+                                    {{ classrooms.classrooms | rejectattr('is_available') | selectattr('is_active') | list | length if classrooms else 0 }}
+                                </h5>
+                                <p class="card-text">Occupied</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title text-danger">
+                                    {{ classrooms.classrooms | rejectattr('is_active') | list | length if classrooms else 0 }}
+                                </h5>
+                                <p class="card-text">Inactive</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classrooms Grid -->
+                {% if classrooms and classrooms.classrooms %}
+                    <div class="row">
+                        {% for classroom in classrooms.classrooms %}
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card classroom-card {{ classroom | classroom_status_class }}">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h6 class="card-title mb-0">{{ classroom.name }}</h6>
+                                            <span class="badge bg-{{ 'success' if classroom.is_available and classroom.is_active else 'warning' if not classroom.is_available else 'danger' }}">
+                                                {{ classroom.status_display }}
+                                            </span>
+                                        </div>
+                                        
+                                        <p class="text-muted mb-2">
+                                            <strong>Room:</strong> {{ classroom.room_number }}
+                                            {% if classroom.building %}
+                                                <br><strong>Building:</strong> {{ classroom.building }}
+                                            {% endif %}
+                                        </p>
+                                        
+                                        <div class="mb-2">
+                                            <small class="text-muted">Capacity: {{ classroom.current_occupancy }}/{{ classroom.capacity }}</small>
+                                            <div class="capacity-bar">
+                                                <div class="capacity-fill bg-{{ 'success' if classroom.occupancy_percentage < 80 else 'warning' if classroom.occupancy_percentage < 100 else 'danger' }}" 
+                                                     style="width: {{ classroom.occupancy_percentage }}%"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-2">
+                                            <span class="badge bg-secondary">{{ classroom.room_type | title }}</span>
+                                            {% if classroom.department %}
+                                                <span class="badge bg-info">{{ classroom.department }}</span>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="equipment-icons mb-3">
+                                            {{ classroom | equipment_icons }}
+                                        </div>
+                                        
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ url_for('classroom_bp.view', classroom_id=classroom.id) }}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <span class="material-symbols-outlined me-1">visibility</span>
+                                                View
+                                            </a>
+                                            <a href="{{ url_for('classroom_bp.edit', classroom_id=classroom.id) }}" 
+                                               class="btn btn-sm btn-outline-secondary">
+                                                <span class="material-symbols-outlined me-1">edit</span>
+                                                Edit
+                                            </a>
+                                            {% if classroom.is_available and classroom.is_active %}
+                                                <button class="btn btn-sm btn-success reserve-btn" 
+                                                        data-classroom-id="{{ classroom.id }}"
+                                                        data-classroom-name="{{ classroom.name }}">
+                                                    <span class="material-symbols-outlined me-1">event_available</span>
+                                                    Reserve
+                                                </button>
+                                            {% elif not classroom.is_available and classroom.is_active %}
+                                                <button class="btn btn-sm btn-warning release-btn" 
+                                                        data-classroom-id="{{ classroom.id }}"
+                                                        data-classroom-name="{{ classroom.name }}">
+                                                    <span class="material-symbols-outlined me-1">event_busy</span>
+                                                    Release
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if classrooms.pages > 1 %}
+                        <nav aria-label="Classroom pagination">
+                            <ul class="pagination justify-content-center">
+                                {% if classrooms.has_prev %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('classroom_bp.classroom_list', page=classrooms.prev_num, **request.args) }}">Previous</a>
+                                    </li>
+                                {% endif %}
+                                
+                                {% for page_num in range(1, classrooms.pages + 1) %}
+                                    {% if page_num == classrooms.page %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ page_num }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ url_for('classroom_bp.classroom_list', page=page_num, **request.args) }}">{{ page_num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if classrooms.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('classroom_bp.classroom_list', page=classrooms.next_num, **request.args) }}">Next</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <span class="material-symbols-outlined" style="font-size: 4rem; color: #6c757d;">meeting_room</span>
+                        <h4 class="mt-3 text-muted">No Classrooms Found</h4>
+                        <p class="text-muted">Try adjusting your search criteria or add a new classroom.</p>
+                        <a href="{{ url_for('classroom_bp.create') }}" class="btn btn-primary">
+                            <span class="material-symbols-outlined me-1">add_box</span>
+                            Add First Classroom
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Reserve Modal -->
+    <div class="modal fade" id="reserveModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reserve Classroom</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="reserveForm" method="POST">
+                    <div class="modal-body">
+                        <p>Reserve <strong id="reserveClassroomName"></strong>?</p>
+                        <div class="mb-3">
+                            <label for="occupancyCount" class="form-label">Number of People (Optional)</label>
+                            <input type="number" class="form-control" id="occupancyCount" name="occupancy_count" min="1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Reserve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Release Modal -->
+    <div class="modal fade" id="releaseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Release Classroom</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="releaseForm" method="POST">
+                    <div class="modal-body">
+                        <p>Are you sure you want to release <strong id="releaseClassroomName"></strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning">Release</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Reserve functionality
+        document.querySelectorAll('.reserve-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const classroomId = this.dataset.classroomId;
+                const classroomName = this.dataset.classroomName;
+                
+                document.getElementById('reserveClassroomName').textContent = classroomName;
+                document.getElementById('reserveForm').action = `/classrooms/${classroomId}/reserve`;
+                
+                new bootstrap.Modal(document.getElementById('reserveModal')).show();
+            });
+        });
+
+        // Release functionality
+        document.querySelectorAll('.release-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const classroomId = this.dataset.classroomId;
+                const classroomName = this.dataset.classroomName;
+                
+                document.getElementById('releaseClassroomName').textContent = classroomName;
+                document.getElementById('releaseForm').action = `/classrooms/${classroomId}/release`;
+                
+                new bootstrap.Modal(document.getElementById('releaseModal')).show();
+            });
+        });
+    </script>
+</body>
+</html>

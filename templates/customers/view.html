@@ -1,0 +1,568 @@
+{% extends "base.html" %}
+
+{% block title %}{{ customer.full_name }} - Customer Details{% endblock %}
+{% block headerTitle %}Customer Details{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">
+                                <span class="material-symbols-outlined">person</span>
+                                {{ customer.full_name }}
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('index') }}">
+                                        <span class="material-symbols-outlined">home</span>
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('customer_bp.customer_list') }}">
+                                        <span class="material-symbols-outlined">group</span>
+                                        Customers
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">{{ customer.full_name }}</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Customer Actions Row -->
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('customer_bp.edit', customer_id=customer.id) }}" class="btn btn-primary">
+                                    <span class="material-symbols-outlined">edit</span>
+                                    Edit Customer
+                                </a>
+                                
+                                <form method="POST" action="{{ url_for('customer_bp.toggle_status', customer_id=customer.id) }}" style="display: inline;">
+                                    {% if customer.is_active %}
+                                        <button type="submit" class="btn btn-warning">
+                                            <span class="material-symbols-outlined">visibility_off</span>
+                                            Deactivate
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-success">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                            Activate
+                                        </button>
+                                    {% endif %}
+                                </form>
+                                
+                                {% if not customer.is_verified %}
+                                    <form method="POST" action="{{ url_for('customer_bp.verify', customer_id=customer.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-info">
+                                            <span class="material-symbols-outlined">verified</span>
+                                            Verify
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('customer_bp.unverify', customer_id=customer.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-outline-info">
+                                            <span class="material-symbols-outlined">pending</span>
+                                            Unverify
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                
+                                <form method="POST" action="{{ url_for('customer_bp.delete', customer_id=customer.id) }}" 
+                                      style="display: inline;" 
+                                      onsubmit="return confirm('Are you sure you want to delete this customer?');">
+                                    <button type="submit" class="btn btn-danger">
+                                        <span class="material-symbols-outlined">delete</span>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Basic Information -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">person</span>
+                                        Basic Information
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Full Name:</dt>
+                                        <dd class="col-sm-8">{{ customer.full_name }}</dd>
+                                        
+                                        <dt class="col-sm-4">Initials:</dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge badge-secondary">{{ customer.initials }}</span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">Email:</dt>
+                                        <dd class="col-sm-8">
+                                            <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
+                                        </dd>
+                                        
+                                        {% if customer.phone %}
+                                        <dt class="col-sm-4">Phone:</dt>
+                                        <dd class="col-sm-8">
+                                            <a href="tel:{{ customer.phone }}">{{ customer.phone }}</a>
+                                        </dd>
+                                        {% endif %}
+                                        
+                                        <dt class="col-sm-4">Language:</dt>
+                                        <dd class="col-sm-8">{{ customer.preferred_language }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Information -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">info</span>
+                                        Status & Information
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Status:</dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge {% if customer.is_active %}badge-success{% else %}badge-danger{% endif %}">
+                                                {{ customer.status_label }}
+                                            </span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">Newsletter:</dt>
+                                        <dd class="col-sm-8">
+                                            {% if customer.newsletter_subscribed %}
+                                                <span class="badge badge-info">Subscribed</span>
+                                            {% else %}
+                                                <span class="badge badge-secondary">Not Subscribed</span>
+                                            {% endif %}
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">Account Age:</dt>
+                                        <dd class="col-sm-8">{{ customer.account_age_days }} days</dd>
+                                        
+                                        <dt class="col-sm-4">Customer ID:</dt>
+                                        <dd class="col-sm-8">#{{ customer.id }}</dd>
+                                        
+                                        <dt class="col-sm-4">UUID:</dt>
+                                        <dd class="col-sm-8">
+                                            <code>{{ customer.uuid }}</code>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Address Information -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">location_on</span>
+                                        Address Information
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    {% if customer.address or customer.city or customer.state or customer.zip_code %}
+                                        <address>
+                                            {% if customer.address %}{{ customer.address }}<br>{% endif %}
+                                            {% if customer.city %}{{ customer.city }}{% if customer.state %}, {{ customer.state }}{% endif %}{% if customer.zip_code %} {{ customer.zip_code }}{% endif %}<br>{% endif %}
+                                            {% if customer.country %}{{ customer.country }}{% endif %}
+                                        </address>
+                                        
+                                        <p><strong>Full Address:</strong><br>{{ customer.full_address }}</p>
+                                    {% else %}
+                                        <p class="text-muted">No address information provided.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Timestamps -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">schedule</span>
+                                        Timestamps
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Created:</dt>
+                                        <dd class="col-sm-8">{{ customer.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</dd>
+                                        
+                                        <dt class="col-sm-4">Updated:</dt>
+                                        <dd class="col-sm-8">{{ customer.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</dd>
+                                        
+                                        {% if customer.last_login_at %}
+                                        <dt class="col-sm-4">Last Login:</dt>
+                                        <dd class="col-sm-8">{{ customer.last_login_at.strftime('%Y-%m-%d %H:%M:%S') }}</dd>
+                                        {% else %}
+                                        <dt class="col-sm-4">Last Login:</dt>
+                                        <dd class="col-sm-8 text-muted">Never</dd>
+                                        {% endif %}
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if customer.tags or customer.notes %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">note</span>
+                                        Additional Information
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    {% if customer.tags %}
+                                    <div class="mb-3">
+                                        <strong>Tags:</strong><br>
+                                        {% for tag in customer.tags_list %}
+                                            <span class="badge badge-primary mr-1">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if customer.notes %}
+                                    <div>
+                                        <strong>Notes:</strong><br>
+                                        <p>{{ customer.notes }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+                    {% endif %}
+                </button>
+            </form>
+            <a href="{{ url_for('customer_bp.customer_list') }}" class="btn btn-secondary">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back to List
+            </a>
+        </div>
+    </div>
+    
+    <div class="customer-details">
+        <div class="detail-section">
+            <h4 class="section-title">
+                <span class="material-symbols-outlined">person</span>
+                Contact Information
+            </h4>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <label>Email Address</label>
+                    <div class="detail-value">
+                        <span class="material-symbols-outlined">email</span>
+                        <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
+                    </div>
+                </div>
+                
+                {% if customer.phone %}
+                <div class="detail-item">
+                    <label>Phone Number</label>
+                    <div class="detail-value">
+                        <span class="material-symbols-outlined">phone</span>
+                        <a href="tel:{{ customer.phone }}">{{ customer.phone }}</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if customer.address or customer.city or customer.state or customer.zip_code %}
+        <div class="detail-section">
+            <h4 class="section-title">
+                <span class="material-symbols-outlined">location_on</span>
+                Address Information
+            </h4>
+            <div class="address-block">
+                {% if customer.address %}
+                    <div class="address-line">{{ customer.address }}</div>
+                {% endif %}
+                
+                <div class="address-line">
+                    {% if customer.city %}{{ customer.city }}{% endif %}{% if customer.city and customer.state %}, {% endif %}{% if customer.state %}{{ customer.state }}{% endif %} {% if customer.zip_code %}{{ customer.zip_code }}{% endif %}
+                </div>
+                
+                {% if customer.country %}
+                    <div class="address-line">{{ customer.country }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="detail-section">
+            <h4 class="section-title">
+                <span class="material-symbols-outlined">schedule</span>
+                Account Information
+            </h4>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <label>Customer ID</label>
+                    <div class="detail-value">#{{ customer.id }}</div>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Created Date</label>
+                    <div class="detail-value">
+                        {{ customer.created_at.strftime('%B %d, %Y at %I:%M %p') if customer.created_at else 'N/A' }}
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <label>Last Updated</label>
+                    <div class="detail-value">
+                        {{ customer.updated_at.strftime('%B %d, %Y at %I:%M %p') if customer.updated_at else 'N/A' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.customer-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.customer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.customer-info h2 {
+    margin: 0 0 10px 0;
+    color: #1f2937;
+    font-size: 1.8rem;
+}
+
+.customer-status {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background: #f0fdf4;
+    color: #22c55e;
+}
+
+.status-badge.inactive {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.status-badge.verified {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.status-badge.unverified {
+    background: #fffbeb;
+    color: #f59e0b;
+}
+
+.customer-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-outline {
+    background: white;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+}
+
+.btn-outline:hover {
+    background: #f9fafb;
+    color: #374151;
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+}
+
+.customer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-section {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1f2937;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-item label {
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.detail-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1f2937;
+    font-size: 1rem;
+}
+
+.detail-value a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.detail-value a:hover {
+    text-decoration: underline;
+}
+
+.detail-value .material-symbols-outlined {
+    font-size: 18px;
+    color: #6b7280;
+}
+
+.address-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.address-line {
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .customer-header {
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+    }
+    
+    .customer-actions {
+        justify-content: stretch;
+    }
+    
+    .btn {
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

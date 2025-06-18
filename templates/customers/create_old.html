@@ -1,0 +1,377 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Customer{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">
+                                <span class="material-symbols-outlined">person_add</span>
+                                Create Customer
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('index') }}">
+                                        <span class="material-symbols-outlined">home</span>
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('customer_bp.customer_list') }}">
+                                        <span class="material-symbols-outlined">group</span>
+                                        Customers
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">Create</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">person_add</span>
+                                        New Customer Information
+                                    </h3>
+                                </div>
+
+<div class="form-container">
+    <div class="form-card">
+        <form method="POST" class="customer-form">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-grid">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h5 class="section-title">
+                        <span class="material-symbols-outlined">person</span>
+                        Basic Information
+                    </h5>
+                    
+                    <div class="form-group">
+                        {{ form.first_name.label(class="form-label") }}
+                        {{ form.first_name(class="form-control" + (" is-invalid" if form.first_name.errors else "")) }}
+                        {% if form.first_name.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.first_name.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.last_name.label(class="form-label") }}
+                        {{ form.last_name(class="form-control" + (" is-invalid" if form.last_name.errors else "")) }}
+                        {% if form.last_name.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.last_name.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.phone.label(class="form-label") }}
+                        {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else "")) }}
+                        {% if form.phone.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.phone.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Address Information -->
+                <div class="form-section">
+                    <h5 class="section-title">
+                        <span class="material-symbols-outlined">location_on</span>
+                        Address Information
+                    </h5>
+                    
+                    <div class="form-group">
+                        {{ form.address.label(class="form-label") }}
+                        {{ form.address(class="form-control" + (" is-invalid" if form.address.errors else ""), rows="3") }}
+                        {% if form.address.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.address.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.city.label(class="form-label") }}
+                        {{ form.city(class="form-control" + (" is-invalid" if form.city.errors else "")) }}
+                        {% if form.city.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.city.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.state.label(class="form-label") }}
+                            {{ form.state(class="form-control" + (" is-invalid" if form.state.errors else "")) }}
+                            {% if form.state.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.state.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.zip_code.label(class="form-label") }}
+                            {{ form.zip_code(class="form-control" + (" is-invalid" if form.zip_code.errors else "")) }}
+                            {% if form.zip_code.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.zip_code.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.country.label(class="form-label") }}
+                        {{ form.country(class="form-control" + (" is-invalid" if form.country.errors else "")) }}
+                        {% if form.country.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.country.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Options -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <span class="material-symbols-outlined">settings</span>
+                    Preferences & Status
+                </h5>
+                
+                <div class="form-group">
+                    {{ form.preferred_language.label(class="form-label") }}
+                    {{ form.preferred_language(class="form-control") }}
+                </div>
+                
+                <div class="form-check">
+                    {{ form.newsletter_subscribed(class="form-check-input") }}
+                    {{ form.newsletter_subscribed.label(class="form-check-label") }}
+                </div>
+                
+                <div class="form-check">
+                    {{ form.is_active(class="form-check-input") }}
+                    {{ form.is_active.label(class="form-check-label") }}
+                </div>
+                
+                <div class="form-check">
+                    {{ form.is_verified(class="form-check-input") }}
+                    {{ form.is_verified.label(class="form-check-label") }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.tags.label(class="form-label") }}
+                    {{ form.tags(class="form-control") }}
+                    <small class="form-text text-muted">Separate multiple tags with commas (e.g., VIP, Wholesale)</small>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.notes.label(class="form-label") }}
+                    {{ form.notes(class="form-control", rows="3") }}
+                    <small class="form-text text-muted">Internal notes about this customer</small>
+                </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('customer_bp.customer_list') }}" class="btn btn-secondary">
+                    <span class="material-symbols-outlined">cancel</span>
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-card {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1f2937;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-control.is-invalid {
+    border-color: #ef4444;
+}
+
+.invalid-feedback {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-check-input {
+    margin: 0;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    text-decoration: none;
+    color: #334155;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+</style>

@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}Order Management{% endblock %}
+
+{% block headerTitle %}Order Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customers.css') }}">
+{% endblock %}
+
+{% block content %}
+<body class="bg-light">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a class="navbar-brand" href="/">
+                <span class="material-symbols-outlined me-2">store</span>
+                Ecommerce
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/customers/create">
+                    <span class="material-symbols-outlined me-1">person_add</span>
+                    Add Customer@@@@@@
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="header-flex mb-4">
+                    <h2>
+                        <span class="material-symbols-outlined me-2">group</span>
+                        Customers
+                    </h2>
+                    <div class="header-actions">
+                        <button class="btn-outline-primary" id="openSearchModal">
+                            <span class="material-symbols-outlined me-1">search</span>
+                            Advanced Search
+                        </button>
+                        <a href="/customers/create" class="btn-primary">
+                            <span class="material-symbols-outlined me-1">person_add</span>
+                            Add Customer
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Search -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <span class="material-symbols-outlined">search</span>
+                            </span>
+                            <input type="text" 
+                                   class="search-box" 
+                                   placeholder="Search customers by name or email..."
+                                   value="{{ search }}"
+                                   id="quickSearch">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="statusFilter">
+                            <option value="all" {% if status == 'all' %}selected{% endif %}>All Status</option>
+                            <option value="active" {% if status == 'active' %}selected{% endif %}>Active Only</option>
+                            <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactive Only</option>
+                            <option value="verified" {% if status == 'verified' %}selected{% endif %}>Verified Only</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn-outline-secondary w-100" onclick="clearFilters()">
+                            <span class="material-symbols-outlined me-1">clear</span>
+                            Clear Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Customer Cards -->
+                <div class="row">
+                    {{customers}}
+                    {% if customers and customers.customers %}
+                        {% for customer in customers.customers %}
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="customer-card h-100">
+                                <div class="card-header-flex">
+                                    <h6 class="mb-0">{{ customer.full_name }}</h6>
+                                    <div class="status-badges">
+                                        {% if customer.is_active %}
+                                            <span class="badge badge-success">Active</span>
+                                        {% else %}
+                                            <span class="badge badge-danger">Inactive</span>
+                                        {% endif %}
+                                        {% if customer.is_verified %}
+                                            <span class="badge badge-info">Verified</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">email</span>
+                                            {{ customer.email }}
+                                        </small>
+                                    </div>
+                                    {% if customer.phone %}
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">phone</span>
+                                            {{ customer.phone }}
+                                        </small>
+                                    </div>
+                                    {% endif %}
+                                    {% if customer.full_address %}
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">location_on</span>
+                                            {{ customer.city }}, {{ customer.state }}
+                                        </small>
+                                    </div>
+                                    {% endif %}
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">schedule</span>
+                                            Joined {{ customer.created_at.strftime('%b %d, %Y') }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer-flex">
+                                    <div class="btn-group w-100" role="group">
+                                        <a href="/customers/{{ customer.id }}" 
+                                           class="btn-outline-primary btn-sm">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">visibility</span>
+                                            View
+                                        </a>
+                                        <a href="/customers/{{ customer.id }}/edit" 
+                                           class="btn-outline-secondary btn-sm">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">edit</span>
+                                            Edit
+                                        </a>
+                                        {% if customer.is_active %}
+                                        <button class="btn-outline-warning btn-sm" 
+                                                onclick="deactivateCustomer({{ customer.id }})">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">pause</span>
+                                            Deactivate
+                                        </button>
+                                        {% else %}
+                                        <button class="btn-outline-success btn-sm" 
+                                                onclick="activateCustomer({{ customer.id }})">
+                                            <span class="material-symbols-outlined me-1" style="font-size: 16px;">play_arrow</span>
+                                            Activate
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="text-center py-5">
+                                <span class="material-symbols-outlined display-1 text-muted">group_off</span>
+                                <h4 class="text-muted mt-3">No customers found</h4>
+                                <p class="text-muted">Start by adding your first customer</p>
+                                <a href="/customers/create" class="btn-primary">
+                                    <span class="material-symbols-outlined me-1">person_add</span>
+                                    Add First Customer
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Pagination -->
+                {% if customers and customers.pages > 1 %}
+                <nav aria-label="Customer pagination">
+                    <ul class="pagination justify-content-center">
+                        {% if customers.page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ customers.page - 1 }}&search={{ search_query }}&status={{ status_filter }}">Previous</a>
+                        </li>
+                        {% endif %}
+                        {% for page_num in range(1, customers.pages + 1) %}
+                            {% if page_num == customers.page %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            {% elif page_num <= 3 or page_num > customers.pages - 3 or (page_num >= customers.page - 2 and page_num <= customers.page + 2) %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_num }}&search={{ search_query }}&status={{ status_filter }}">{{ page_num }}</a>
+                            </li>
+                            {% elif page_num == 4 or page_num == customers.pages - 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if customers.page < customers.pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ customers.page + 1 }}&search={{ search_query }}&status={{ status_filter }}">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    <div class="text-center mt-2">
+                        <small class="text-muted">
+                            Showing {{ ((customers.page - 1) * customers.per_page) + 1 }} to 
+                            {{ customers.page * customers.per_page if customers.page * customers.per_page < customers.total else customers.total }} 
+                            of {{ customers.total }} customers
+                        </small>
+                    </div>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quick search functionality
+        let searchTimeout;
+        document.getElementById('quickSearch').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const search = this.value;
+                const status = document.getElementById('statusFilter').value;
+                window.location.href = `?search=${encodeURIComponent(search)}&status=${status}`;
+            }, 500);
+        });
+
+        // Status filter
+        document.getElementById('statusFilter').addEventListener('change', function() {
+            const search = document.getElementById('quickSearch').value;
+            const status = this.value;
+            window.location.href = `?search=${encodeURIComponent(search)}&status=${status}`;
+        });
+
+        // Clear filters
+        function clearFilters() {
+            window.location.href = '/customers/';
+        }
+
+        // Customer actions
+        function activateCustomer(customerId) {
+            if (confirm('Are you sure you want to activate this customer?')) {
+                fetch(`/customers/${customerId}/activate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while activating the customer.');
+                });
+            }
+        }
+
+        function deactivateCustomer(customerId) {
+            if (confirm('Are you sure you want to deactivate this customer?')) {
+                fetch(`/customers/${customerId}/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deactivating the customer.');
+                });
+            }
+        }
+    </script>
+</body>
+{% endblock %}
+
+

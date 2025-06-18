@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Customer - {{ customer.full_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">
+                                <span class="material-symbols-outlined">person_edit</span>
+                                Edit Customer
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('index') }}">
+                                        <span class="material-symbols-outlined">home</span>
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('customer_bp.customer_list') }}">
+                                        <span class="material-symbols-outlined">group</span>
+                                        Customers
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('customer_bp.view', customer_id=customer.id) }}">
+                                        {{ customer.full_name }}
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">Edit</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">edit</span>
+                                        Edit Customer Information
+                                    </h3>
+                                </div>
+                                
+                                <form method="POST" class="card-body">
+                                    {{ form.hidden_tag() }}
+                                    
+                                    <div class="row">
+                                        <!-- Basic Information -->
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">
+                                                <span class="material-symbols-outlined">person</span>
+                                                Basic Information
+                                            </h5>
+                                            
+                                            <div class="form-group">
+                                                {{ form.first_name.label(class="form-label") }}
+                                                {{ form.first_name(class="form-control") }}
+                                                {% if form.first_name.errors %}
+                                                    <div class="text-danger">
+                                                        {% for error in form.first_name.errors %}
+                                                            <small>{{ error }}</small>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                {{ form.last_name.label(class="form-label") }}
+                                                {{ form.last_name(class="form-control") }}
+                                                {% if form.last_name.errors %}
+                                                    <div class="text-danger">
+                                                        {% for error in form.last_name.errors %}
+                                                            <small>{{ error }}</small>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                {{ form.email.label(class="form-label") }}
+                                                {{ form.email(class="form-control") }}
+                                                {% if form.email.errors %}
+                                                    <div class="text-danger">
+                                                        {% for error in form.email.errors %}
+                                                            <small>{{ error }}</small>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                {{ form.phone.label(class="form-label") }}
+                                                {{ form.phone(class="form-control") }}
+                                                {% if form.phone.errors %}
+                                                    <div class="text-danger">
+                                                        {% for error in form.phone.errors %}
+                                                            <small>{{ error }}</small>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Address Information -->
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">
+                                                <span class="material-symbols-outlined">location_on</span>
+                                                Address Information
+                                            </h5>
+                                            
+                                            <div class="form-group">
+                                                {{ form.address.label(class="form-label") }}
+                                                {{ form.address(class="form-control") }}
+                                                {% if form.address.errors %}
+                                                    <div class="text-danger">
+                                                        {% for error in form.address.errors %}
+                                                            <small>{{ error }}</small>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form.city.label(class="form-label") }}
+                                                        {{ form.city(class="form-control") }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form.state.label(class="form-label") }}
+                                                        {{ form.state(class="form-control") }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form.zip_code.label(class="form-label") }}
+                                                        {{ form.zip_code(class="form-control") }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {{ form.country.label(class="form-label") }}
+                                                        {{ form.country(class="form-control") }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <!-- Preferences -->
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">
+                                                <span class="material-symbols-outlined">settings</span>
+                                                Preferences
+                                            </h5>
+                                            
+                                            <div class="form-group">
+                                                {{ form.preferred_language.label(class="form-label") }}
+                                                {{ form.preferred_language(class="form-control") }}
+                                            </div>
+                                            
+                                            <div class="form-check">
+                                                {{ form.newsletter_subscribed(class="form-check-input") }}
+                                                {{ form.newsletter_subscribed.label(class="form-check-label") }}
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Status & Admin -->
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">
+                                                <span class="material-symbols-outlined">admin_panel_settings</span>
+                                                Status & Admin
+                                            </h5>
+                                            
+                                            <div class="form-check">
+                                                {{ form.is_active(class="form-check-input") }}
+                                                {{ form.is_active.label(class="form-check-label") }}
+                                            </div>
+                                            
+                                            <div class="form-check">
+                                                {{ form.is_verified(class="form-check-input") }}
+                                                {{ form.is_verified.label(class="form-check-label") }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <!-- Additional Information -->
+                                        <div class="col-md-12">
+                                            <h5 class="mb-3">
+                                                <span class="material-symbols-outlined">note</span>
+                                                Additional Information
+                                            </h5>
+                                            
+                                            <div class="form-group">
+                                                {{ form.tags.label(class="form-label") }}
+                                                {{ form.tags(class="form-control") }}
+                                                <small class="form-text text-muted">Separate multiple tags with commas</small>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                {{ form.notes.label(class="form-label") }}
+                                                {{ form.notes(class="form-control") }}
+                                                <small class="form-text text-muted">Internal notes about this customer</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            <span class="material-symbols-outlined">save</span>
+                                            Update Customer
+                                        </button>
+                                        <a href="{{ url_for('customer_bp.view', customer_id=customer.id) }}" class="btn btn-secondary">
+                                            <span class="material-symbols-outlined">cancel</span>
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Customer Info Sidebar -->
+                        <div class="col-md-4">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <span class="material-symbols-outlined">info</span>
+                                        Customer Info
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">ID:</dt>
+                                        <dd class="col-sm-8">#{{ customer.id }}</dd>
+                                        
+                                        <dt class="col-sm-4">UUID:</dt>
+                                        <dd class="col-sm-8">
+                                            <code>{{ customer.uuid[:8] }}...</code>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">Status:</dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge {% if customer.is_active %}badge-success{% else %}badge-danger{% endif %}">
+                                                {{ customer.status_label }}
+                                            </span>
+                                        </dd>
+                                        
+                                        <dt class="col-sm-4">Created:</dt>
+                                        <dd class="col-sm-8">{{ customer.created_at.strftime('%Y-%m-%d %H:%M') }}</dd>
+                                        
+                                        <dt class="col-sm-4">Updated:</dt>
+                                        <dd class="col-sm-8">{{ customer.updated_at.strftime('%Y-%m-%d %H:%M') }}</dd>
+                                        
+                                        {% if customer.last_login_at %}
+                                        <dt class="col-sm-4">Last Login:</dt>
+                                        <dd class="col-sm-8">{{ customer.last_login_at.strftime('%Y-%m-%d %H:%M') }}</dd>
+                                        {% endif %}
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

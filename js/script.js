@@ -1,4 +1,3 @@
-
 function toggleDropdown(section) {
   const sidebar = document.getElementById("sidebar");
   if (sidebar.classList.contains("collapsed")) return; // Prevent toggle when collapsed
@@ -384,3 +383,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // window.Alpine = Alpine
 // Alpine.start()
+
+// Flash Messages Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-dismiss flash messages after 5 seconds
+    const alerts = document.querySelectorAll('.alert');
+    
+    alerts.forEach(function(alert) {
+        // Add close button functionality
+        const closeBtn = alert.querySelector('.btn-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                dismissAlert(alert);
+            });
+        }
+        
+        // Auto-dismiss after 5 seconds for success messages
+        if (alert.classList.contains('alert-success')) {
+            setTimeout(function() {
+                if (document.body.contains(alert)) {
+                    dismissAlert(alert);
+                }
+            }, 5000);
+        }
+        
+        // Auto-dismiss after 8 seconds for error messages
+        if (alert.classList.contains('alert-error') || alert.classList.contains('alert-danger')) {
+            setTimeout(function() {
+                if (document.body.contains(alert)) {
+                    dismissAlert(alert);
+                }
+            }, 8000);
+        }
+    });
+});
+
+function dismissAlert(alert) {
+    alert.classList.add('fade-out');
+    setTimeout(function() {
+        if (alert.parentNode) {
+            alert.parentNode.removeChild(alert);
+        }
+    }, 300); // Wait for fade-out animation
+}
+
+// Function to show flash message programmatically (for AJAX calls)
+function showFlashMessage(message, category = 'info') {
+    const flashContainer = document.querySelector('.flash-messages');
+    if (!flashContainer) return;
+    
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${category === 'error' ? 'danger' : category} alert-dismissible fade show`;
+    alertDiv.setAttribute('role', 'alert');
+    
+    let iconName = 'info';
+    if (category === 'success') iconName = 'check_circle';
+    else if (category === 'error') iconName = 'error';
+    else if (category === 'warning') iconName = 'warning';
+    
+    alertDiv.innerHTML = `
+        <span class="material-symbols-outlined alert-icon">${iconName}</span>
+        ${message}
+        <button type="button" class="btn-close" aria-label="Close">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    `;
+    
+    flashContainer.appendChild(alertDiv);
+    
+    // Add close functionality
+    const closeBtn = alertDiv.querySelector('.btn-close');
+    closeBtn.addEventListener('click', function() {
+        dismissAlert(alertDiv);
+    });
+    
+    // Auto-dismiss
+    const dismissTime = category === 'success' ? 5000 : 8000;
+    setTimeout(function() {
+        if (document.body.contains(alertDiv)) {
+            dismissAlert(alertDiv);
+        }
+    }, dismissTime);
+}

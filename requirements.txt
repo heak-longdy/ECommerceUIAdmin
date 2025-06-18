@@ -8,6 +8,16 @@ click>=8.0.0
 itsdangerous>=2.1.0
 MarkupSafe>=2.1.0
 
+# Database dependencies
+psycopg2-binary>=2.9.0  # PostgreSQL adapter
+SQLAlchemy>=2.0.0       # ORM (optional but recommended)
+Flask-SQLAlchemy>=3.0.0 # Flask-SQLAlchemy integration
+
+# Forms and validation
+Flask-WTF>=1.1.0        # Flask forms integration
+WTForms>=3.0.0          # Forms library
+email-validator>=2.0.0  # Email validation for WTForms
+
 # Optional: For advanced features
 Pillow>=10.0.0
 requests>=2.31.0

@@ -1,6 +1,6 @@
 # Ecommerce Dashboard
 
-A modern, responsive ecommerce dashboard built with Flask, featuring a collapsible sidebar, dynamic topbar, and smooth animations.
+A modern, responsive ecommerce dashboard built with Flask, featuring a collapsible sidebar, dynamic topbar, smooth animations, and PostgreSQL database integration.
 
 ## Features
 
@@ -9,34 +9,50 @@ A modern, responsive ecommerce dashboard built with Flask, featuring a collapsib
 - **Dynamic Topbar**: Changes appearance based on scroll position
 - **Component-based Architecture**: Modular HTML templates using Jinja2
 - **Modern Styling**: CSS Grid/Flexbox layouts with Material Design icons
+- **PostgreSQL Integration**: Robust database connectivity with both ORM and raw SQL support
+- **RESTful API**: Complete user management endpoints
 
 ## Tech Stack
 
 - **Backend**: Flask (Python)
+- **Database**: PostgreSQL with psycopg2 and SQLAlchemy
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
 - **Templating**: Jinja2
 - **Icons**: Material Symbols
 - **Fonts**: DM Sans
 
-## Project Structure
+## Database Setup
 
+### 1. Install PostgreSQL
+**macOS (using Homebrew):**
+```bash
+brew install postgresql
+brew services start postgresql
 ```
-├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── templates/            # Jinja2 templates
-│   ├── base.html         # Base template
-│   ├── index.html        # Homepage
-│   ├── sidebar.html      # Sidebar component
-│   └── order/           # Order management templates
-├── css/                  # Stylesheets
-│   ├── styles.css       # Main styles
-│   ├── form.css         # Form styling
-│   ├── table.css        # Table styling
-│   └── order.css        # Order-specific styles
-├── js/                   # JavaScript files
-│   ├── script.js        # Main application logic
-│   └── purchase-order.js # Order management logic
-└── html/                # Static HTML files
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+```
+
+### 2. Create Database
+```bash
+# Connect to PostgreSQL
+psql -U postgres
+
+# Create database and user
+CREATE DATABASE ecommerce_db;
+CREATE USER ecommerce_user WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE ecommerce_db TO ecommerce_user;
+\q
+```
+
+### 3. Configure Environment
+```bash
+cp .env.example .env
+# Edit .env with your database credentials
 ```
 
 ## Installation
@@ -58,53 +74,52 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Run the application:
+4. Setup database:
 ```bash
-python app.py
+python setup.py
 ```
 
-5. Open your browser and navigate to `http://localhost:5000`
-
-## Usage
-
-### Sidebar Navigation
-- Click the toggle button to collapse/expand the sidebar
-- Hover over collapsed items to see tooltips
-- Navigate through different sections using the dropdown menus
-
-### Dashboard Features
-- Scroll down in the main content area to see the topbar animation
-- Responsive design adapts to different screen sizes
-- Clean, modern interface with smooth transitions
-
-## Development
-
-### Running in Development Mode
+5. Run the application:
 ```bash
 python app.py
+# Or run the example API:
+python example_app.py
 ```
 
-### File Structure
-- `templates/base.html`: Main layout template
-- `templates/sidebar.html`: Reusable sidebar component
-- `css/styles.css`: Main stylesheet with responsive design
-- `js/script.js`: Core JavaScript functionality
+6. Open your browser and navigate to `http://localhost:5000`
 
-## Browser Support
+## Database Usage
 
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
+### Connection Methods
 
-## Contributing
+**Method 1: Direct psycopg2**
+```python
+from src.db import PostgreSQLConnection
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+db = PostgreSQLConnection()
+if db.connect():
+    users = db.execute_query("SELECT * FROM users;")
+    db.disconnect()
+```
 
-## License
+**Method 2: SQLAlchemy ORM**
+```python
+from src.db import get_db_session
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+with get_db_session() as session:
+    # Use SQLAlchemy models here
+    pass
+```
+
+### API Endpoints
+- `GET /` - Health check
+- `GET /health/db` - Database connection test
+- `GET /users` - Get all users
+- `POST /users` - Create new user
+- `GET /users/<id>` - Get user by ID
+
+### Test Database Connection
+```python
+from src.db import test_connection
+print("Connected!" if test_connection() else "Failed!")
+```

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ecommerce{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script> -->
     <script defer src="{{ url_for('static', filename='js/alpine.js') }}"></script>
     {% block extra_css %}{% endblock %}
 </head>
@@ -37,6 +36,31 @@
         <!-- <button class="add-app-btn">+ Add app</button> -->
         {% include 'contentHeader.html' %}
         <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzHMDlwRCHOHZP_tX7jRYNxV8W8MpNEog45w&s" alt="User Avatar" class="user-avatar"> -->
+    </div>
+    
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        {% if category == 'success' %}
+                            <span class="material-symbols-outlined alert-icon">check_circle</span>
+                        {% elif category == 'error' %}
+                            <span class="material-symbols-outlined alert-icon">error</span>
+                        {% elif category == 'warning' %}
+                            <span class="material-symbols-outlined alert-icon">warning</span>
+                        {% else %}
+                            <span class="material-symbols-outlined alert-icon">info</span>
+                        {% endif %}
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
     
     <!-- Main content area -->
