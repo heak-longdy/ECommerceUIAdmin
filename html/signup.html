@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create New Account - Anywhere App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .main-container {
+      display: flex;
+      width: 1000px;
+      height: 700px;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+    
+    .form-section {
+      flex: 1;
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    
+    .logo-dot {
+      width: 12px;
+      height: 12px;
+      background: #3b82f6;
+      border-radius: 50%;
+    }
+    
+    .nav-menu {
+      display: flex;
+      gap: 32px;
+    }
+    
+    .nav-menu a {
+      text-decoration: none;
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+    
+    .nav-menu a.active {
+      color: #1e293b;
+    }
+    
+    .form-content {
+      flex: 1;
+    }
+    
+    .start-label {
+      font-size: 13px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    
+    .main-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    
+    .main-title .accent {
+      color: #3b82f6;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+    
+    .subtitle a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #ffffff;
+      transition: all 0.2s;
+      color: #1e293b;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .form-input::placeholder {
+      color: #94a3b8;
+    }
+    
+    .input-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: #94a3b8;
+    }
+    
+    .password-field {
+      position: relative;
+    }
+    
+    .password-field input {
+      padding-right: 50px;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #94a3b8;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    
+    .btn-secondary {
+      background: #f8fafc;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn-secondary:hover {
+      background: #f1f5f9;
+    }
+    
+    .btn-primary {
+      background: #3b82f6;
+      color: #ffffff;
+    }
+    
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+    
+    .image-section {
+      flex: 1;
+      position: relative;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .mountain-bg {
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%23a7c7e7"/><stop offset="100%" style="stop-color:%23f0f8ff"/></linearGradient><linearGradient id="mountain1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%234a90a4"/><stop offset="100%" style="stop-color:%2383c5be"/></linearGradient><linearGradient id="mountain2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%23547980"/><stop offset="100%" style="stop-color:%236b9080"/></linearGradient><linearGradient id="water" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%23a7c7e7"/><stop offset="100%" style="stop-color:%2383c5be"/></linearGradient></defs><rect width="800" height="600" fill="url(%23sky)"/><polygon points="0,400 200,200 400,300 600,150 800,250 800,600 0,600" fill="url(%23mountain1)"/><polygon points="100,450 350,250 500,350 700,200 800,300 800,600 0,600" fill="url(%23mountain2)"/><rect y="450" width="800" height="150" fill="url(%23water)"/><ellipse cx="400" cy="525" rx="350" ry="25" fill="%23ffffff" opacity="0.3"/></svg>') center/cover;
+      position: relative;
+    }
+    
+    .overlay-shape {
+      position: absolute;
+      left: -100px;
+      top: 0;
+      width: 200px;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 0 150px 150px 0;
+    }
+    
+    .brand-mark {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      color: #ffffff;
+      font-size: 32px;
+      font-weight: 700;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="form-section">
+      <div class="header">
+        <div class="logo">
+          <div class="logo-dot"></div>
+          Anywhere app.
+        </div>
+        <nav class="nav-menu">
+          <a href="#">Home</a>
+          <a href="#" class="active">Join</a>
+        </nav>
+      </div>
+      
+      <div class="form-content">
+        <div class="start-label">Start for free</div>
+        <h1 class="main-title">Create new account<span class="accent">.</span></h1>
+        <p class="subtitle">Already A Member? <a href="#">Log In</a></p>
+        
+        <form class="form-fields">
+          <div class="form-row">
+            <div class="input-wrapper">
+              <input type="text" class="form-input" placeholder="First name" value="Michel" />
+              <svg class="input-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+              </svg>
+            </div>
+            <div class="input-wrapper">
+              <input type="text" class="form-input" placeholder="Last name" value="Masiak" />
+              <svg class="input-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="input-wrapper">
+            <input type="email" class="form-input" placeholder="Email" value="michel.masiak@anywhere.co" />
+            <svg class="input-icon" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+          </div>
+          
+          <div class="password-field">
+            <input type="password" class="form-input" placeholder="Password" value="••••••••" />
+            <button type="button" class="password-toggle">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary">Change method</button>
+            <button type="submit" class="btn btn-primary">Create account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="image-section">
+      <div class="overlay-shape"></div>
+      <div class="mountain-bg"></div>
+      <div class="brand-mark">M</div>
+    </div>
+  </div>
+</body>
+</html>

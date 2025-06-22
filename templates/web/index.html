@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ecommerce - Get Inspired</title>
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/styles.css') }}">
+        <!-- Boxicons CSS -->
+        <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css'
+            rel='stylesheet'>
+        <script defer
+            src="{{ url_for('static', filename='js/admin/alpine.js') }}"></script>
+        <script
+            src="{{ url_for('static', filename='js/web/layout.js') }}"></script>
+        <style>
+        
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 55px;
+        }
+        .header-scroll-down{
+            display: none;
+        }
+        
+        .header.scrolled-down {
+            backdrop-filter: blur(2px);
+            background: none;
+            box-shadow: none;
+            border-bottom: none;
+            justify-content: center;
+        }
+        .header.scrolled-down>.header-main {
+            display: none !important;
+        }
+        .header.scrolled-down>.header-scroll-down{
+            display: flex;
+            align-items: center;
+            grid-gap: 23px;
+            height: 80%;
+            background: gray;
+            border-radius: 30px;
+            padding: 0 25px;
+
+            background: rgb(158 158 158 / 72%) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .header-scroll-down>a {
+            display: flex;
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            align-items: center;
+            grid-gap: 5px;
+        }
+        .header-scroll-down>button {
+            display: flex;
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            align-items: center;
+            grid-gap: 5px;
+        }
+        .header-scroll-down>a>i,
+        .header-scroll-down>button>i {
+            font-size: 20px;
+        }
+        a{
+            text-decoration: none;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .header-right a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .countCart{
+            color: #fff;
+            background: red;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .main-content {
+            padding: 85px 40px 50px 40px;
+            margin: 0 auto;
+            height: 100vh;
+            overflow-y: auto;
+            width: 100%;
+            justify-content: center;
+            display: flex;
+        }
+        .contentBody{
+            max-width: 1200px;
+            height: 100vh;
+            width: 100%;
+        }
+        
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        
+        .hero-section p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            max-width: 600px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .filter {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .filter:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .filter select {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            position: relative;
+            padding: 0;
+            background-color: #fff;
+            text-align: center;
+        }
+        
+        .product-image img {
+            width: 100%;
+            /* max-width: 200px; */
+            height: auto;
+            object-fit: cover;
+            border-radius: 0px;
+            /* width: 225px; */
+            height: 225px;
+            min-height: 225px;
+            border: 20px;
+        }
+        
+        .color-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-indicator.yellow {
+            background-color: #f4d03f;
+        }
+        
+        .color-indicator.gray {
+            background-color: #95a5a6;
+        }
+        
+        .color-indicator.green {
+            background-color: #7d8471;
+        }
+        
+        .color-indicator.black {
+            background-color: #2c3e50;
+        }
+        
+        .variant-count {
+            position: absolute;
+            top: 15px;
+            right: 45px;
+            background-color: #9E9E9E;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #000;
+        }
+        
+        .product-info .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .product-info .price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+        .cartAction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+        .cartAction>button {
+            background: #9e9e9e21;
+            width: 100%;
+            margin-bottom: 10px;
+            height: 40px;
+            border: none;
+            /* margin: 0 auto; */
+            text-align: center;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            grid-gap: 5px;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .cartAction>.addProductBtn{
+            width: fit-content;
+            padding: 0 25px 0 15px;
+        }
+        .cartAction>.viewProductBtn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #9e9e9e21;
+        }
+         .cartAction>button>i {
+            font-size: 23px;
+        }
+    </style>
+    </head>
+    <body>
+        <div x-data="xHomePage">
+            <div class="header">
+                <div
+                    style="width: 100%;display: flex;align-items: center;justify-content: space-between;"
+                    class="header-main">
+                    <a href="#" class="logo">Ecommerce</a>
+                    <div class="nav-links">
+                        <a href="#">Shop</a>
+                        <a href="#">Collections</a>
+                        <a href="#">Explore</a>
+                        <a href="#">...</a>
+                    </div>
+                    <div class="header-right">
+                        <button @click="showAddCartConfirmation(1, 'Cart 2')"
+                            style="border: none;background: none;cursor: pointer;">🛒
+                            Cart <span
+                                x-text="countCart>0 ? countCart :'' "></span></button>
+                        <a href="#">👤 My account</a>
+                    </div>
+                </div>
+                <div class="header-scroll-down">
+                    <a href="#"><i
+                            class='bx bx-arrow-in-up-right-circle'></i>&nbsp;Product</a>
+                    <button @click="showAddCartConfirmation(1, 'Cart 2')"
+                        style="border: none;background: none;cursor: pointer;">
+                        <i class='bx bx-cart'></i>
+                        <span>Cart</span>
+                        <div style="display: flex;position: relative;">
+                            <span x-text="countCart>0 ? countCart :'' "
+                                :class="countCart>0 ? 'countCart' :''"></span>
+                            <template x-if="countCart>99">
+                                <label
+                                    style="position: absolute;right: -3px;top: -3px;font-weight: 600;color: #fff;width: 11px;height: 11px;border-radius: 50%;display: flex;align-items: center;justify-content: center;">+</label>
+                            </template>
+                        </div>
+                    </button>
+                    <a href="#">
+                        <i class='bx  bx-user'></i>
+                        <span>My account</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="main-content">
+                <div class="contentBody">
+                    <div class="hero-section">
+                        <h1>Get Inspired</h1>
+                        <p>Browsing for your next long-haul trip, everyday
+                            journey,
+                            or just fancy a look at what's new? From community
+                            favourites to about-to-sell-out items, see them all
+                            here.</p>
+                    </div>
+
+                    <div class="filters">
+                        <div class="filter">
+                            <select>
+                                <option>Category</option>
+                                <option>All Categories</option>
+                            </select>
+                        </div>
+                        <div class="filter">
+                            <select>
+                                <option>Color</option>
+                                <option>All Colors</option>
+                            </select>
+                        </div>
+                        <div class="filter">
+                            <select>
+                                <option>Features</option>
+                                <option>All Features</option>
+                            </select>
+                        </div>
+                        <div class="filter">
+                            <select>
+                                <option>Price</option>
+                                <option>From €0 - €1000</option>
+                            </select>
+                        </div>
+                        <div class="filter">
+                            <select>
+                                <option>Sort</option>
+                                <option>New In</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="products">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator yellow"></div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                    alt="Shibuya Totepack">
+                            </div>
+                            <div class="product-info">
+                                <h3>Shibuya Totepack</h3>
+                                <p class="subtitle">Recycled PET Rip Stop</p>
+                                <span class="price">€140.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator gray"></div>
+                                <div class="variant-count">+1</div>
+                                <img
+                                    src="https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"
+                                    alt="SoFo Backpack City">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Backpack City</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€280.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator green"></div>
+                                <div class="variant-count">+3</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Gion Backpack Pro">
+                            </div>
+                            <div class="product-info">
+                                <h3>Gion Backpack Pro</h3>
+                                <p class="subtitle">Waterproof Tarpaulin</p>
+                                <span class="price">€140.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://plus.unsplash.com/premium_photo-1679913792906-13ccc5c84d44?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1479064555552-3ef4979f8908?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzB8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1585565804112-f201f68c48b4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1585565804112-f201f68c48b4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1610395219791-21b0353e43cb?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="color-indicator black"></div>
+                                <div class="variant-count">+2</div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1571689936114-b16146c9570a?q=80&w=2082&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="SoFo Rolltop Backpack X">
+                            </div>
+                            <div class="product-info">
+                                <h3>SoFo Rolltop Backpack X</h3>
+                                <p class="subtitle">Recycled Coated Cotton
+                                    Canvas</p>
+                                <span class="price">€170.00</span>
+                            </div>
+                            <div class="cartAction">
+                                <button class="addProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-cart'></i>&nbsp;Add to
+                                    Cart</button>
+                                <button class="viewProductBtn"
+                                    @click="addCart(1, 'Shibuya Totepack')"
+                                    style><i class='bx bx-eye'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Include Delete Dialog Component -->
+        {% include 'web/components/DialogAddCart.html' %}
+    </body>
+</html>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('xHomePage', () => ({
+            cart: [],
+            countCart: 0,
+            init() {
+                let getList = this.getCartData();
+                this.countCart = this.cart?.length ?? 0;
+                // localStorage.setItem('cart', JSON.stringify([]));
+
+                // Watch for changes in the cart and update countCart
+                this.$watch('cart', (newValue) => {
+                    this.countCart = newValue?.length ?? 0;
+                });
+            },
+            // Specific add to cart confirmation method
+            showAddCartConfirmation(orderId, orderName) {
+                console.log('object');
+                SelectOption({
+                    title: 'Confirm Deletion',
+                    description: `Are you sure you want to delete ${orderName}?`,
+                    icon: 'delete',
+                    itemId: orderId,
+                    itemName: orderName,
+                    dataCart: this.cart || [],
+                    afterClose: (res) => {
+                        if (res) {
+                            this.$dispatch('order-deleted', { id: orderId });
+                        }
+                    }
+                });
+            },
+            addCart(orderId, orderName) {
+                // Retrieve existing cart from localStorage or initialize an empty array
+                this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Check if the product already exists in the cart
+                let existingProduct = this.cart.find(item => item.id === orderId);
+
+                if (existingProduct) {
+                    // If the product exists, increase its quantity
+                    existingProduct.qty = (existingProduct.qty || 1) + 1;
+                } else {
+                    // If the product does not exist, add it to the cart with a quantity of 1
+                    this.cart.push({ id: orderId, name: orderName, qty: 1 });
+                }
+
+                // this.cart.push({ id: orderId, name: orderName, qty: 1 });
+                // Save the updated cart back to localStorage
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+
+                console.log('Cart updated:', this.cart);
+            },
+            getCartData() {
+                // Retrieve cart data from localStorage
+                try {
+                    this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+                } catch (error) {
+                    console.error('Error parsing cart data:', error);
+                    this.cart = [];
+                }
+            },
+           
+        }));
+    });
+</script>

@@ -1,0 +1,53 @@
+@import './boxicons2.1.4.css';
+@import './boxicons.min.css';
+@import './font.css';
+:root {
+    --collapsed-sidebar-icon-size: 23px;
+    --sidebar-bg:#000;
+    --sidebar-expanded-color: #e3dddde0;
+    --sidebar-expanded-gp-color: #fff;
+    --sidebar-item-active-bg: #1a73e8;
+}
+body {
+
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e8e8e8;
+    color: #333;
+}
+/* body {
+    font-family: 'DM Sans', Arial, sans-serif;
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    position: relative;
+} */
+/* .showDialog{
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    z-index: 2147483647;
+    height: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */

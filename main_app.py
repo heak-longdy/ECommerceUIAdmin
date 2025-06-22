@@ -32,6 +32,14 @@ app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'super-secret-jw
 db = init_db(app)
 jwt = JWTManager(app)
 
+# Website
+# Import and register blueprints
+from src.Website.home import home_bp
+
+app.register_blueprint(home_bp, url_prefix='/')
+
+
+# Admin
 # Import and register blueprints
 from src.Administrator.Customer.route import customer_bp
 from src.Administrator.ClassRoom.route import classroom_bp
@@ -53,8 +61,8 @@ if __name__ == '__main__':
     # app = create_app()
     print("🚀 Starting Flask Ecommerce Application")
     print("📍 Available routes:")
-    print("   - http://localhost:5000/ (Dashboard)")
-    print("   - http://localhost:5000/customers (Customer Management)")
-    print("   - http://localhost:5000/customers/api (Customer API)")
+    print("   - http://localhost:5002/ (Dashboard)")
+    print("   - http://localhost:5002/customers (Customer Management)")
+    print("   - http://localhost:5002/customers/api (Customer API)")
     
     app.run(debug=True, host='0.0.0.0', port=5002)

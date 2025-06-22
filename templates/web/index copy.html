@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce - Get Inspired</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e8e8e8;
+            color: #333;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .header-right a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            padding: 50px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        
+        .hero-section p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            max-width: 600px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .filter {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .filter:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .filter select {
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            position: relative;
+            padding: 30px;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+        
+        .product-image img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        .color-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-indicator.yellow {
+            background-color: #f4d03f;
+        }
+        
+        .color-indicator.gray {
+            background-color: #95a5a6;
+        }
+        
+        .color-indicator.green {
+            background-color: #7d8471;
+        }
+        
+        .color-indicator.black {
+            background-color: #2c3e50;
+        }
+        
+        .variant-count {
+            position: absolute;
+            top: 15px;
+            right: 45px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #000;
+        }
+        
+        .product-info .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .product-info .price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="logo">Ecommerce</a>
+        <div class="nav-links">
+            <a href="#">Shop</a>
+            <a href="#">Collections</a>
+            <a href="#">Explore</a>
+            <a href="#">...</a>
+        </div>
+        <div class="header-right">
+            <a href="#">🛒 Cart 0</a>
+            <a href="#">👤 My account</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="hero-section">
+            <h1>Get Inspired</h1>
+            <p>Browsing for your next long-haul trip, everyday journey, or just fancy a look at what's new? From community favourites to about-to-sell-out items, see them all here.</p>
+        </div>
+        
+        <div class="filters">
+            <div class="filter">
+                <select>
+                    <option>Category</option>
+                    <option>All Categories</option>
+                </select>
+            </div>
+            <div class="filter">
+                <select>
+                    <option>Color</option>
+                    <option>All Colors</option>
+                </select>
+            </div>
+            <div class="filter">
+                <select>
+                    <option>Features</option>
+                    <option>All Features</option>
+                </select>
+            </div>
+            <div class="filter">
+                <select>
+                    <option>Price</option>
+                    <option>From €0 - €1000</option>
+                </select>
+            </div>
+            <div class="filter">
+                <select>
+                    <option>Sort</option>
+                    <option>New In</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="products">
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="color-indicator yellow"></div>
+                    <img src="../../assets/shibuya-totepack.png" alt="Shibuya Totepack">
+                </div>
+                <div class="product-info">
+                    <h3>Shibuya Totepack</h3>
+                    <p class="subtitle">Recycled PET Rip Stop</p>
+                    <span class="price">€140.00</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="color-indicator gray"></div>
+                    <div class="variant-count">+1</div>
+                    <img src="../../assets/sofo-backpack-city.png" alt="SoFo Backpack City">
+                </div>
+                <div class="product-info">
+                    <h3>SoFo Backpack City</h3>
+                    <p class="subtitle">Recycled Coated Cotton Canvas</p>
+                    <span class="price">€280.00</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="color-indicator green"></div>
+                    <div class="variant-count">+3</div>
+                    <img src="../../assets/gion-backpack-pro.png" alt="Gion Backpack Pro">
+                </div>
+                <div class="product-info">
+                    <h3>Gion Backpack Pro</h3>
+                    <p class="subtitle">Waterproof Tarpaulin</p>
+                    <span class="price">€140.00</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="color-indicator black"></div>
+                    <div class="variant-count">+2</div>
+                    <img src="../../assets/sofo-rolltop-backpack-x.png" alt="SoFo Rolltop Backpack X">
+                </div>
+                <div class="product-info">
+                    <h3>SoFo Rolltop Backpack X</h3>
+                    <p class="subtitle">Recycled Coated Cotton Canvas</p>
+                    <span class="price">€170.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
