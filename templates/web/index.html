@@ -6,13 +6,27 @@
         <title>Ecommerce - Get Inspired</title>
         <link rel="stylesheet"
             href="{{ url_for('static', filename='css/web/styles.css') }}">
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/owl.carousel.min.css') }}">
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/carousel.css') }}">
+
         <!-- Boxicons CSS -->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css'
             rel='stylesheet'>
+
         <script defer
             src="{{ url_for('static', filename='js/admin/alpine.js') }}"></script>
         <script
+            src="{{ url_for('static', filename='js/web/jquery.js') }}"></script>
+        <script
+            src="{{ url_for('static', filename='js/web/jqueryUi.js') }}"></script>
+
+        <script
             src="{{ url_for('static', filename='js/web/layout.js') }}"></script>
+        <script
+            src="{{ url_for('static', filename='js/web/owl.carousel.min.js') }}"></script>
+
         <style>
         
         
@@ -28,7 +42,7 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
+            z-index: 99;
             height: 55px;
         }
         .header-scroll-down{
@@ -41,6 +55,7 @@
             box-shadow: none;
             border-bottom: none;
             justify-content: center;
+            z-index: 9999;
         }
         .header.scrolled-down>.header-main {
             display: none !important;
@@ -136,6 +151,14 @@
             width: 100%;
             justify-content: center;
             display: flex;
+                padding: 85px 40px 0px 40px;
+                margin: 0 auto;
+                height: calc(100vh - 55px);
+                overflow-y: auto;
+                width: 100%;
+                justify-content: center;
+                display: flex;
+                flex: 1;
         }
         .contentBody{
             max-width: 1200px;
@@ -328,7 +351,9 @@
     </style>
     </head>
     <body>
-        <div x-data="xHomePage">
+        <div x-data="xHomePage" style="    display: flex
+;
+    flex-direction: column;">
             <div class="header">
                 <div
                     style="width: 100%;display: flex;align-items: center;justify-content: space-between;"
@@ -371,9 +396,43 @@
                 </div>
 
             </div>
-
+            <div>
+                
+            </div>
             <div class="main-content">
+                <!-- <section>
+                    <div class="blog">
+                        <div class="container">
+                            <div
+                                class="owl-carousel owl-theme blog-post owl-carousel-partner">
+                                <div class="blog-content"
+                                    data-aos="fade-right"
+                                    data-aos-delay="200">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                        alt="testimonials"
+                                        onerror="(this).src='https://via.placeholder.com/150';">
+                                </div>
+                                <div class="blog-content"
+                                    data-aos="fade-right"
+                                    data-aos-delay="200">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                        alt="testimonials"
+                                        onerror="(this).src='https://via.placeholder.com/150';">
+                                </div>
+                            </div>
+                            <div class="owl-navigation">
+                                <span class="owl-nav-prev"><i
+                                        class='bx bx-chevron-left'></i></span>
+                                <span class="owl-nav-next"><i
+                                        class='bx bx-chevron-right'></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </section> -->
                 <div class="contentBody">
+
                     <div class="hero-section">
                         <h1>Get Inspired</h1>
                         <p>Browsing for your next long-haul trip, everyday
@@ -780,3 +839,57 @@
         }));
     });
 </script>
+
+<script>
+        // owl-crousel for blog
+        const responsive = {
+            0: {
+                items: 1
+            },
+            320: {
+                items: 1
+            },
+            560: {
+                items: 1
+            },
+            960: {
+                items: 2
+            }
+        }
+        $('.owl-carousel-testimonial').owlCarousel({
+            loop: true,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            dots: false,
+            nav: true,
+            navText: [$('.owl-navigation .owl-nav-prev'), $('.owl-navigation .owl-nav-next')],
+            responsive: responsive
+        });
+    </script>
+
+<script>
+        // owl-crousel for blog
+        const responsivePartner = {
+            0: {
+                items: 1
+            },
+            320: {
+                items: 1
+            },
+            560: {
+                items: 1
+            },
+            960: {
+                items: 1
+            }
+        }
+        $('.owl-carousel-partner').owlCarousel({
+            loop: false,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            dots: true,
+            nav: false,
+            responsive: responsivePartner,
+            navText: [$('.owl-navigation .owl-nav-prev'), $('.owl-navigation .owl-nav-next')],
+        });
+    </script>
