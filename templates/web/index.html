@@ -35,22 +35,21 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 40px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
+            /* background-color: #ffffff; */
+            /* border-bottom: 1px solid #e0e0e0; */
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 99;
-            height: 55px;
+            height: 65px;
         }
         .header-scroll-down{
             display: none;
         }
         
         .header.scrolled-down {
-            backdrop-filter: blur(2px);
+            /* backdrop-filter: blur(2px); */
             background: none;
             box-shadow: none;
             border-bottom: none;
@@ -70,8 +69,8 @@
             padding: 0 25px;
 
             background: rgb(158 158 158 / 72%) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
@@ -151,18 +150,19 @@
             width: 100%;
             justify-content: center;
             display: flex;
-                padding: 85px 40px 0px 40px;
-                margin: 0 auto;
-                height: calc(100vh - 55px);
-                overflow-y: auto;
-                width: 100%;
-                justify-content: center;
-                display: flex;
-                flex: 1;
+            padding: 85px 40px 40px 40px;
+            margin: 0 auto;
+            /* height: calc(100vh - 55px); */
+            height: 100%;
+            overflow-y: auto;
+            width: 100%;
+            justify-content: center;
+            display: flex;
+            flex: 1;
         }
         .contentBody{
             max-width: 1200px;
-            height: 100vh;
+            height: fit-content;
             width: 100%;
         }
         
@@ -222,11 +222,20 @@
         }
         
         .product-card {
-            background-color: #ffffff;
+            /* background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; */
             border-radius: 12px;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            /* background: rgb(158 158 158 / 72%) !important; */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .product-card:hover {
@@ -237,7 +246,6 @@
         .product-image {
             position: relative;
             padding: 0;
-            background-color: #fff;
             text-align: center;
         }
         
@@ -351,14 +359,22 @@
     </style>
     </head>
     <body>
-        <div x-data="xHomePage" style="    display: flex
-;
-    flex-direction: column;">
-            <div class="header">
+        <div x-data="xHomePage"
+            style="display: flex;flex-direction: column;height: 100vh;">
+            <div class="header" style="justify-content: center;padding: 0;">
                 <div
-                    style="width: 100%;display: flex;align-items: center;justify-content: space-between;"
+                    style="width: 100%;display: flex;align-items: center;justify-content: space-between;max-width: 1200px;"
                     class="header-main">
-                    <a href="#" class="logo">Ecommerce</a>
+                    <a href="#" class="logo">
+                        <div style="display: flex;align-items: center;">
+                            <img src="{{ url_for('static', filename='assets/logo.png') }}"
+                                alt="Logo" style="height: 40px;">
+                            <div style="margin-left: 13px;">
+                                <p style="font-size: 17px;font-weight: 600;">Ecommerce</p>
+                                <p style="font-size: 10px;font-weight: 400;color: gray;">Get Inspired</p>
+                            </div>
+                        </div>
+                    </a>
                     <div class="nav-links">
                         <a href="#">Shop</a>
                         <a href="#">Collections</a>
@@ -396,41 +412,40 @@
                 </div>
 
             </div>
-            <div>
-                
-            </div>
-            <div class="main-content">
-                <!-- <section>
-                    <div class="blog">
-                        <div class="container">
-                            <div
-                                class="owl-carousel owl-theme blog-post owl-carousel-partner">
-                                <div class="blog-content"
-                                    data-aos="fade-right"
-                                    data-aos-delay="200">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
-                                        alt="testimonials"
-                                        onerror="(this).src='https://via.placeholder.com/150';">
+
+            <div class="main-content" style=" flex-wrap: wrap;">
+                <div style="width: 100%;display: flex;justify-content: center;height: 545px;max-width: 1190px;margin-bottom: 45px;">
+                    <section style="height: 100%;">
+                        <div class="blog" style="height: 100%;">
+                            <div class="container" style="height: 100%;"> 
+                                <div class="owl-carousel owl-theme blog-post owl-carousel-partner" style="height: 100%;">
+                                    <div class="blog-content"
+                                        data-aos="fade-right"
+                                        data-aos-delay="200" style="height: 100%;">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                            alt="testimonials"
+                                            onerror="(this).src='https://via.placeholder.com/150';">
+                                    </div>
+                                    <div class="blog-content"
+                                        data-aos="fade-right"
+                                        data-aos-delay="200" style="height: 100%;">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                            alt="testimonials"
+                                            onerror="(this).src='https://via.placeholder.com/150';">
+                                    </div>
                                 </div>
-                                <div class="blog-content"
-                                    data-aos="fade-right"
-                                    data-aos-delay="200">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
-                                        alt="testimonials"
-                                        onerror="(this).src='https://via.placeholder.com/150';">
+                                <div class="owl-navigation">
+                                    <span class="owl-nav-prev"><i
+                                            class='bx bx-chevron-left'></i></span>
+                                    <span class="owl-nav-next"><i
+                                            class='bx bx-chevron-right'></i></span>
                                 </div>
-                            </div>
-                            <div class="owl-navigation">
-                                <span class="owl-nav-prev"><i
-                                        class='bx bx-chevron-left'></i></span>
-                                <span class="owl-nav-next"><i
-                                        class='bx bx-chevron-right'></i></span>
                             </div>
                         </div>
-                    </div>
-                </section> -->
+                    </section>
+                </div>
                 <div class="contentBody">
 
                     <div class="hero-section">
@@ -464,7 +479,7 @@
                         <div class="filter">
                             <select>
                                 <option>Price</option>
-                                <option>From €0 - €1000</option>
+                                <option>From $0 - $1000</option>
                             </select>
                         </div>
                         <div class="filter">
@@ -486,7 +501,7 @@
                             <div class="product-info">
                                 <h3>Shibuya Totepack</h3>
                                 <p class="subtitle">Recycled PET Rip Stop</p>
-                                <span class="price">€140.00</span>
+                                <span class="price">$140.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -512,7 +527,7 @@
                                 <h3>SoFo Backpack City</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€280.00</span>
+                                <span class="price">$280.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -536,7 +551,7 @@
                             <div class="product-info">
                                 <h3>Gion Backpack Pro</h3>
                                 <p class="subtitle">Waterproof Tarpaulin</p>
-                                <span class="price">€140.00</span>
+                                <span class="price">$140.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -561,7 +576,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -585,7 +600,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -609,7 +624,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -633,7 +648,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -657,7 +672,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -681,7 +696,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -705,7 +720,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -729,7 +744,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -753,7 +768,7 @@
                                 <h3>SoFo Rolltop Backpack X</h3>
                                 <p class="subtitle">Recycled Coated Cotton
                                     Canvas</p>
-                                <span class="price">€170.00</span>
+                                <span class="price">$170.00</span>
                             </div>
                             <div class="cartAction">
                                 <button class="addProductBtn"
@@ -884,7 +899,7 @@
             }
         }
         $('.owl-carousel-partner').owlCarousel({
-            loop: false,
+            loop: true,
             autoplay: false,
             autoplayTimeout: 3000,
             dots: true,
