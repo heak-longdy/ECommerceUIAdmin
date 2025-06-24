@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Thank You!</title>
+    <link rel="stylesheet" href="../css/confirmation.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="confirmation-header">
+        <div class="container">
+            <div class="logo">
+                <img src="../assets/logo.png" alt="Logo">
+                <span>ShopEase</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Success Banner -->
+    <section class="success-banner">
+        <div class="container">
+            <div class="success-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Order Confirmed!</h1>
+                <p>Thank you for your purchase. Your order has been successfully placed.</p>
+                <div class="order-number">
+                    Order #<span id="order-id">ECM-2025-001234</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="confirmation-main">
+        <div class="container">
+            <div class="confirmation-grid">
+                <!-- Order Details -->
+                <div class="order-details">
+                    <div class="details-card">
+                        <h2><i class="fas fa-receipt"></i> Order Summary</h2>
+                        
+                        <!-- Order Items -->
+                        <div class="order-items">
+                            <div class="order-item">
+                                <img src="../assets/IMG_3639 (1).png" alt="Product">
+                                <div class="item-info">
+                                    <h4>Wireless Bluetooth Headphones</h4>
+                                    <p>Color: Black, Size: One Size</p>
+                                    <div class="item-details">
+                                        <span class="quantity">Qty: 1</span>
+                                        <span class="price">$129.99</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="order-item">
+                                <img src="../assets/IMG_3639 (1).png" alt="Product">
+                                <div class="item-info">
+                                    <h4>Smart Watch Series 8</h4>
+                                    <p>Color: Silver, Size: 42mm</p>
+                                    <div class="item-details">
+                                        <span class="quantity">Qty: 1</span>
+                                        <span class="price">$399.99</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Totals -->
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span>$529.98</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span>Free</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax</span>
+                                <span>$42.40</span>
+                            </div>
+                            <hr>
+                            <div class="total-row final-total">
+                                <span>Total Paid</span>
+                                <span>$572.38</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Information -->
+                    <div class="details-card">
+                        <h2><i class="fas fa-truck"></i> Shipping Information</h2>
+                        <div class="shipping-info">
+                            <div class="info-section">
+                                <h4>Delivery Address</h4>
+                                <div class="address">
+                                    <p><strong>John Doe</strong></p>
+                                    <p>123 Main Street, Apt 4B</p>
+                                    <p>New York, NY 10001</p>
+                                    <p>United States</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-section">
+                                <h4>Shipping Method</h4>
+                                <p>Standard Shipping (5-7 business days)</p>
+                                <p class="delivery-estimate">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Estimated delivery: <strong>Dec 30, 2025 - Jan 5, 2026</strong>
+                                </p>
+                            </div>
+                            
+                            <div class="info-section">
+                                <h4>Tracking Information</h4>
+                                <p>You'll receive a tracking number via email once your order ships.</p>
+                                <div class="tracking-placeholder">
+                                    <span>Tracking #: Will be provided soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="confirmation-sidebar">
+                    <!-- Next Steps -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-list-check"></i> What's Next?</h3>
+                        <div class="next-steps">
+                            <div class="step">
+                                <div class="step-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Confirmation Email</h4>
+                                    <p>We've sent a confirmation email to your inbox with order details.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Processing</h4>
+                                    <p>Your order is being prepared for shipment. This usually takes 1-2 business days.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>Shipping</h4>
+                                    <p>You'll receive tracking information once your order ships.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Benefits -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-user-plus"></i> Create an Account</h3>
+                        <p>Track your orders, save addresses, and get exclusive offers!</p>
+                        <button class="btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                        <div class="benefits">
+                            <div class="benefit">
+                                <i class="fas fa-truck"></i>
+                                <span>Order Tracking</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-heart"></i>
+                                <span>Wishlist</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-percent"></i>
+                                <span>Exclusive Offers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Support -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-headset"></i> Need Help?</h3>
+                        <div class="support-options">
+                            <a href="#" class="support-option">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <strong>Call Us</strong>
+                                    <span>1-800-SHOPEASE</span>
+                                </div>
+                            </a>
+                            
+                            <a href="#" class="support-option">
+                                <i class="fas fa-comment"></i>
+                                <div>
+                                    <strong>Live Chat</strong>
+                                    <span>Available 24/7</span>
+                                </div>
+                            </a>
+                            
+                            <a href="#" class="support-option">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email Support</strong>
+                                    <span>support@shopease.com</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="confirmation-actions">
+                <button class="btn-secondary" onclick="window.print()">
+                    <i class="fas fa-print"></i>
+                    Print Receipt
+                </button>
+                <button class="btn-secondary" onclick="downloadPDF()">
+                    <i class="fas fa-download"></i>
+                    Download PDF
+                </button>
+                <a href="../html/index.html" class="btn-primary">
+                    <i class="fas fa-shopping-bag"></i>
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="confirmation-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Track Your Order</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Get updates on sales and new arrivals</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 ShopEase. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/confirmation.js"></script>
+</body>
+</html>

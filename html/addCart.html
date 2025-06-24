@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Order #3243</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            padding: 24px 24px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .order-number {
+            font-size: 16px;
+            color: #95a5a6;
+            font-weight: 400;
+        }
+
+        .delivery-options {
+            padding: 20px 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .delivery-btn {
+            padding: 12px 24px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6c757d;
+        }
+
+        .delivery-btn.active {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        .delivery-btn:hover:not(.active) {
+            border-color: #2c3e50;
+            color: #2c3e50;
+        }
+
+        .cart-items {
+            padding: 0 24px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 24px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 16px;
+            background: #f8f9fa;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .item-description {
+            font-size: 14px;
+            color: #95a5a6;
+            margin-bottom: 12px;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: 16px;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            border-color: #2c3e50;
+            color: #2c3e50;
+        }
+
+        .quantity {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .order-summary {
+            padding: 32px 24px 24px;
+            margin-top: 24px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .summary-label {
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .summary-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .summary-discount {
+            color: #e74c3c;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .summary-total .summary-label {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .summary-total .summary-value {
+            font-size: 20px;
+            color: #e67e22;
+            font-weight: 700;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+        }
+
+        .place-order-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                box-shadow: none;
+            }
+            
+            .header {
+                padding: 20px 16px 12px;
+            }
+            
+            .delivery-options {
+                padding: 16px;
+            }
+            
+            .cart-items {
+                padding: 0 16px;
+            }
+            
+            .order-summary {
+                padding: 24px 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="cart-title">Cart</h1>
+            <span class="order-number">Order #3243</span>
+        </div>
+
+        <!-- Delivery Options -->
+        <div class="delivery-options">
+            <button class="delivery-btn active">Delivery</button>
+            <button class="delivery-btn">Dine in</button>
+            <button class="delivery-btn">Take away</button>
+        </div>
+
+        <!-- Cart Items -->
+        <div class="cart-items">
+            <!-- Cappuccino Item -->
+            <div class="cart-item">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D" alt="Cappuccino" class="item-image">
+                <div class="item-details">
+                    <div class="item-name">Cappuccino</div>
+                    <div class="item-description">Small • 200g</div>
+                    <div class="item-price">$ 14.94</div>
+                </div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="decreaseQuantity('cappuccino')">−</button>
+                    <span class="quantity" id="cappuccino-qty">3</span>
+                    <button class="quantity-btn" onclick="increaseQuantity('cappuccino')">+</button>
+                </div>
+            </div>
+
+            <!-- Coffee Latte Item -->
+            <div class="cart-item">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D" alt="Coffee Latte" class="item-image">
+                <div class="item-details">
+                    <div class="item-name">Coffee Latte</div>
+                    <div class="item-description">Small • 200g</div>
+                    <div class="item-price">$ 5.98</div>
+                </div>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="decreaseQuantity('latte')">−</button>
+                    <span class="quantity" id="latte-qty">1</span>
+                    <button class="quantity-btn" onclick="increaseQuantity('latte')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <div class="summary-row">
+                <span class="summary-label">Items</span>
+                <span class="summary-value" id="items-total">$ 20.92</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Discounts</span>
+                <span class="summary-value summary-discount">-$ 3.00</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span class="summary-label">Total</span>
+                <span class="summary-value" id="final-total">$ 17.92</span>
+            </div>
+            
+            <button class="place-order-btn" onclick="placeOrder()">Place an order</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample item data
+        const items = {
+            cappuccino: { price: 14.94, qty: 3 },
+            latte: { price: 5.98, qty: 1 }
+        };
+
+        const discount = 3.00;
+
+        function updateTotals() {
+            let itemsTotal = 0;
+            Object.values(items).forEach(item => {
+                itemsTotal += item.price * item.qty;
+            });
+            
+            const finalTotal = itemsTotal - discount;
+            
+            document.getElementById('items-total').textContent = `$ ${itemsTotal.toFixed(2)}`;
+            document.getElementById('final-total').textContent = `$ ${finalTotal.toFixed(2)}`;
+        }
+
+        function increaseQuantity(itemId) {
+            items[itemId].qty++;
+            document.getElementById(`${itemId}-qty`).textContent = items[itemId].qty;
+            updateTotals();
+        }
+
+        function decreaseQuantity(itemId) {
+            if (items[itemId].qty > 1) {
+                items[itemId].qty--;
+                document.getElementById(`${itemId}-qty`).textContent = items[itemId].qty;
+                updateTotals();
+            }
+        }
+
+        function placeOrder() {
+            alert('Order placed successfully! Thank you for your purchase.');
+        }
+
+        // Delivery option selection
+        document.querySelectorAll('.delivery-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.delivery-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Initialize totals
+        updateTotals();
+    </script>
+</body>
+</html>

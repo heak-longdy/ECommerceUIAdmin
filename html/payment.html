@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Complete Your Purchase</title>
+    <link rel="stylesheet" href="../css/payment.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="checkout-header">
+        <div class="container">
+            <div class="logo">
+                <img src="../assets/logo.png" alt="Logo">
+                <span>ShopEase</span>
+            </div>
+            <div class="secure-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>256-bit SSL Encrypted</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-bar">
+                <div class="step completed">
+                    <div class="step-number">1</div>
+                    <span>Cart</span>
+                </div>
+                <div class="step completed">
+                    <div class="step-number">2</div>
+                    <span>Checkout</span>
+                </div>
+                <div class="step active">
+                    <div class="step-number">3</div>
+                    <span>Payment</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <span>Confirmation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="payment-main">
+        <div class="container">
+            <div class="payment-grid">
+                <!-- Left Column - Payment Methods -->
+                <div class="payment-section">
+                    <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                    
+                    <!-- Payment Method Selection -->
+                    <div class="payment-methods">
+                        <div class="payment-method">
+                            <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
+                            <label for="credit-card">
+                                <div class="method-info">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Credit/Debit Card</span>
+                                </div>
+                                <div class="card-icons">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <i class="fab fa-cc-amex"></i>
+                                    <i class="fab fa-cc-discover"></i>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="payment-method">
+                            <input type="radio" id="paypal" name="payment-method" value="paypal">
+                            <label for="paypal">
+                                <div class="method-info">
+                                    <i class="fab fa-paypal"></i>
+                                    <span>PayPal</span>
+                                </div>
+                                <span class="method-description">Pay with your PayPal account</span>
+                            </label>
+                        </div>
+                        
+                        <div class="payment-method">
+                            <input type="radio" id="apple-pay" name="payment-method" value="apple-pay">
+                            <label for="apple-pay">
+                                <div class="method-info">
+                                    <i class="fab fa-apple-pay"></i>
+                                    <span>Apple Pay</span>
+                                </div>
+                                <span class="method-description">Touch ID or Face ID</span>
+                            </label>
+                        </div>
+                        
+                        <div class="payment-method">
+                            <input type="radio" id="google-pay" name="payment-method" value="google-pay">
+                            <label for="google-pay">
+                                <div class="method-info">
+                                    <i class="fab fa-google-pay"></i>
+                                    <span>Google Pay</span>
+                                </div>
+                                <span class="method-description">Pay with Google</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Credit Card Form -->
+                    <div class="payment-form" id="credit-card-form">
+                        <h3>Card Information</h3>
+                        <form class="card-form">
+                            <div class="form-group">
+                                <label for="card-number">Card Number *</label>
+                                <div class="card-input-wrapper">
+                                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                    <div class="card-brand-icon"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cardholder-name">Cardholder Name *</label>
+                                <input type="text" id="cardholder-name" name="cardholder-name" placeholder="John Doe" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiry-date">Expiry Date *</label>
+                                    <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" maxlength="5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV *</label>
+                                    <div class="cvv-wrapper">
+                                        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4" required>
+                                        <i class="fas fa-question-circle cvv-help" title="3-4 digit code on the back of your card"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Alternative Payment Forms -->
+                    <div class="payment-form hidden" id="paypal-form">
+                        <div class="paypal-container">
+                            <p>You will be redirected to PayPal to complete your payment securely.</p>
+                            <button type="button" class="paypal-btn">
+                                <i class="fab fa-paypal"></i>
+                                Continue with PayPal
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="payment-form hidden" id="apple-pay-form">
+                        <div class="apple-pay-container">
+                            <button type="button" class="apple-pay-btn">
+                                <i class="fab fa-apple-pay"></i>
+                                Pay with Apple Pay
+                            </button>
+                            <p class="payment-note">Use Touch ID or Face ID to complete your purchase</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-form hidden" id="google-pay-form">
+                        <div class="google-pay-container">
+                            <button type="button" class="google-pay-btn">
+                                <i class="fab fa-google-pay"></i>
+                                Pay with Google Pay
+                            </button>
+                            <p class="payment-note">Complete your purchase with Google Pay</p>
+                        </div>
+                    </div>
+
+                    <!-- Save Payment Method -->
+                    <div class="save-payment">
+                        <input type="checkbox" id="save-card">
+                        <label for="save-card">Save payment method for future purchases</label>
+                    </div>
+                </div>
+
+                <!-- Right Column - Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-card">
+                        <h3>Order Summary</h3>
+                        
+                        <!-- Shipping Address -->
+                        <div class="shipping-summary">
+                            <h4><i class="fas fa-truck"></i> Shipping Address</h4>
+                            <div class="address-details">
+                                <p><strong>John Doe</strong></p>
+                                <p>123 Main Street, Apt 4B</p>
+                                <p>New York, NY 10001</p>
+                                <p>United States</p>
+                            </div>
+                            <button type="button" class="edit-btn">Edit</button>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <div class="shipping-method-summary">
+                            <h4><i class="fas fa-shipping-fast"></i> Shipping Method</h4>
+                            <div class="method-details">
+                                <span>Standard Shipping (5-7 business days)</span>
+                                <span class="shipping-cost">Free</span>
+                            </div>
+                            <button type="button" class="edit-btn">Edit</button>
+                        </div>
+
+                        <!-- Order Items -->
+                        <div class="order-items">
+                            <h4><i class="fas fa-shopping-bag"></i> Items (2)</h4>
+                            <div class="order-item">
+                                <img src="../assets/IMG_3639 (1).png" alt="Product">
+                                <div class="item-details">
+                                    <h5>Wireless Bluetooth Headphones</h5>
+                                    <p>Color: Black</p>
+                                    <span class="quantity">Qty: 1</span>
+                                </div>
+                                <span class="item-price">$129.99</span>
+                            </div>
+                            
+                            <div class="order-item">
+                                <img src="../assets/IMG_3639 (1).png" alt="Product">
+                                <div class="item-details">
+                                    <h5>Smart Watch Series 8</h5>
+                                    <p>Color: Silver, Size: 42mm</p>
+                                    <span class="quantity">Qty: 1</span>
+                                </div>
+                                <span class="item-price">$399.99</span>
+                            </div>
+                        </div>
+
+                        <!-- Order Totals -->
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span>$529.98</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span>Free</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax</span>
+                                <span>$42.40</span>
+                            </div>
+                            <hr>
+                            <div class="total-row final-total">
+                                <span>Total</span>
+                                <span>$572.38</span>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="terms-section">
+                            <label class="terms-checkbox">
+                                <input type="checkbox" id="accept-terms" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="payment-actions">
+                            <button type="button" class="btn-secondary" onclick="history.back()">
+                                <i class="fas fa-arrow-left"></i> Back to Checkout
+                            </button>
+                            <button type="button" class="btn-primary" onclick="processPayment()">
+                                <i class="fas fa-lock"></i> Complete Purchase
+                            </button>
+                        </div>
+
+                        <!-- Security Features -->
+                        <div class="security-features">
+                            <div class="security-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>SSL Encrypted</span>
+                            </div>
+                            <div class="security-item">
+                                <i class="fas fa-money-check-alt"></i>
+                                <span>Secure Payment</span>
+                            </div>
+                            <div class="security-item">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Privacy Protected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Processing Modal -->
+    <div class="modal" id="processing-modal">
+        <div class="modal-content">
+            <div class="processing-animation">
+                <div class="spinner"></div>
+                <h3>Processing Your Payment</h3>
+                <p>Please don't close this window or refresh the page.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/payment.js"></script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shopping Cart</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
+        }
+
+        /* Cart Section */
+        .cart-section {
+            padding-right: 2rem;
+        }
+
+        .cart-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        /* Cart Table */
+        .cart-table {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e5e5;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+
+        .product-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .beige-backpack {
+            background: linear-gradient(135deg, #D4B896, #C4A484);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="%23D4B896"/><rect x="15" y="10" width="50" height="60" fill="%23B8956F" rx="8"/><rect x="20" y="15" width="40" height="50" fill="%23C4A484" rx="6"/><rect x="25" y="20" width="30" height="8" fill="%23A08660" rx="4"/><rect x="25" y="35" width="30" height="8" fill="%23A08660" rx="4"/></svg>');
+        }
+
+        .navy-backpack {
+            background: linear-gradient(135deg, #2C3E50, #34495E);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="%232C3E50"/><rect x="15" y="10" width="50" height="60" fill="%23233140" rx="8"/><rect x="20" y="15" width="40" height="50" fill="%2334495E" rx="6"/><rect x="25" y="20" width="30" height="8" fill="%231A252F" rx="4"/><rect x="25" y="35" width="30" height="8" fill="%231A252F" rx="4"/></svg>');
+        }
+
+        .yellow-backpack {
+            background: linear-gradient(135deg, #F1C40F, #F39C12);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="%23F1C40F"/><rect x="15" y="10" width="50" height="60" fill="%23D4AC0D" rx="8"/><rect x="20" y="15" width="40" height="50" fill="%23F39C12" rx="6"/><rect x="25" y="20" width="30" height="8" fill="%23B7950B" rx="4"/><rect x="25" y="35" width="30" height="8" fill="%23B7950B" rx="4"/></svg>');
+        }
+
+        .product-details h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        .product-color {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .size-selector {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            appearance: none;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="%23666" stroke-width="1.5" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 12px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            background: none;
+            border: 1px solid #ddd;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .qty-btn:hover {
+            background-color: #f8f8f8;
+        }
+
+        .qty-display {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .item-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        .remove-btn:hover {
+            color: #333;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            margin-top: 2rem;
+            text-align: right;
+                display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+        }
+
+        .summary-row {
+            display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    width: 15rem;
+        }
+
+        .summary-row.total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+            border-top: 1px solid #e5e5e5;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            background-color: #fafafa;
+            padding: 2rem;
+            border-radius: 12px;
+            height: fit-content;
+        }
+
+        .payment-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .payment-methods {
+            margin-bottom: 2rem;
+        }
+
+        .payment-method-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .payment-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .payment-option-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .paypal-icon {
+            background-color: #0070ba;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background-color: #5b5fdf;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .checkout-btn:hover {
+            background-color: #4a4ec9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .table-header {
+                display: none;
+            }
+
+            .product-info {
+                justify-content: center;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <div class="main-container">
+            <!-- Cart Section -->
+            <div class="cart-section">
+                <h1 class="cart-title">Shopping Cart.</h1>
+
+                <div class="cart-table">
+                    <div class="table-header">
+                        <span>Product</span>
+                        <span>Size</span>
+                        <span>Quantity</span>
+                        <span>Total Price</span>
+                        <span></span>
+                    </div>
+
+                    <!-- Cart Item 1 -->
+                    <div class="cart-item">
+                        <div class="product-info">
+                            <div class="product-image beige-backpack"></div>
+                            <div class="product-details">
+                                <h3>Backpack</h3>
+                                <div class="product-color">Beige</div>
+                            </div>
+                        </div>
+                        <select class="size-selector">
+                            <option value="25L" selected>25 L</option>
+                            <option value="30L">30 L</option>
+                            <option value="35L">35 L</option>
+                        </select>
+                        <div class="quantity-controls">
+                            <button class="qty-btn"
+                                onclick="updateQuantity(this, -1)">−</button>
+                            <span class="qty-display">2</span>
+                            <button class="qty-btn"
+                                onclick="updateQuantity(this, 1)">+</button>
+                        </div>
+                        <div class="item-price">$110.99</div>
+                        <button class="remove-btn">×</button>
+                    </div>
+
+                    <!-- Cart Item 2 -->
+                    <div class="cart-item">
+                        <div class="product-info">
+                            <div class="product-image navy-backpack"></div>
+                            <div class="product-details">
+                                <h3>Backpack</h3>
+                                <div class="product-color">Navy</div>
+                            </div>
+                        </div>
+                        <select class="size-selector">
+                            <option value="25L">25 L</option>
+                            <option value="30L" selected>30 L</option>
+                            <option value="35L">35 L</option>
+                        </select>
+                        <div class="quantity-controls">
+                            <button class="qty-btn"
+                                onclick="updateQuantity(this, -1)">−</button>
+                            <span class="qty-display">1</span>
+                            <button class="qty-btn"
+                                onclick="updateQuantity(this, 1)">+</button>
+                        </div>
+                        <div class="item-price">$159.99</div>
+                        <button class="remove-btn">×</button>
+                    </div>
+
+                    <!-- Cart Item 3 -->
+                    <div class="cart-item">
+                        <div class="product-info">
+                            <div class="product-image yellow-backpack"></div>
+                            <div class="product-details">
+                                <h3>Backpack</h3>
+                                <div class="product-color">Yellow</div>
+                            </div>
+                        </div>
+                        <select class="size-selector">
+                            <option value="25L" selected>25 L</option>
+                            <option value="30L">30 L</option>
+                            <option value="35L">35 L</option>
+                        </select>
+                        <div class="quantity-controls">
+                            <button class="qty-btn"
+                                onclick="updateQuantity(this, -1)">−</button>
+                            <span class="qty-display">1</span>
+                            <button class="qty-btn"
+                                onclick="updateQuantity(this, 1)">+</button>
+                        </div>
+                        <div class="item-price">$89.99</div>
+                        <button class="remove-btn">×</button>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$470.98</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span>$470.98</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div>
+                <div>
+                    Customer Information
+                </div>
+                <div class="payment-section">
+                    <h2 class="payment-title">Your almost there!</h2>
+
+                    <div class="payment-methods">
+                        <div class="payment-method-label">Payment Method</div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="credit-card" name="payment"
+                                value="credit-card" checked>
+                            <div class="payment-option-icon">💳</div>
+                            <label for="credit-card">Credit Card</label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="paypal" name="payment"
+                                value="paypal">
+                            <div class="payment-option-icon paypal-icon">P</div>
+                            <label for="paypal">Paypal</label>
+                        </div>
+                    </div>
+
+                    <form class="payment-form">
+                        <div class="form-group">
+                            <label class="form-label">Name on Card:</label>
+                            <input type="text" class="form-input"
+                                value="John Carter" placeholder="John Carter">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Card Number:</label>
+                            <input type="text" class="form-input"
+                                value="•••• •••• •••• 2153"
+                                placeholder="•••• •••• •••• 2153">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Expiration
+                                    Date:</label>
+                                <select class="form-input">
+                                    <option value="05" selected>05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">&nbsp;</label>
+                                <select class="form-input">
+                                    <option value="2020" selected>2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">CVV:</label>
+                            <input type="text" class="form-input" value="156"
+                                placeholder="156" maxlength="3">
+                        </div>
+
+                        <button type="submit" class="checkout-btn">Check
+                            Out</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+        function updateQuantity(button, change) {
+            const quantityDisplay = button.parentNode.querySelector('.qty-display');
+            let currentQuantity = parseInt(quantityDisplay.textContent);
+            
+            currentQuantity += change;
+            if (currentQuantity < 1) currentQuantity = 1;
+            
+            quantityDisplay.textContent = currentQuantity;
+            updateCartTotal();
+        }
+
+        function updateCartTotal() {
+            // Calculate total based on quantities and prices
+            let total = 0;
+            const items = document.querySelectorAll('.cart-item');
+            
+            items.forEach(item => {
+                const quantity = parseInt(item.querySelector('.qty-display').textContent);
+                const priceText = item.querySelector('.item-price').textContent;
+                const price = parseFloat(priceText.replace('$', ''));
+                total += quantity * price;
+            });
+
+            // Update display
+            const totalElements = document.querySelectorAll('.summary-row.total span:last-child, .summary-row span:last-child');
+            totalElements[0].textContent = `$${total.toFixed(2)}`;
+            totalElements[1].textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Remove item functionality
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.cart-item').remove();
+                updateCartTotal();
+            });
+        });
+
+        // Payment method toggle
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Handle payment method change
+                console.log('Payment method changed to:', this.value);
+            });
+        });
+    </script>
+    </body>
+</html>
