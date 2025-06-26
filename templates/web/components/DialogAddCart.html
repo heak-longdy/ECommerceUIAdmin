@@ -20,38 +20,50 @@
 
         <style>
         .imgCart{
-            width: 100px;
-            height: 100px;
+            width: 85px;
+            height: 85px;
             object-fit: cover;
             border-radius: 15px;
         }
         .cartItem{
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             grid-gap: 10px;
             margin-bottom: 15px;
+            justify-content: flex-start;
+            border-bottom: 1px solid #80808047;
+            padding-bottom: 9px;
+        }
+        .cartItem:last-child{
+             border-bottom: none;
         }
         .cartFooter{
             display: flex;
             gap: 12px;
-            justify-content: flex-end;
+            justify-content: space-between;
             height: 70px;
             align-items: center;
             padding: 0 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        .cartFooter>button{
-                height: 50px;
-    font-size: 14px;
-    padding: 0 19px 0 15px;
-    font-weight: 500;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.2s;
-    border: 1px solid rgb(209, 213, 219);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 200px;
+        .cartFooter button{
+            height: 47px;
+            font-size: 14px;
+            padding: 0 19px 0 15px;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 185px;
+            background: #9e9e9e2b;
+            border-radius: 15px;
+        }
+        .cartFooter button i{
+            font-size: 19px;
         }
         .cartFooter>.close{
             color: rgb(55, 65, 81);
@@ -65,219 +77,91 @@
         .cartFooter>button>i{
             font-size: 23px;
         }
-    </style>
-    <style>
-        .cart-title {
-            font-size: 28px;
-            font-weight: 600;
-            color: #2c3e50;
+        .itemStatusBtn{
+            font-size: 12px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background: #9e9e9e2b;
+    border-radius: 7px;
+    padding: 2px 9px;
+    grid-gap: 5px;
         }
-
-        .order-number {
-            font-size: 16px;
-            color: #95a5a6;
-            font-weight: 400;
+        .cartConQty>button,
+        .cartConQty>input{
+           border:none;
+           outline: none;
+           background: #f3f4f6;
+           border-radius: 10px;
+           padding: 0 10px;
+           height: 30px;
+           font-size: 14px;
         }
-
-        .delivery-options {
-            padding: 20px 24px;
-            display: flex;
-            gap: 12px;
-        }
-
-        .delivery-btn {
-            padding: 12px 24px;
-            border: 2px solid #e9ecef;
-            background: white;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 500;
+        .cartConQty>button{
             cursor: pointer;
-            transition: all 0.2s ease;
-            color: #6c757d;
+            transition: 0.2s;
         }
-
-        .delivery-btn.active {
-            background: #2c3e50;
-            color: white;
-            border-color: #2c3e50;
+        .cartConQty>button:hover{
+            background: #e5e7eb;
         }
-
-        .delivery-btn:hover:not(.active) {
-            border-color: #2c3e50;
-            color: #2c3e50;
-        }
-
-        .cart-items {
-            padding: 0 24px;
-        }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            padding: 24px 0;
-            border-bottom: 1px solid #f8f9fa;
-        }
-
-        .item-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 12px;
-            object-fit: cover;
-            margin-right: 16px;
-            background: #f8f9fa;
-        }
-
-        .item-details {
-            flex: 1;
-        }
-
-        .item-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 4px;
-        }
-
-        .item-description {
-            font-size: 14px;
-            color: #95a5a6;
-            margin-bottom: 12px;
-        }
-
-        .item-price {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-left: 16px;
-        }
-
-        .quantity-btn {
-            width: 36px;
-            height: 36px;
-            border: 1px solid #e9ecef;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            color: #6c757d;
-            transition: all 0.2s ease;
-        }
-
-        .quantity-btn:hover {
-            border-color: #2c3e50;
-            color: #2c3e50;
-        }
-
-        .quantity {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-            min-width: 24px;
+        .cartConQty>input{
             text-align: center;
+            font-weight: 600;
+            color: #111827;
+            font-size: 14px;
+            width: 70px;
+            min-width: 70px;
         }
-
-        .order-summary {
-            padding: 32px 24px 24px;
-            margin-top: 24px;
-            position: fixed;
-            bottom: 55px;
+        .cartConQty>input::-webkit-inner-spin-button,
+        .cartConQty>input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-
-        .summary-row {
+        .cartConQty>input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .cartConQty>input[type=number]::-webkit-outer-spin-button,
+        .cartConQty>input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .addCartBtnClose{
+            margin-left: auto;
             display: flex;
-            justify-content: space-between;
+            height: 29px;
+            width: 29px;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .summary-label {
-            font-size: 16px;
-            color: #6c757d;
-        }
-
-        .summary-value {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .summary-discount {
-            color: #e74c3c;
-        }
-
-        .summary-total {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .summary-total .summary-label {
-            font-size: 18px;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-
-        .summary-total .summary-value {
-            font-size: 20px;
-            color: #e67e22;
-            font-weight: 700;
-        }
-
-        .place-order-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #e67e22, #d35400);
-            color: white;
+            background: #9e9e9e2b;
             border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 5px;
+            color: gray;
             cursor: pointer;
-            margin-top: 24px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
         }
-
-        .place-order-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+        .addCartBtnClose:hover{
+            background: #e5e7eb;
         }
-
-        .place-order-btn:active {
-            transform: translateY(0);
+        .addCartBtnRemove{
+            display: flex;
+            height: 29px;
+            width: 29px;
+            justify-content: center;
+            align-items: center;
+            background: #9e9e9e2b;
+            border: none;
+            border-radius: 10px;
+            color: gray;
+            cursor: pointer;
+            transition: 0.2s;
         }
-
-        @media (max-width: 480px) {
-            .container {
-                box-shadow: none;
-            }
-            
-            .header {
-                padding: 20px 16px 12px;
-            }
-            
-            .delivery-options {
-                padding: 16px;
-            }
-            
-            .cart-items {
-                padding: 0 16px;
-            }
-            
-            .order-summary {
-                padding: 24px 16px 20px;
-            }
+        .addCartBtnRemove:hover{
+            background: #e5e7eb;
+        }
+        .addCartBtnRemove>i{
+            font-size: 13px;
+        }
+        .addCartBtnRemove:hover>i{
+            color: red;
         }
     </style>
 
@@ -302,81 +186,200 @@
          ">
             <div
                 style="height: 60px;display: flex;align-items: center;padding:0 15px;">
-                <h3>Add Cart</h3>
+                <h3 style="font-weight: 500;">My Cart (4)</h3>
+                <button type="button" class="addCartBtnClose"  @click="close()"><i class='bx bx-x'></i></button>
             </div>
             <div style="padding: 15px;    flex: 1;    overflow: auto;">
                 <div class="">
-
-                    <!-- Delivery Options -->
-                    <!-- <div class="delivery-options">
-                        <button class="delivery-btn active">Delivery</button>
-                        <button class="delivery-btn">Dine in</button>
-                        <button class="delivery-btn">Take away</button>
-                    </div> -->
-
-                    <!-- Cart Items -->
-                    <div class="cart-items" style="height: 999px;">
-                        <!-- Cappuccino Item -->
-                         {% for item in range(30) %}
-                        <div class="cart-item">
-                            <img
-                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
-                                alt="Cappuccino" class="item-image">
-                            <div class="item-details">
-                                <div class="item-name">Cappuccino</div>
-                                <div class="item-description">Small • 200g</div>
-                                <div class="item-price">$ 14.94</div>
-                            </div>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn"
-                                    onclick="decreaseQuantity('cappuccino')">−</button>
-                                <span class="quantity"
-                                    id="cappuccino-qty">3</span>
-                                <button class="quantity-btn"
-                                    onclick="increaseQuantity('cappuccino')">+</button>
-                            </div>
+                    <div class="cartItem">
+                        <div>
+                            <img class="imgCart" src="https://plus.unsplash.com/premium_photo-1679913792906-13ccc5c84d44?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D" alt="Product Image">
                         </div>
-                        {% endfor %}
-
-                        <!-- Coffee Latte Item -->
-                        <div class="cart-item">
-                            <img
-                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
-                                alt="Coffee Latte" class="item-image">
-                            <div class="item-details">
-                                <div class="item-name">Coffee Latte</div>
-                                <div class="item-description">Small • 200g</div>
-                                <div class="item-price">$ 5.98</div>
+                        <div style="line-height: 1.6;flex: 1;">
+                            <div style="font-size: 11px;color: gray;margin-top: -2px;">BASEBALL PACK</div>
+                            <p style="font-weight: 600;">STANDOUT BACKPACK</p>
+                            <div style="display: flex;grid-gap: 15px;">
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Size:</span><span>Medium</span></div>
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Color:</span><span>White</span></div>
                             </div>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn"
-                                    onclick="decreaseQuantity('latte')">−</button>
-                                <span class="quantity" id="latte-qty">1</span>
-                                <button class="quantity-btn"
-                                    onclick="increaseQuantity('latte')">+</button>
+                            <div style="display: flex;margin-top: 10px;grid-gap: 15px;">
+                                <div class="itemStatusBtn" style="color: #009688;">
+                                    <i class='bx bx-truck'></i>
+                                    <label>Free Shipping</label>
+                                </div>
+                                <div class="itemStatusBtn" style="color: #FF9800;">
+                                    <label>Disc :</label>
+                                    <label>10%</label>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;display: flex;justify-content: space-between;width: 100%;align-items: flex-end;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    $ 9969.00
+                                </div>
+                            </div>
+                            <div style="margin-top: 19px;display: flex;align-items: center;justify-content: flex-end;grid-gap: 15px;    font-size: 13px;color: gray;">
+                                <div>Move to Favourites</div>
+                                <div style="width: 1.3px;background: #80808047;height:19px;border-radius: 5px;"></div>
+                                <button type="button" class="addCartBtnRemove"><i class='bx bx-trash'></i></button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Order Summary -->
-                    <div class="order-summary">
-                        <div class="summary-row">
-                            <span class="summary-label">Items</span>
-                            <span class="summary-value" id="items-total">$
-                                20.92</span>
+                    <div class="cartItem">
+                        <div>
+                            <img class="imgCart" src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D" alt="Product Image">
                         </div>
-                        <div class="summary-row">
-                            <span class="summary-label">Discounts</span>
-                            <span class="summary-value summary-discount">-$
-                                3.00</span>
+                        <div style="line-height: 1.6;flex: 1;">
+                            <div style="font-size: 11px;color: gray;margin-top: -2px;">BASEBALL PACK</div>
+                            <p style="font-weight: 600;">STANDOUT BACKPACK</p>
+                            <div style="display: flex;grid-gap: 15px;">
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Size:</span><span>Medium</span></div>
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Color:</span><span>White</span></div>
+                            </div>
+                            <div style="display: flex;margin-top: 10px;grid-gap: 15px;">
+                                <div class="itemStatusBtn" style="color: #009688;">
+                                    <i class='bx bx-truck'></i>
+                                    <label>Free Shipping</label>
+                                </div>
+                                <div class="itemStatusBtn" style="color: #FF9800;">
+                                    <label>Disc :</label>
+                                    <label>10%</label>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;display: flex;justify-content: space-between;width: 100%;align-items: flex-end;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    $ 555.00
+                                </div>
+                            </div>
+                            <div style="margin-top: 19px;display: flex;align-items: center;justify-content: flex-end;grid-gap: 15px;    font-size: 13px;color: gray;">
+                                <div>Move to Favourites</div>
+                                <div style="width: 1.3px;background: #80808047;height:19px;border-radius: 5px;"></div>
+                                <button type="button" class="addCartBtnRemove"><i class='bx bx-trash'></i></button>
+                            </div>
                         </div>
-                        <div class="summary-row summary-total">
-                            <span class="summary-label">Total</span>
-                            <span class="summary-value" id="final-total">$
-                                17.92</span>
+                    </div>
+                    <div class="cartItem">
+                        <div>
+                            <img class="imgCart" src="https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D" alt="Product Image">
                         </div>
-
-                        
+                        <div style="line-height: 1.6;flex: 1;">
+                            <div style="font-size: 11px;color: gray;margin-top: -2px;">BASEBALL PACK</div>
+                            <p style="font-weight: 600;">STANDOUT BACKPACK</p>
+                            <div style="display: flex;grid-gap: 15px;">
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Size:</span><span>Medium</span></div>
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Color:</span><span>White</span></div>
+                            </div>
+                            <div style="display: flex;margin-top: 10px;grid-gap: 15px;">
+                                <div class="itemStatusBtn" style="color: #009688;">
+                                    <i class='bx bx-truck'></i>
+                                    <label>Free Shipping</label>
+                                </div>
+                                <div class="itemStatusBtn" style="color: #FF9800;">
+                                    <label>Disc :</label>
+                                    <label>10%</label>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;display: flex;justify-content: space-between;width: 100%;align-items: flex-end;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    $ 244.00
+                                </div>
+                            </div>
+                            <div style="margin-top: 19px;display: flex;align-items: center;justify-content: flex-end;grid-gap: 15px;    font-size: 13px;color: gray;">
+                                <div>Move to Favourites</div>
+                                <div style="width: 1.3px;background: #80808047;height:19px;border-radius: 5px;"></div>
+                                <button type="button" class="addCartBtnRemove"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartItem">
+                        <div>
+                            <img class="imgCart" src="https://images.unsplash.com/photo-1610395219791-21b0353e43cb?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Product Image">
+                        </div>
+                        <div style="line-height: 1.6;flex: 1;">
+                            <div style="font-size: 11px;color: gray;margin-top: -2px;">BASEBALL PACK</div>
+                            <p style="font-weight: 600;">STANDOUT BACKPACK</p>
+                            <div style="display: flex;grid-gap: 15px;">
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Size:</span><span>Medium</span></div>
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Color:</span><span>White</span></div>
+                            </div>
+                            <div style="display: flex;margin-top: 10px;grid-gap: 15px;">
+                                <div class="itemStatusBtn" style="color: #009688;">
+                                    <i class='bx bx-truck'></i>
+                                    <label>Free Shipping</label>
+                                </div>
+                                <div class="itemStatusBtn" style="color: #FF9800;">
+                                    <label>Disc :</label>
+                                    <label>10%</label>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;display: flex;justify-content: space-between;width: 100%;align-items: flex-end;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    $ 144.00
+                                </div>
+                            </div>
+                            <div style="margin-top: 19px;display: flex;align-items: center;justify-content: flex-end;grid-gap: 15px;    font-size: 13px;color: gray;">
+                                <div>Move to Favourites</div>
+                                <div style="width: 1.3px;background: #80808047;height:19px;border-radius: 5px;"></div>
+                                <button type="button" class="addCartBtnRemove"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartItem">
+                        <div>
+                            <img class="imgCart" src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D" alt="Product Image">
+                        </div>
+                        <div style="line-height: 1.6;flex: 1;">
+                            <div style="font-size: 11px;color: gray;margin-top: -2px;">BASEBALL PACK</div>
+                            <p style="font-weight: 600;">STANDOUT BACKPACK</p>
+                            <div style="display: flex;grid-gap: 15px;">
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Size:</span><span>Medium</span></div>
+                                <div style="font-size: 12px;grid-gap: 5px;display: flex;"><span>Color:</span><span>White</span></div>
+                            </div>
+                            <div style="display: flex;margin-top: 10px;grid-gap: 15px;">
+                                <div class="itemStatusBtn" style="color: #009688;">
+                                    <i class='bx bx-truck'></i>
+                                    <label>Free Shipping</label>
+                                </div>
+                                <div class="itemStatusBtn" style="color: #FF9800;">
+                                    <label>Disc :</label>
+                                    <label>10%</label>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;display: flex;justify-content: space-between;width: 100%;align-items: flex-end;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    $ 144.00
+                                </div>
+                            </div>
+                            <div style="margin-top: 19px;display: flex;align-items: center;justify-content: flex-end;grid-gap: 15px;    font-size: 13px;color: gray;">
+                                <div>Move to Favourites</div>
+                                <div style="width: 1.3px;background: #80808047;height:19px;border-radius: 5px;"></div>
+                                <button type="button" class="addCartBtnRemove"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -399,8 +402,15 @@
                     <i class='bx bx-eye'></i>
                     <span x-text="'View Cart'"></span>
                 </button> -->
-                <button class=""
-                            onclick="placeOrder()">Place an order</button>
+                <a href="">
+                    <button class="" onclick="placeOrder()">
+                        <i class='bx bx-send'></i>
+                        <span>Process CheckOut</span>
+                    </button>
+                </a>
+                <div style="display: flex;grid-gap: 13px;font-size: 17px;font-weight: 600;">
+                    <span>Total</span>:<span>$ 121414</span>
+                </div>
             </div>
 
             <!-- Close Button (X) -->

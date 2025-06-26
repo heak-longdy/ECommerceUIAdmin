@@ -382,11 +382,62 @@
                         <a href="#">...</a>
                     </div>
                     <div class="header-right">
-                        <button @click="showAddCartConfirmation(1, 'Cart 2')"
+                        <button @click="showAddCartConfirmation(1, 'Cart 2')" style="background: #3f5cfd;
+    border: none;
+    width: 35px;
+    height: 35px;
+    position: relative;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+">
+                            <!-- <i class='bx bx-shopping-bag'></i> -->
+                            <i class='bx bxs-shopping-bag' style='color:#fff;font-size: 17px;'></i> 
+                            <div x-text="countCart>0 ? countCart :'' " style="    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: #000;
+    min-width: 17px;
+    font-size: 9px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: 1px solid #fff;" ></div>
+                        </button>
+                        <!-- <button @click="showAddCartConfirmation(1, 'Cart 2')"
                             style="border: none;background: none;cursor: pointer;">🛒
                             Cart <span
-                                x-text="countCart>0 ? countCart :'' "></span></button>
-                        <a href="#">👤 My account</a>
+                                x-text="countCart>0 ? countCart :'' "></span></button> -->
+                        <!-- <a href="#">👤 My account</a> -->
+                        <button type="button" style="    display: flex
+;
+    align-items: center;
+    border: none;
+    grid-gap: 9px;
+    background: none;
+    border-radius: 30px;
+    padding: 4px 10px 4px 4px;
+    background: rgb(158 158 158 / 32%) !important;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);cursor: pointer;">
+                            <img src="https://media.istockphoto.com/id/998851254/photo/unshaven-but-still-as-smooth-as-ever.jpg?s=612x612&w=0&k=20&c=9QYHshZgo1UXm8GZ6yBsbG4XPwxQneZE7w4WtmJldh0=" alt="User" style="    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;">
+                            <div style="    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;">Heak Longdy</div>
+                        <i class='bx bx-chevron-down'  style='color:#000;font-size: 21px;'></i> 
+                        </button>
                     </div>
                 </div>
                 <div class="header-scroll-down">

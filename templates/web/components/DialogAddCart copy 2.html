@@ -1,0 +1,516 @@
+<!-- Custom Delete Confirmation Dialog Component -->
+
+<template x-data="{}" x-if="$store.DialogAddCart.showAddCartDialog">
+
+    <div
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[9999] flex items-center justify-center showDialog"
+        style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(1px);    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end; z-index: 9999;"
+        x-data="xDialogAddCart">
+
+        <style>
+        .imgCart{
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .cartItem{
+            display: flex;
+            align-items: center;
+            grid-gap: 10px;
+            margin-bottom: 15px;
+        }
+        .cartFooter{
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            height: 70px;
+            align-items: center;
+            padding: 0 15px;
+        }
+        .cartFooter>button{
+                height: 50px;
+    font-size: 14px;
+    padding: 0 19px 0 15px;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid rgb(209, 213, 219);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 200px;
+        }
+        .cartFooter>.close{
+            color: rgb(55, 65, 81);
+            background: rgb(249, 250, 251);
+        }
+        .cartFooter>.viewCart{
+            color: white;
+            background: linear-gradient(135deg, #4CAF50 0%, #4CAF50 100%);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        .cartFooter>button>i{
+            font-size: 23px;
+        }
+    </style>
+    <style>
+        .cart-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .order-number {
+            font-size: 16px;
+            color: #95a5a6;
+            font-weight: 400;
+        }
+
+        .delivery-options {
+            padding: 20px 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .delivery-btn {
+            padding: 12px 24px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6c757d;
+        }
+
+        .delivery-btn.active {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        .delivery-btn:hover:not(.active) {
+            border-color: #2c3e50;
+            color: #2c3e50;
+        }
+
+        .cart-items {
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 0 0 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 16px;
+            background: #f8f9fa;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .item-description {
+            font-size: 14px;
+            color: #95a5a6;
+            margin-bottom: 12px;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: 16px;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            border-color: #2c3e50;
+            color: #2c3e50;
+        }
+
+        .quantity {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .order-summary {
+            padding: 32px 24px 24px;
+            margin-top: 24px;
+            position: fixed;
+            bottom: 55px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .summary-label {
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .summary-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .summary-discount {
+            color: #e74c3c;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .summary-total .summary-label {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .summary-total .summary-value {
+            font-size: 20px;
+            color: #e67e22;
+            font-weight: 700;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+        }
+
+        .place-order-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                box-shadow: none;
+            }
+            
+            .header {
+                padding: 20px 16px 12px;
+            }
+            
+            .delivery-options {
+                padding: 16px;
+            }
+            
+            .cart-items {
+                padding: 0 16px;
+            }
+            
+            .order-summary {
+                padding: 24px 16px 20px;
+            }
+        }
+    </style>
+
+        <div @click.away
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90 translate-y-4"
+            x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 transform scale-100 translate-y-0"
+            x-transition:leave-end="opacity-0 transform scale-90 translate-y-4"
+            style="
+                background: #ffffff;
+    border-radius: 15px 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 29rem;
+    width: 90%;
+    margin: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+         ">
+            <div
+                style="height: 60px;display: flex;align-items: center;padding:0 15px;">
+                <h3>Add Cart</h3>
+            </div>
+            <div style="padding: 15px;    flex: 1;    overflow: auto;">
+                <div class="">
+
+                    <!-- Delivery Options -->
+                    <!-- <div class="delivery-options">
+                        <button class="delivery-btn active">Delivery</button>
+                        <button class="delivery-btn">Dine in</button>
+                        <button class="delivery-btn">Take away</button>
+                    </div> -->
+
+                    <!-- Cart Items -->
+                    <div class="cart-items" style="height: 999px;">
+                        <!-- Cappuccino Item -->
+                         {% for item in range(30) %}
+                        <div class="cart-item">
+                            <img
+                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                alt="Cappuccino" class="item-image">
+                            <div class="item-details">
+                                <div class="item-name">Cappuccino</div>
+                                <div class="item-description">Small • 200g</div>
+                                <div class="item-price">$ 14.94</div>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn"
+                                    onclick="decreaseQuantity('cappuccino')">−</button>
+                                <span class="quantity"
+                                    id="cappuccino-qty">3</span>
+                                <button class="quantity-btn"
+                                    onclick="increaseQuantity('cappuccino')">+</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Coffee Latte Item -->
+                        <div class="cart-item">
+                            <img
+                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                alt="Coffee Latte" class="item-image">
+                            <div class="item-details">
+                                <div class="item-name">Coffee Latte</div>
+                                <div class="item-description">Small • 200g</div>
+                                <div class="item-price">$ 5.98</div>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn"
+                                    onclick="decreaseQuantity('latte')">−</button>
+                                <span class="quantity" id="latte-qty">1</span>
+                                <button class="quantity-btn"
+                                    onclick="increaseQuantity('latte')">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <!-- <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">Items</span>
+                            <span class="summary-value" id="items-total">$
+                                20.92</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Discounts</span>
+                            <span class="summary-value summary-discount">-$
+                                3.00</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">Total</span>
+                            <span class="summary-value" id="final-total">$
+                                17.92</span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- Dynamic Dialog Actions -->
+            <div class="cartFooter">
+                <!-- Cancel Button -->
+                <!-- <button @click="close()" class="close"
+                    onmouseover="this.style.background='#f3f4f6'; this.style.borderColor='#9ca3af'"
+                    onmouseout="this.style.background='#f9fafb'; this.style.borderColor='#d1d5db'">
+                    <i class='bx bx-x'></i>
+                    <span x-text="'Cancel'"></span>
+                </button> -->
+
+                <!-- Primary Action Button -->
+                <!-- <button @click="confirmAction()"
+                    class="viewCart"
+                    onmouseover="this.style.transform='translateY(-1px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <i class='bx bx-eye'></i>
+                    <span x-text="'View Cart'"></span>
+                </button> -->
+                <button class=""
+                            onclick="placeOrder()">Place an order</button>
+            </div>
+
+            <!-- Close Button (X) -->
+            <!-- <button @click="close()"
+                style="
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    width: 32px;
+                    height: 32px;
+                    background: rgba(0, 0, 0, 0.1);
+                    border: none;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                "
+                onmouseover="this.style.background='rgba(0, 0, 0, 0.2)'"
+                onmouseout="this.style.background='rgba(0, 0, 0, 0.1)'">
+                <span class="material-symbols-outlined" style="
+                color: #6b7280;
+                font-size: 18px;
+            ">close</span>
+            </button> -->
+        </div>
+
+    </div>
+</template>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('DialogAddCart', {
+            active: false,
+            showAddCartDialog: false,
+            dataCart: [],
+            options: {
+                data: null,
+                selected: null,
+                multiple: false,
+                title: 'Choose an option',
+                placeholder: 'Type to search...',
+                allow_close: true,
+                onReady: () => {},
+                onSearch: () => {},
+                // beforeClose: () => {},
+                afterClose: () => {}
+            }
+        });
+    });
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('xDialogAddCart', () => ({
+            dialogConfig: {},
+            itemToDelete: null,
+            dataCart: [],
+            init() {
+                this.dataCart = Alpine.store('DialogAddCart')?.dataCart || [];
+                console.log(Alpine.store('DialogAddCart'),"dataCart 222222222@@@");
+                this.dialogConfig = Alpine.store('DialogAddCart').options;
+                this.itemToDelete = Alpine.store('DialogAddCart').options.data;
+            },
+
+            confirmAction() {
+                if (this.dialogConfig.action) {
+                    this.$dispatch('dialog-confirm', { action: this.dialogConfig.action, data: this.itemToDelete });
+                }
+                Alpine.store('DialogAddCart').showAddCartDialog = false;
+            },
+
+            cancelDelete() {
+                Alpine.store('DialogAddCart').showAddCartDialog = false;
+            },
+            close(data = null) {
+                this.$store.DialogAddCart.showAddCartDialog = false;
+                this.$store.DialogAddCart.options.afterClose(data);
+            },
+            deleteCartItem(orderId) {
+                console.log("orderId", orderId);
+                // Find the index of the item with the specified orderId
+                const itemIndex = this.dataCart.findIndex(item => item.id === orderId);
+
+                if (itemIndex !== -1) {
+                    // Remove the item from the dataCart
+                    this.dataCart.splice(itemIndex, 1);
+
+                    // Save the updated cart back to localStorage
+                    localStorage.setItem('cart', JSON.stringify(this.dataCart));
+
+                    console.log('Item deleted. Updated cart:', this.dataCart);
+                } else {
+                    console.log('Item not found in cart:', orderId);
+                }
+            }
+
+        }));
+    });
+
+    window.SelectOption = (options) => {
+        Alpine.store('DialogAddCart', {
+            active: true,
+            showAddCartDialog: true,
+            dataCart : options?.dataCart || [],
+            options: {
+                ...Alpine.store('DialogAddCart').options,
+                ...options
+            }
+        });
+    };
+</script>
