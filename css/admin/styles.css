@@ -2,6 +2,7 @@
 @import './dropdown.css';
 @import './table.css';
 @import './profile.css';
+@import './font.css';
 
 :root {
     --collapsed-sidebar-icon-size: 23px;
@@ -11,7 +12,7 @@
     --sidebar-item-active-bg: #1a73e8;
 }
 body {
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: 'DM Sans', sans-serif;
     background: #fff;
     color: #000;
     margin: 0;
@@ -19,6 +20,9 @@ body {
     display: flex;
     height: 100vh;
     position: relative;
+}
+*{
+    font-family: 'DM Sans', Arial, sans-serif;
 }
 .showDialog{
     background: rgba(0, 0, 0, 0.6);
@@ -830,6 +834,19 @@ a{
 }
 .topbar .topbarScrollOnTop{
     display: none;
+}
+.topbar .topbarScrollOnTop>i{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #9E9E9E;
+    border-radius: 50%;
+    /* color: #fff; */
+    background: #e5dfdf !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 .topbar .topbarActions{
     display: none;

@@ -8,3 +8,8 @@ home_bp = Blueprint('home', __name__, url_prefix='/')
 def index():
     admins = Admin.query.all()
     return render_template('web/index.html', admins=admins)
+
+@home_bp.route('/ProcessCheckout')
+def ProcessCheckout():
+    admins = Admin.query.all()
+    return render_template('web/processCheckout.html', admins=admins)

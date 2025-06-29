@@ -67,7 +67,7 @@ SAMPLE_ORDERS = [
 @app.route('/')
 def orders_page():
     """Orders management page with enhanced order details"""
-    return render_template('order/index.html',
+    return render_template('admin/order/index.html',
                          active_page='orders',
                          project_name='Order Management',
                          plan_type='Pro Plan',
@@ -77,7 +77,29 @@ def orders_page():
 @app.route('/Create')
 def orders_create():
     """Orders management page with enhanced order details"""
-    return render_template('order/create.html',
+    return render_template('admin/order/create.html',
+                         active_page='orders',
+                         project_name='Order Management',
+                         plan_type='Pro Plan',
+                         expanded_sections=['build'],
+                         recent_orders=SAMPLE_ORDERS,
+                         cart_count=9)
+@app.route('/view')
+def orders_view():
+    # return "order_id"
+    """Orders management page with enhanced order details"""
+    return render_template('admin/order/view_detail.html',
+                         active_page='orders',
+                         project_name='Order Management',
+                         plan_type='Pro Plan',
+                         expanded_sections=['build'],
+                         recent_orders=SAMPLE_ORDERS,
+                         cart_count=9)
+@app.route('/view2')
+def orders_view2():
+    # return "order_id"
+    """Orders management page with enhanced order details"""
+    return render_template('admin/order/ListCustomize.html',
                          active_page='orders',
                          project_name='Order Management',
                          plan_type='Pro Plan',

@@ -1,0 +1,545 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Order Detail{% endblock %}
+
+{% block headerTitle %}Order Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .order-detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .order-actions-control>button {
+        margin-left: 10px;
+        padding: 0 15px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        width: fit-content;
+        height: 40px;
+        background: #dbdbdb;
+        align-items: center;
+        display: flex;
+        grid-gap: 7px;
+        font-size: 12px;
+    }
+    .order-actions-control .print{
+        color: #3F51B5;
+        background: #3f51b51a;
+    }
+    .order-actions-control .pfd{
+        background: #ff000017;
+        color: #ff0000c9;
+    }
+    .order-actions-control .csv{
+        background: #4caf503d;
+        color: #009688;
+    }
+    .order-actions-control>button>i {
+        font-size: 20px;
+    }
+    .order-detail-container h3{
+        font-weight: 550;
+        display: flex;
+        align-items: center;
+        grid-gap: 15px;
+    }
+    .order-detail-container h3,
+    .order-detail-container p {
+        margin: 0;
+    }
+    .imgGp{
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .imgGp img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .order-detail-item{
+        display: flex;
+        align-items: flex-start;
+        grid-gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+    .order-detail-item p{
+        margin: 0;
+    }
+    .order-detail-text{
+        font-size: 14px;
+        color: #565454;
+        line-height: 23px;
+    }
+    .orderTitle{
+        font-weight: 500;
+        font-size: 17px;
+        margin-bottom: 7px !important; 
+        color: #000;
+    }
+    .titleUnderline {
+        margin-bottom: 20px !important;
+        padding-bottom: 7px;
+    }
+    .titleUnderline-border {
+        border-bottom: 1px solid #80808038;
+    }
+    .paddingHeader{
+        padding: 25px 25px 5px 25px;
+    }
+    .paddingBody{
+        padding: 0px 25px 0 25px;
+    }
+    .order-detail-left {
+        
+    }
+    .order-detail-items{
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        margin-bottom: 35px;
+    }
+    .order-detail-right {
+        border-radius: 10px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    .paddingBot35{
+        padding-bottom: 35px;
+    }
+    .order-item-txt-trim{
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 7px;
+    }
+    .order-item-txt-trim>div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #565454;
+    }
+    .order-item-txt-trim>div:first-child {
+        width: 100px;
+        color: #000;
+        flex: none;
+    }
+    .summary-item {
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .summary-item>div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #565454;
+
+    }
+    .summary-item>div:first-child {
+        width: 200px;
+        color: #000;
+        flex: none;
+    }
+
+    .OrderHistoryItem{
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 12px;
+        color: #fff;
+        border:1px solid #7489ff;
+    }
+    .OrderHistoryItem.active {
+        background: #7489ff;
+    }
+    .columnLine{
+        position: absolute;
+        width: 1.5px;
+        height: calc(100% - 19px);
+        background: #9e9e9e38;
+        left: 9px;
+        top: 19px;
+    }
+    .OrderHistoryItem>i {
+        display: none;
+    }
+    .OrderHistoryItem.active>i {
+        display: flex;
+    }
+    .OrderHistoryItem ~ .columnLine {
+        display: none;
+    }
+    .OrderHistoryItem.active ~ .columnLine {
+        display: flex;
+    }
+
+    .historyTextMul{
+        background: #80808017;
+        width: 100%;
+        padding: 15px 19px 30px 19px;
+        border-radius: 15px;
+        flex:1;
+    }
+    .historyTextMul>.listMul{
+        width:21px;
+        min-height: 75px;
+        background: #9e9e9e38;
+        position: relative;
+        border-radius: 0px 0px 0 15px;
+        background: none;
+        border-left: 1.5px solid #9e9e9e38;
+        border-bottom: 1.5px solid #9e9e9e38;
+    }
+    .historyTextMul>.listMul>.itemList {
+        width: 19px;
+        height: 25px;
+        margin-left: -1px;
+        border-left: 1px solid #9e9e9e38;
+        border-bottom: 1.5px solid #9e9e9e38;
+        border-radius: 0px 5px 0px 10px;
+        position: relative;
+    }
+    .historyTextMul>.listMul>.itemList>.itemListTxt {
+        position: absolute;
+        width: 100%;
+        left: 25px;
+        top: 12px;white-space: nowrap;
+    }
+    .historyTextMul>.listMul>.itemListTxtLast {
+         width: fit-content;
+        white-space: nowrap;
+        position: absolute;
+        bottom: -10px;
+        left: 29px;
+    }
+    .order-status-select>select:focus {
+        outline: none;
+        border: none;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="order-detail-header">
+        <!-- <h2>Order Details</h2> -->
+        <div style="display: flex;align-items: center;    grid-gap: 15px;">
+            <a href="#" class="back-link"
+                style="color: #000;display: flex;font-size: 30px;font-weight: 400;"><i
+                    class='bx bx-undo-stroke'></i> </a>
+            <div style="display: flex;align-items: center;    grid-gap: 15px;">
+                <h3 style="font-weight: 500;">Order ID: #2471</h3>
+                <p>13 Sep, 2022 at 4:39 PM</p>
+                <div style="background: #4CAF50;padding: 7px 13px;border-radius: 20px;font-size: 12px;color: #fff;">Paid</div>
+            </div>
+        </div>
+        <div style="display: flex;align-items: center;"
+            class="order-actions-control">
+            <button class="print">
+                <i class='bx  bx-printer'></i>
+                <span>Print Order</span>
+            </button>
+            <button class="pfd">
+                <i class='bx  bx-file'></i>
+                <span>Export PDF</span>
+            </button>
+            <button class="csv">
+                <i class='bx  bx-file'></i>
+                <span>Export CSV</span>
+            </button>
+        </div>
+    </div>
+    <div style="display: flex;grid-gap: 35px;    margin: 35px;"
+        class="order-detail-container">
+        <div class="order-detail-left" style="flex:1;">
+            <div class="order-detail-items">
+                <h3 class="titleUnderline titleUnderline-border paddingHeader"
+                    style="padding-bottom: 15px;margin-bottom: 25px !important;">Order
+                    Details</h3>
+                <div class="paddingBody">
+                    <div class="order-detail-item">
+                        <div class="imgGp">
+                            <img
+                                src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                alt="Product Image">
+                        </div>
+                        <div
+                            style="display: flex;justify-content: space-between;flex: 1;">
+                            <div class="order-detail-text">
+                                <p class="orderTitle">Laced shoes on high
+                                    current voltage</p>
+                                <div>
+                                    <span>SKU:</span>
+                                    <span>dfr-t685y-1</span>
+                                </div>
+                                <div>
+                                    <span>Size:</span><span> XL</span>
+                                    <span>/</span>
+                                    <span>Color:</span> <span>Black</span>
+                                </div>
+                                <div>
+                                    <span>Quantity:</span>
+                                    <span>2</span>
+                                </div>
+                            </div>
+                            <div class="order-detail-text"
+                                style="font-weight: 550;font-size: 17px;    color: #000;">
+                                <p>$50.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-detail-item">
+                        <div class="imgGp">
+                            <img
+                                src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D"
+                                alt="Product Image">
+                        </div>
+                        <div
+                            style="display: flex;justify-content: space-between;flex: 1;">
+                            <div class="order-detail-text">
+                                <p class="orderTitle">Laced shoes on high
+                                    current voltage</p>
+                                <div>
+                                    <span>SKU:</span>
+                                    <span>dfr-t685y-1</span>
+                                </div>
+                                <div>
+                                    <span>Size:</span><span> XL</span>
+                                    <span>/</span>
+                                    <span>Color:</span> <span>Black</span>
+                                </div>
+                                <div>
+                                    <span>Quantity:</span>
+                                    <span>2</span>
+                                </div>
+                            </div>
+                            <div class="order-detail-text"
+                                style="font-weight: 550;font-size: 17px;    color: #000;">
+                                <p>$50.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="display: flex;justify-content: flex-end;border-top: 1px solid #80808024;padding-top: 25px;"
+                    class="paddingBot35">
+                    <div class="order-summary paddingBody">
+                        <div class="summary-item">
+                            <div>Subtotal</div>
+                            <div>$100.00</div>
+                        </div>
+                        <div class="summary-item">
+                            <div>Shipping:</div>
+                            <div>$5.00</div>
+                        </div>
+                        <div class="summary-item">
+                            <div>Sales tex</div>
+                            <div>$105.00</div>
+                        </div>
+                        <div class="summary-item">
+                            <div>Total</div>
+                            <div
+                                style="font-weight: 600;font-size: 16px;">$105.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="order-detail-items">
+                <h3 class="titleUnderline titleUnderline-border paddingHeader"
+                    style="padding-bottom: 15px;margin-bottom: 25px !important;">Order
+                    History</h3>
+                <div class="paddingBody paddingBot35">
+                    <div style="display: flex;align-items: flex-start;grid-gap: 15px;position: relative;height: 70px;">
+                        <div class="OrderHistoryItem active">
+                            <i class='bx bx-check'></i>
+                        </div>
+                        <div class="columnLine"></div>
+                        <div class="order-detail-text">
+                            <p style="font-weight: 500;">Order Placed</p>
+                            <p>13 Sep, 2022 at 4:39 PM</p>
+                        </div>
+                    </div>
+                    <div style="display: flex;align-items: flex-start;grid-gap: 15px;position: relative;">
+                        <div class="OrderHistoryItem">
+                            <i class='bx bx-check'></i>
+                        </div>
+                        <div class="columnLine"></div>
+                        <div class="order-detail-text historyTextMul">
+
+                            <div style="font-weight: 600;margin-bottom: 7px;display: flex;justify-content: space-between;align-items: center;">
+                                <div>Order status was changed to</div>
+                                <div style="display: flex;align-items: center;grid-gap: 10px;">
+                                    <span>Status&nbsp;:</span>
+                                    <div style="background: none;padding: 0 10px 0px 0;border: 1px solid #8080803b;border-radius: 20px;" class="order-status-select">
+                                        <select style="border: none;height: 32px;padding: 0 9px;border-radius: 20px;background: none;">
+                                            <option value="pending">Pending</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="completed" selected>Quick Buy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="listMul">
+                                <div class="itemList">
+                                    <div class="itemListTxt"> 
+                                        <div style="display: flex;align-items: center;grid-gap: 10px;">
+                                            <button type="button"
+                                                style="background: #4CAF50;
+                                                padding: 5px 10px;
+                                                border-radius: 15px;
+                                                color: #fff;
+                                                border: none;">New</button>
+                                            <div>13 Sep, 2022 at 4:39 PM</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="itemListTxtLast"> 
+                                    <div style="display: flex;align-items: center;grid-gap: 10px;">
+                                            <button type="button"
+                                                style="background: #a017b6;
+                                                padding: 5px 10px;
+                                                border-radius: 15px;
+                                                color: #fff;
+                                                border: none;">Quick Buy</button>
+                                            <div>13 Sep, 2022 at 4:39 PM</div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="order-detail-right"
+            style="width: 370px;height: fit-content;">
+            <div class="customer-info titleUnderline-border paddingBot35">
+                <h3 class="titleUnderline paddingHeader">
+                    <i class='bx bx-user-circle' style="font-size: 23px;"></i>
+                    <span>Customer Info</span>
+                </h3>
+                <div style="display: flex;grid-gap: 15px;" class="paddingBody">
+                    <div style="width: 65px;height: 65px;">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzHMDlwRCHOHZP_tX7jRYNxV8W8MpNEog45w&s"
+                            alt="Customer Image"
+                            style="width: 100%; height: 100%; border-radius: 50%;">
+                    </div>
+                    <div style="font-size: 14px;flex: 1; line-height: 22px;"
+                        class>
+                        <p style="font-weight: 600;margin-bottom: 7px;">Longdy
+                            Heak</p>
+                        <div>
+                            <span style="font-weight: 500;">Email:</span>
+                            <span>longdy@example.com</span>
+                        </div>
+                        <div>
+                            <span style="font-weight: 500;">Phone:</span>
+                            <span>(123) 456-7890</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="delivery-info paddingBot35 titleUnderline-border ">
+                <h3
+                    class="titleUnderline paddingHeader">
+                    <i class='bx  bx-truck' style='font-size: 23px;'></i>
+                    <span>Delivery Details</span>
+                </h3>
+                <div style="display: flex;grid-gap: 15px;" class="paddingBody">
+                    <div style="font-size: 14px;flex: 1;line-height: 22px;"
+                        class>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Speedy</div>
+                            <div>: longdy@example.com</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Office</div>
+                            <div>: (123) 456-7890</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Address</div>
+                            <div>: 123 Main St, Springfield, IL 62701</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">City</div>
+                            <div>: Springfield</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="shipping-info paddingBot35 titleUnderline-border">
+                <h3
+                    class="titleUnderline paddingHeader">
+                    <i class='bx bx-location-blank'
+                        style='font-size: 23px;'></i>
+                    <span>Shipping Info</span>
+                </h3>
+                <div style="display: flex;grid-gap: 15px;" class="paddingBody">
+                    <div style="font-size: 14px;flex: 1;line-height: 22px;"
+                        class>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Address</div>
+                            <div>: Laura Petkova 3400 Montana, Bulgaria,</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Phone</div>
+                            <div>: 0876537622</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">VAT Number</div>
+                            <div>: -</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div
+                                style="font-weight: 500;font-weight: 500;display: flex;align-items: center;grid-gap: 5px;background: none;border-radius: 10px;height: 30px;color: #2196f3;">
+                                <i class='bx bx-map'></i> Location:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="shipping-info paddingBot35">
+                <h3
+                    class="titleUnderline paddingHeader">
+                    <i class='bx bx-wallet-alt' style='font-size: 23px;'></i>
+                    <span>Payment Info</span>
+                </h3>
+                <div style="display: flex;grid-gap: 15px;" class="paddingBody">
+                    <div style="font-size: 14px;flex: 1;line-height: 22px;"
+                        class>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Payment Method</div>
+                            <div>: Cash on delivery</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div style="font-weight: 500;">Payment Transaction
+                                Nº</div>
+                            <div>: 0876537622</div>
+                        </div>
+                        <div class="order-item-txt-trim">
+                            <div
+                                style="font-weight: 500;font-weight: 500;display: flex;align-items: center;grid-gap: 5px;background: none;border-radius: 10px;height: 30px;color: #2196f3;width: fit-content;">
+                                <i class='bx bx-eye'
+                                    style="font-size: 20px;"></i> View
+                                Transactions
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

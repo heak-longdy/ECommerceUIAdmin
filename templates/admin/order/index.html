@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% block title %}Order Management{% endblock %}
 
@@ -65,7 +65,7 @@
                                     type="button"
                                     @click="toggleDropdown('menu-{{ loop.index }}')"
                                     :class="{ 'active': isOpen('menu-{{ loop.index }}') }">
-                                <i class="material-symbols-outlined">more_vert</i>
+                                <i class='bx  bx-dots-vertical' style="font-size: 19px;"></i> 
                             </button>
                             <ul class="tb-dropdown-menu" 
                                 x-show="isOpen('menu-{{ loop.index }}')"
@@ -79,16 +79,32 @@
                                 <li>
                                     <button class="dropdown-item" type="button"
                                         @click="showDeleteConfirmation('{{ order.name or ('Order #' ~ loop.index) }}')">
-                                        <i class="material-symbols-outlined">delete</i>
+                                        <i class="bx bx-trash"></i>
                                         <span>Delete</span>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="dropdown-item" type="button"
                                         @click="handleEdit('{{ order.id or loop.index }}')">
-                                        <i class="material-symbols-outlined">edit</i>
+                                        <i class="bx bx-edit"></i>
                                         <span>Edit</span>
                                     </button>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('order_bp.orders_view') }}">
+                                    <button class="dropdown-item" type="button">
+                                        <i class='bx bx-eye'></i>
+                                        <span style="padding-right: 0;">View Detail</span>
+                                    </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('order_bp.orders_view2') }}">
+                                    <button class="dropdown-item" type="button">
+                                        <i class='bx bx-eye'></i>
+                                        <span style="padding-right: 0;">List New UI</span>
+                                    </button>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -124,7 +140,7 @@
 </div>
 
 <!-- Include Delete Dialog Component -->
-{% include 'components/DialogDelete.html' %}
+{% include 'admin/components/DialogDelete.html' %}
 
 
 {% endblock %}

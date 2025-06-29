@@ -341,31 +341,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Handle dropdown item clicks
-        const dropdownItem = e.target.closest('.dropdown-item');
-        if (dropdownItem) {
-            e.preventDefault();
-            e.stopPropagation();
+        // const dropdownItem = e.target.closest('.dropdown-item');
+        // if (dropdownItem) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
             
-            const action = dropdownItem.getAttribute('data-action');
-            console.log('Dropdown item clicked:', action);
+        //     const action = dropdownItem.getAttribute('data-action');
+        //     console.log('Dropdown item clicked:', action);
             
-            if (action === 'delete') {
-                if (confirm('Are you sure you want to delete this row?')) {
-                    const row = dropdownItem.closest('.column');
-                    if (row) {
-                        row.remove();
-                        console.log('Row deleted');
-                    }
-                }
-            } else if (action === 'edit') {
-                alert('Edit functionality - implement as needed');
-                console.log('Edit clicked');
-            }
+        //     if (action === 'delete') {
+        //         if (confirm('Are you sure you want to delete this row?')) {
+        //             const row = dropdownItem.closest('.column');
+        //             if (row) {
+        //                 row.remove();
+        //                 console.log('Row deleted');
+        //             }
+        //         }
+        //     } else if (action === 'edit') {
+        //         alert('Edit functionality - implement as needed');
+        //         console.log('Edit clicked');
+        //     }
             
-            // Close dropdown after action
-            const menu = dropdownItem.closest('.tb-dropdown-menu');
-            menu.classList.remove('show');
-        }
+        //     // Close dropdown after action
+        //     const menu = dropdownItem.closest('.tb-dropdown-menu');
+        //     menu.classList.remove('show');
+        // }
         
         // Close dropdowns when clicking outside
         if (!e.target.closest('.dropdown')) {

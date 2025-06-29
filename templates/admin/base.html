@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ecommerce{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/styles.css') }}">
+    <!-- Boxicons CSS -->
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <script defer src="{{ url_for('static', filename='js/admin/alpine.js') }}"></script>
     {% block extra_css %}{% endblock %}
 </head>
@@ -16,7 +18,7 @@
         <div class="topbarLeft">
             <span class="project-name header-title">{% block headerTitle %}Ecommerce{% endblock %}</span>
             <div class="topbarScrollOnTop">
-                <i class="bx bx-arrow-to-top"></i>
+                <i class="bx bx-arrow-big-up"></i>
             </div>
             {% block addUrl %}
             {% if add_url %}

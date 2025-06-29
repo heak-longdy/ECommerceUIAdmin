@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ecommerce - Get Inspired</title>
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/styles.css') }}">
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/owl.carousel.min.css') }}">
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/carousel.css') }}">
+
+        <!-- Boxicons CSS -->
+        <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css'
+            rel='stylesheet'>
+
+        <script defer
+            src="{{ url_for('static', filename='js/admin/alpine.js') }}"></script>
+        <script
+            src="{{ url_for('static', filename='js/web/jquery.js') }}"></script>
+        <script
+            src="{{ url_for('static', filename='js/web/jqueryUi.js') }}"></script>
+
+        <script
+            src="{{ url_for('static', filename='js/web/layout.js') }}"></script>
+        <script
+            src="{{ url_for('static', filename='js/web/owl.carousel.min.js') }}"></script>
+
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/web/processCheckout.css') }}">
+
+        
+            <style>
+                /* From Uiverse.io by Fernando-sv */ 
+                .loader {
+                border: 4px solid rgba(0, 0, 0, .1);
+                border-left-color: transparent;
+                border-radius: 50%;
+                }
+
+                .loader {
+                border: 4px solid rgba(0, 0, 0, .1);
+                border-left-color: transparent;
+                width: 36px;
+                height: 36px;
+                }
+
+                .loader {
+                border: 3px solid #009688;
+                border-left-color: transparent;
+                width: 23px;
+                height: 23px;
+                animation: spin89345 1s linear infinite;
+                }
+
+                @keyframes spin89345 {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+                }
+            </style>
+
+    </head>
+    <body>
+        <div class="process-checkout-lyout" x-data="XProcessCheckout">
+            <div class="process-checkout-header"></div>
+            <div class="process-checkout-body">
+                <div class="process-checkout-left">
+                    <div class="ProChe-item">
+                        <div class="body">
+                            <div class="ProChe-item-image">
+                                <img
+                                    src="https://images.unsplash.com/photo-1610395219791-21b0353e43cb?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Product Image">
+                            </div>
+                            <div class="ProChe-item-details">
+                                <p
+                                    style="font-weight: 500;font-size: 19px;">Slime
+                                    Fit Casual Shirt</p>
+                                <p>Buttom-Down Collar & Placket....</p>
+                                <div>
+                                    <span class="colorGray">Size: </span><span
+                                        class="fontW600">XL</span>
+                                    <span>/</span>
+                                    <span class="colorGray">Color: </span><span
+                                        class="fontW600">Black</span>
+                                </div>
+                                <div style="font-size: 19px;"
+                                    class="fontW600">$85.00</div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div
+                                style="margin-top: 10px;display: flex;justify-content: space-between;width: 100%;align-items: center;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    <button type="button"
+                                        class="ProChe-Remove"><i
+                                            class="bx bx-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ProChe-item">
+                        <div class="body">
+                            <div class="ProChe-item-image">
+                                <img
+                                    src="https://images.unsplash.com/photo-1585565804112-f201f68c48b4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Product Image">
+                            </div>
+                            <div class="ProChe-item-details">
+                                <p
+                                    style="font-weight: 500;font-size: 19px;">Slime
+                                    Fit Casual Shirt</p>
+                                <p>Buttom-Down Collar & Placket....</p>
+                                <div>
+                                    <span class="colorGray">Size: </span><span
+                                        class="fontW600">XL</span>
+                                    <span>/</span>
+                                    <span class="colorGray">Color: </span><span
+                                        class="fontW600">Black</span>
+                                </div>
+                                <div style="font-size: 19px;"
+                                    class="fontW600">$85.00</div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div
+                                style="margin-top: 10px;display: flex;justify-content: space-between;width: 100%;align-items: center;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    <button type="button"
+                                        class="ProChe-Remove"><i
+                                            class="bx bx-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ProChe-item">
+                        <div class="body">
+                            <div class="ProChe-item-image">
+                                <img
+                                    src="https://images.unsplash.com/photo-1571689936114-b16146c9570a?q=80&w=2082&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Product Image">
+                            </div>
+                            <div class="ProChe-item-details">
+                                <p
+                                    style="font-weight: 500;font-size: 19px;">Slime
+                                    Fit Casual Shirt</p>
+                                <p>Buttom-Down Collar & Placket....</p>
+                                <div>
+                                    <span class="colorGray">Size: </span><span
+                                        class="fontW600">XL</span>
+                                    <span>/</span>
+                                    <span class="colorGray">Color: </span><span
+                                        class="fontW600">Black</span>
+                                </div>
+                                <div style="font-size: 19px;"
+                                    class="fontW600">$85.00</div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div
+                                style="margin-top: 10px;display: flex;justify-content: space-between;width: 100%;align-items: center;">
+                                <div class="cartConQty">
+                                    <button>-</button>
+                                    <input type="number" value="12" min="1">
+                                    <button>+</button>
+                                </div>
+                                <div style="font-weight: 600;">
+                                    <button type="button"
+                                        class="ProChe-Remove"><i
+                                            class="bx bx-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="process-checkout-right">
+                    <!-- Order Tracking -->
+                    <div class="ProChe-track-ship ProChe-ItemBox">
+                        <div class="ProTitle">Order Tracking</div>
+                        <div style="margin-bottom: 20px;color: gray;font-size: 13px;">This Order Is Ready to shipping Please click the to
+                            ship button.</div>
+                        <div class="ProChe-track-buttons">
+                            <button class="ProChe-track">Track Order</button>
+                            <button class="ProChe-ship">Ship</button>
+                        </div>
+                        <div class="ProChe-track-activity">
+                            <div class="ProChe-track-activity-icon active">
+                                <i class='bx bx-cube'></i>
+                                <div class="ProChe-track-activity-label">
+                                    <label class="active">Placed</label>
+                                    <label>2023/03/15</label>
+                                    <label>10:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="ProChe-track-activity-line"></div>
+                            <div class="ProChe-track-activity-icon">
+                                <i class='bx  bx-truck'></i> 
+                                <div class="ProChe-track-activity-label">
+                                    <label>Placed</label>
+                                    <label>2023/03/15</label>
+                                    <label>10:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="ProChe-track-activity-line"></div>
+                            <div class="ProChe-track-activity-icon">
+                                <i class='bx bx-donate-blood'></i> 
+                                <div class="ProChe-track-activity-label">
+                                    <label>Shipped</label>
+                                    <label>2023/03/16</label>
+                                    <label>11:00 AM</label>
+                                </div>
+                            </div>
+                            <div class="ProChe-track-activity-line"></div>
+                            <div class="ProChe-track-activity-icon">
+                                <i class='bx  bx-receipt'></i> 
+                                <div class="ProChe-track-activity-label">
+                                    <label>Delivered</label>
+                                    <label>2023/03/17</label>
+                                    <label>12:00 PM</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Send to Delivery Company -->
+                    <div class="ProChe-track-ship ProChe-ItemBox">
+                        <div class="ProTitle">Send to Delivery Company</div>
+                        <div style="display: flex;flex-direction: column;grid-gap: 10px;">
+                            <div class="payment-method">
+                                <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
+                                <label for="credit-card">
+                                    <div class="method-info">
+                                        <img src="../../assets/cash.png" alt="ABA Bank Logo">
+                                        <!-- <span>Pay with Cash</span> -->
+                                    </div>
+                                    <span class="method-description">Pay with Cash</span>
+                                </label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="paypal" name="payment-method" value="paypal">
+                                <label for="paypal">
+                                    <div class="method-info">
+                                        <img src="../../assets/ABA.jpg" alt="ABA Bank Logo">
+                                        <!-- <span>ABA Bank</span> -->
+                                    </div>
+                                    <span class="method-description">Pay with your ABA Bank</span>
+                                </label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="acleda" name="payment-method" value="acleda">
+                                <label for="acleda">
+                                    <div class="method-info">
+                                        <img src="../../assets/acleda.jpg" alt="Acleda Bank Logo">
+                                        <!-- <span>Acleda Bank</span> -->
+                                    </div>
+                                    <span class="method-description">Pay with your Acleda Bank</span>
+                                </label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="wing" name="payment-method" value="wing">
+                                <label for="wing">
+                                    <div class="method-info">
+                                        <img src="../../assets/wing.png" alt="Wing Logo">
+                                        <!-- <span>Wing</span> -->
+                                    </div>
+                                    <span class="method-description">Pay with your Wing</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="ProChe-track-ship ProChe-ItemBox">
+                        <div class="ProTitle">Order Summary</div>
+                        <div style="display: flex;flex-wrap: wrap;grid-gap: 15px 26px;">
+                            <div class="ProChe-Control-input">
+                                <label>Discount (%)</label>
+                                <div class="ProChe-input">
+                                    <i class='bx  bx-percentage'></i> 
+                                    <input type="number" value="0" min="0" max="100" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="ProChe-Control-input">
+                                <label>Amount</label>
+                                <div class="ProChe-input">
+                                    <i class='bx bx-dollar'></i>
+                                    <input type="number" value="0" min="0" max="100" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="ProChe-Control-input">
+                                <label>Vat/ Tax (%)</label>
+                                <div class="ProChe-input">
+                                    <i class='bx  bx-percentage'></i>
+                                    <input type="number" value="0" min="0" max="100" placeholder="0">
+                                </div>
+                            </div>
+                            <div class="ProChe-Control-input">
+                                <label>Amount</label>
+                                <div class="ProChe-input">
+                                    <i class='bx bx-dollar'></i>
+                                    <input type="number" value="0" min="0" max="100" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <div class="ProChe-Sum-Item">
+                                <span class="ProChe-Sum-Item-label">Subtotal</span>
+                                <span class="ProChe-Sum-Item-value">$255.00</span>
+                            </div>
+                            <div class="ProChe-Sum-Item">
+                                <span class="ProChe-Sum-Item-label">Shipping</span>
+                                <span class="ProChe-Sum-Item-value">$15.00</span>
+                            </div>
+                            <div class="ProChe-Sum-Item">
+                                <span class="ProChe-Sum-Item-label">Tax</span>
+                                <span class="ProChe-Sum-Item-value">$5.00</span>
+                            </div>
+                            <div class="ProChe-Sum-Item ProChe-Sum-Total">
+                                <span class="ProChe-Sum-Item-label">Total</span>
+                                <span class="ProChe-Sum-Item-value">$275.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="button" class="ProChe-Checkout" style="    height: 50px;
+    width: 100%;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 10px;" @click="showDialogConfirm = true">
+    <span>Submit Order</span><i class='bx bx-send' style="font-size: 20px;"></i> </button>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="process-checkout-footer"></div>
+            <!-- PopUp Verify -->
+             <template x-if="showDialogConfirm">
+             <div>
+             <div style="position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    background: #00000038;
+    display: flex;
+    justify-content: center;
+    align-items: center;">
+                <div style="    width: 265px;
+    background: #fff;
+    min-height: 335px;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    text-align: center;"> 
+                    <i class='bx  bx-help-circle' style="font-size: 75px;margin-bottom: 25px;color: #FFC107;"></i> 
+                    <!-- <h2>Verify Your Order</h2> -->
+                    <p style="    color: #3b3a3a;
+    font-size: 13px;
+    font-weight: 600;">Are you sure you want to proceed with your order?</p> 
+                    <div style="    margin-top: 25px;
+    display: flex;
+    grid-gap: 15px;
+    flex-direction: column;
+    width: 100%;">
+                        <button class="ProChe-Verify" style="    width: 100%;
+    height: 43px;
+    border-radius: 30px;
+    border: none;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    grid-gap: 10px;
+    justify-content: center;">
+    <div class="loader"></div>
+    <span>Ok, Confirm</span>
+</button>
+                        <button class="ProChe-Cancel" style="width: 100%;border:none;background:none;color:#00000099;font-size: 13px;"  @click="showDialogConfirm = false">Cancel</button>
+                    </div>
+                </div>
+             </div>
+             </div>
+             </template>
+        </div>
+    </body>
+</html>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('XProcessCheckout', () => ({
+            active: false,
+            showDialogConfirm: false,
+            init(){
+                console.log('hiiiii');
+            }
+        }));
+    });
+</script>

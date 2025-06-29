@@ -23,6 +23,12 @@ body {
     overflow: hidden;
     height: 100vh;
 }
+.colorGray{
+    color: #696666;
+}
+.fontW600 {
+    font-weight: 600;
+}
 /* body {
     font-family: 'DM Sans', Arial, sans-serif;
     background: #fff;
